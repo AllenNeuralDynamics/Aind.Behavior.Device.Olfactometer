@@ -58,9 +58,9 @@ calibration_session = AindBehaviorSessionModel(
     commit_hash=get_commit_hash(),
 )
 
-_rig = rig.AindBehaviorRigModel(
+_rig = rig.OlfactometerCalibrationRig(
     rig_name="OlfactometerRig",
-    harp_olfactometer=olf.Olfactometer(port_name="COM10"),
+    harp_olfactometer=rig.Olfactometer(port_name="COM10"),
     harp_analog_input=olf.HarpAnalogInput(port_name="COM8"),
     harp_clock_generator=olf.HarpClockGenerator(port_name="COM9"),
 )
