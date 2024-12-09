@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aind-behavior-device-olfactometer"
+description = "A library that can be used to generate models and configuration files for the harp olfactometer device."
+authors = [
+    { name = "Bruno Cruz", email = "bruno.cruz@alleninstitute.org" },
+]
+license = {text = "MIT"}
+requires-python = ">=3.11"
+dynamic = ["version", "readme"]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+]
+
+dependencies = [
+  "aind_behavior_services>=0.8, <0.9",
+]
+
+[project.urls]
+Documentation = "https://allenneuraldynamics.github.io/Aind.Behavior.Device.Olfactometer/"
+Repository = "https://github.com/AllenNeuralDynamics/Aind.Behavior.Device.Olfactometer/"
+Issues = "https://github.com/AllenNeuralDynamics/Aind.Behavior.Device.Olfactometer/issues"
+Changelog = "https://github.com/AllenNeuralDynamics/Aind.Behavior.Device.Olfactometer/releases"
+
+[project.optional-dependencies]
+
+launcher = ["aind_behavior_experiment_launcher[aind-services]>=0.2.0"]
+
+dev = ["aind_behavior_device_olfactometer[launcher]",
+    "ruff",
+    "codespell"
+]
+
+docs = [
+    'Sphinx<7.3',
+    'furo',
+    'sphinx-jinja',
+    'autodoc_pydantic[erdantic]',
+    'sphinx-jsonschema',
+    'sphinx-copybutton',
+    "sphinx_mdinclude",
+
+]
+
+[project.scripts]
+clabe = "aind_behavior_device_olfactometer.launcher:main"
+regenerate = "aind_behavior_device_olfactometer.regenerate:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+aind_behavior_device_olfactometer = ["py.typed"]
+
+[tool.setuptools.dynamic]
+version = {attr = "aind_behavior_device_olfactometer.__version__"}
+readme = {file = "README.md", content-type = "text/markdown"}
+
+[tool.ruff]
+line-length = 120
+target-version = 'py311'
+
+[tool.ruff.lint]
+extend-select = ['Q', 'RUF100', 'C90', 'I']
+extend-ignore = []
+mccabe = { max-complexity = 14 }
+pydocstyle = { convention = 'google' }
+
+[tool.codespell]
+skip = '.git,*.pdf,*.svg,./bonsai,*.bonsai,./docs/_build,uv.lock'
+ignore-words-list = 'nd'
+
+[tool.uv.workspace]
+members = ["src"]
