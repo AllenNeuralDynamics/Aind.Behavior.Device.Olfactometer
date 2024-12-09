@@ -1,0 +1,197 @@
+{
+  "definitions": {
+    "OlfactometerCalibrationParameters": {
+      "additionalProperties": true,
+      "properties": {
+        "rng_seed": {
+          "default": null,
+          "description": "Seed of the random number generator",
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Rng Seed"
+        },
+        "aind_behavior_services_pkg_version": {
+          "default": "0.8.9",
+          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
+          "title": "aind_behavior_services package version",
+          "type": "string"
+        },
+        "channel_config": {
+          "additionalProperties": {
+            "$ref": "#/definitions/OlfactometerChannelConfig"
+          },
+          "default": {},
+          "description": "Configuration of olfactometer channels",
+          "propertyNames": {
+            "$ref": "#/definitions/OlfactometerChannel"
+          },
+          "title": "Channel Config",
+          "type": "object"
+        },
+        "full_flow_rate": {
+          "default": 1000,
+          "description": "Full flow rate of the olfactometer",
+          "maximum": 1000.0,
+          "minimum": 0.0,
+          "title": "Full Flow Rate",
+          "type": "number"
+        },
+        "n_repeats_per_stimulus": {
+          "default": 1,
+          "description": "Number of repeats per stimulus",
+          "minimum": 1,
+          "title": "N Repeats Per Stimulus",
+          "type": "integer"
+        },
+        "time_on": {
+          "default": 1,
+          "description": "Time (s) the valve is open during calibration",
+          "minimum": 0.0,
+          "title": "Time On",
+          "type": "number"
+        },
+        "time_off": {
+          "default": 1,
+          "description": "Time (s) the valve is close during calibration",
+          "minimum": 0.0,
+          "title": "Time Off",
+          "type": "number"
+        }
+      },
+      "title": "OlfactometerCalibrationParameters",
+      "type": "object"
+    },
+    "OlfactometerChannel": {
+      "description": "Harp Olfactometer available channel",
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "title": "OlfactometerChannel",
+      "type": "integer",
+      "x-enumNames": [
+        "Channel0",
+        "Channel1",
+        "Channel2",
+        "Channel3"
+      ]
+    },
+    "OlfactometerChannelConfig": {
+      "properties": {
+        "channel_index": {
+          "title": "Channel index",
+          "type": "integer"
+        },
+        "channel_type": {
+          "$ref": "#/definitions/OlfactometerChannelType",
+          "default": "Odor",
+          "title": "Channel type"
+        },
+        "flow_rate_capacity": {
+          "default": 100,
+          "enum": [
+            100,
+            1000
+          ],
+          "title": "Flow capacity. mL/min",
+          "type": "integer"
+        },
+        "flow_rate": {
+          "default": 100,
+          "maximum": 100.0,
+          "title": "Target flow rate. mL/min. If channel_type == CARRIER, this value is ignored.",
+          "type": "number"
+        },
+        "odorant": {
+          "default": null,
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Odorant name"
+        },
+        "odorant_dilution": {
+          "default": null,
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Odorant dilution (%v/v)"
+        }
+      },
+      "required": [
+        "channel_index"
+      ],
+      "title": "OlfactometerChannelConfig",
+      "type": "object"
+    },
+    "OlfactometerChannelType": {
+      "description": "Channel type",
+      "enum": [
+        "Odor",
+        "Carrier"
+      ],
+      "title": "OlfactometerChannelType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Olfactometer operation control model that is used to run a calibration data acquisition workflow",
+  "properties": {
+    "name": {
+      "default": "OlfactometerCalibration",
+      "title": "Name of the task logic",
+      "type": "string"
+    },
+    "description": {
+      "default": "",
+      "description": "Description of the task.",
+      "title": "Description",
+      "type": "string"
+    },
+    "task_parameters": {
+      "$ref": "#/definitions/OlfactometerCalibrationParameters",
+      "title": "Task parameters"
+    },
+    "version": {
+      "const": "0.1.0",
+      "default": "0.1.0",
+      "title": "Version",
+      "type": "string"
+    },
+    "stage_name": {
+      "default": null,
+      "description": "Optional stage name the `Task` object instance represents.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Stage Name"
+    }
+  },
+  "required": [
+    "task_parameters"
+  ],
+  "title": "OlfactometerCalibrationLogic",
+  "type": "object"
+}
