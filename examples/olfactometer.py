@@ -15,20 +15,6 @@ channels_config = {
         odorant="Banana",
         odorant_dilution=0.1,
     ),
-    olf.OlfactometerChannel.Channel1: olf.OlfactometerChannelConfig(
-        channel_index=olf.OlfactometerChannel.Channel1,
-        channel_type=olf.OlfactometerChannelType.ODOR,
-        flow_rate=100,
-        odorant="Strawberry",
-        odorant_dilution=0.1,
-    ),
-    olf.OlfactometerChannel.Channel2: olf.OlfactometerChannelConfig(
-        channel_index=olf.OlfactometerChannel.Channel2,
-        channel_type=olf.OlfactometerChannelType.ODOR,
-        flow_rate=100,
-        odorant="Apple",
-        odorant_dilution=0.1,
-    ),
     olf.OlfactometerChannel.Channel3: olf.OlfactometerChannelConfig(
         channel_index=olf.OlfactometerChannel.Channel3, channel_type=olf.OlfactometerChannelType.CARRIER, odorant="Air"
     ),
@@ -43,8 +29,8 @@ calibration_logic = task_logic.OlfactometerCalibrationLogic(
         channel_config=channels_config,
         full_flow_rate=1000,
         n_repeats_per_stimulus=10,
-        time_on=1,
-        time_off=1,
+        time_on=2,
+        time_off=5,
     )
 )
 
