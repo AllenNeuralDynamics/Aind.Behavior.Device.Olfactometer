@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WorkflowBuilder Version="2.8.5"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xmlns:p1="clr-namespace:Harp.AnalogInput;assembly=Harp.AnalogInput"
+                 xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
+                 xmlns:zg="clr-namespace:Bonsai.Gui.ZedGraph;assembly=Bonsai.Gui.ZedGraph"
+                 xmlns:p2="clr-namespace:Harp.Olfactometer;assembly=Harp.Olfactometer"
+                 xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
+                 xmlns:scr="clr-namespace:Bonsai.Scripting.Expressions;assembly=Bonsai.Scripting.Expressions"
+                 xmlns:p3="clr-namespace:AllenNeuralDynamics.Core.Design;assembly=AllenNeuralDynamics.Core.Design"
+                 xmlns:gui="clr-namespace:Bonsai.Gui;assembly=Bonsai.Gui"
+                 xmlns:viz="clr-namespace:Bonsai.Design.Visualizers;assembly=Bonsai.Design.Visualizers"
+                 xmlns="https://bonsai-rx.org/2018/workflow">
+  <Workflow>
+    <Nodes>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>HarpAnalogInputEvents</Name>
+      </Expression>
+      <Expression xsi:type="p1:Parse">
+        <harp:Register xsi:type="p1:TimestampedAnalogData" />
+      </Expression>
+      <Expression xsi:type="zg:RollingGraphBuilder">
+        <zg:IndexSelector>Seconds</zg:IndexSelector>
+        <zg:ValueSelector>Value.Channel0</zg:ValueSelector>
+        <zg:SymbolType>None</zg:SymbolType>
+        <zg:LineWidth>3</zg:LineWidth>
+        <zg:CurveSettings>
+          <zg:CurveConfiguration>
+            <zg:Label>PID</zg:Label>
+            <zg:Color>Black</zg:Color>
+          </zg:CurveConfiguration>
+        </zg:CurveSettings>
+        <zg:Capacity xsi:nil="true" />
+        <zg:Min xsi:nil="true" />
+        <zg:Max xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="zg:RollingGraphVisualizer" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>HarpOlfactometerEvents</Name>
+      </Expression>
+      <Expression xsi:type="p2:Parse">
+        <harp:Register xsi:type="p2:TimestampedChannel0ActualFlow" />
+      </Expression>
+      <Expression xsi:type="zg:RollingGraphBuilder">
+        <zg:IndexSelector>Seconds</zg:IndexSelector>
+        <zg:ValueSelector>Value</zg:ValueSelector>
+        <zg:SymbolType>None</zg:SymbolType>
+        <zg:LineWidth>1</zg:LineWidth>
+        <zg:CurveSettings>
+          <zg:CurveConfiguration>
+            <zg:Label>Channel0</zg:Label>
+            <zg:Color>Blue</zg:Color>
+          </zg:CurveConfiguration>
+        </zg:CurveSettings>
+        <zg:Capacity xsi:nil="true" />
+        <zg:Min xsi:nil="true" />
+        <zg:Max xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="zg:RollingGraphVisualizer" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>HarpOlfactometerEvents</Name>
+      </Expression>
+      <Expression xsi:type="p2:Parse">
+        <harp:Register xsi:type="p2:TimestampedChannel1ActualFlow" />
+      </Expression>
+      <Expression xsi:type="zg:RollingGraphBuilder">
+        <zg:IndexSelector>Seconds</zg:IndexSelector>
+        <zg:ValueSelector>Value</zg:ValueSelector>
+        <zg:SymbolType>None</zg:SymbolType>
+        <zg:LineWidth>1</zg:LineWidth>
+        <zg:CurveSettings>
+          <zg:CurveConfiguration>
+            <zg:Label>Channel1</zg:Label>
+            <zg:Color>Blue</zg:Color>
+          </zg:CurveConfiguration>
+        </zg:CurveSettings>
+        <zg:Capacity xsi:nil="true" />
+        <zg:Min xsi:nil="true" />
+        <zg:Max xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="zg:RollingGraphVisualizer" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>HarpOlfactometerEvents</Name>
+      </Expression>
+      <Expression xsi:type="p2:Parse">
+        <harp:Register xsi:type="p2:TimestampedChannel2ActualFlow" />
+      </Expression>
+      <Expression xsi:type="zg:RollingGraphBuilder">
+        <zg:IndexSelector>Seconds</zg:IndexSelector>
+        <zg:ValueSelector>Value</zg:ValueSelector>
+        <zg:SymbolType>None</zg:SymbolType>
+        <zg:LineWidth>1</zg:LineWidth>
+        <zg:CurveSettings>
+          <zg:CurveConfiguration>
+            <zg:Label>Channel2</zg:Label>
+            <zg:Color>Blue</zg:Color>
+          </zg:CurveConfiguration>
+        </zg:CurveSettings>
+        <zg:Capacity xsi:nil="true" />
+        <zg:Min xsi:nil="true" />
+        <zg:Max xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="zg:RollingGraphVisualizer" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>HarpOlfactometerEvents</Name>
+      </Expression>
+      <Expression xsi:type="p2:Parse">
+        <harp:Register xsi:type="p2:TimestampedChannel3ActualFlow" />
+      </Expression>
+      <Expression xsi:type="zg:RollingGraphBuilder">
+        <zg:IndexSelector>Seconds</zg:IndexSelector>
+        <zg:ValueSelector>Value</zg:ValueSelector>
+        <zg:SymbolType>None</zg:SymbolType>
+        <zg:LineWidth>1</zg:LineWidth>
+        <zg:CurveSettings>
+          <zg:CurveConfiguration>
+            <zg:Label>Blank</zg:Label>
+            <zg:Color>#C04000</zg:Color>
+          </zg:CurveConfiguration>
+        </zg:CurveSettings>
+        <zg:Capacity xsi:nil="true" />
+        <zg:Min xsi:nil="true" />
+        <zg:Max xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="zg:RollingGraphVisualizer" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>HarpOlfactometerEvents</Name>
+      </Expression>
+      <Expression xsi:type="p2:Parse">
+        <harp:Register xsi:type="p2:TimestampedChannel4ActualFlow" />
+      </Expression>
+      <Expression xsi:type="zg:RollingGraphBuilder">
+        <zg:IndexSelector>Seconds</zg:IndexSelector>
+        <zg:ValueSelector>Value</zg:ValueSelector>
+        <zg:SymbolType>None</zg:SymbolType>
+        <zg:LineWidth>1</zg:LineWidth>
+        <zg:CurveSettings>
+          <zg:CurveConfiguration>
+            <zg:Label>Carrier</zg:Label>
+            <zg:Color>Gray</zg:Color>
+          </zg:CurveConfiguration>
+        </zg:CurveSettings>
+        <zg:Capacity xsi:nil="true" />
+        <zg:Min xsi:nil="true" />
+        <zg:Max xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="zg:RollingGraphVisualizer" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>HarpOlfactometerEvents</Name>
+      </Expression>
+      <Expression xsi:type="p2:Parse">
+        <harp:Register xsi:type="p2:TimestampedEndValveState" />
+      </Expression>
+      <Expression xsi:type="harp:ConvertTimestamped">
+        <Workflow>
+          <Nodes>
+            <Expression xsi:type="WorkflowInput">
+              <Name>Source1</Name>
+            </Expression>
+            <Expression xsi:type="HasFlag">
+              <Operand xsi:type="WorkflowProperty" TypeArguments="p2:EndValves">
+                <Value>EndValve0</Value>
+              </Operand>
+            </Expression>
+            <Expression xsi:type="ExternalizedMapping">
+              <Property Name="Value" DisplayName="Gain" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="DoubleProperty">
+                <Value>1000</Value>
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Zip" />
+            </Expression>
+            <Expression xsi:type="scr:ExpressionTransform">
+              <scr:Expression>Item1 ? Item2 : 0</scr:Expression>
+            </Expression>
+            <Expression xsi:type="WorkflowOutput" />
+          </Nodes>
+          <Edges>
+            <Edge From="0" To="1" Label="Source1" />
+            <Edge From="0" To="3" Label="Source1" />
+            <Edge From="1" To="4" Label="Source1" />
+            <Edge From="2" To="3" Label="Source2" />
+            <Edge From="3" To="4" Label="Source2" />
+            <Edge From="4" To="5" Label="Source1" />
+            <Edge From="5" To="6" Label="Source1" />
+          </Edges>
+        </Workflow>
+      </Expression>
+      <Expression xsi:type="zg:RollingGraphBuilder">
+        <zg:IndexSelector>Seconds</zg:IndexSelector>
+        <zg:ValueSelector>Value</zg:ValueSelector>
+        <zg:SymbolType>Circle</zg:SymbolType>
+        <zg:LineWidth>0</zg:LineWidth>
+        <zg:CurveSettings>
+          <zg:CurveConfiguration>
+            <zg:Label>EndValveState</zg:Label>
+            <zg:Color>Orange</zg:Color>
+          </zg:CurveConfiguration>
+        </zg:CurveSettings>
+        <zg:Capacity xsi:nil="true" />
+        <zg:Min xsi:nil="true" />
+        <zg:Max xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="zg:RollingGraphVisualizer" />
+      </Expression>
+      <Expression xsi:type="zg:RollingGraphPanelBuilder">
+        <zg:ReverseX>false</zg:ReverseX>
+        <zg:ReverseY>false</zg:ReverseY>
+        <zg:Span xsi:nil="true" />
+        <zg:Capacity xsi:nil="true" />
+        <zg:BaseAxis>X</zg:BaseAxis>
+        <zg:BarType>Cluster</zg:BarType>
+        <zg:Min xsi:nil="true" />
+        <zg:Max xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="zg:RollingGraphPanelVisualizer" />
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>SoftwareEvent</Name>
+      </Expression>
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="p3:SoftwareEventVisualizer" />
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="BooleanProperty">
+          <Value>true</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="SubscribeSubject">
+        <Name>StartExperimentTrigger</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="BooleanProperty">
+          <Value>false</Value>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Merge" />
+      </Expression>
+      <Expression xsi:type="PropertyMapping">
+        <PropertyMappings>
+          <Property Name="Enabled" />
+        </PropertyMappings>
+      </Expression>
+      <Expression xsi:type="gui:ButtonBuilder">
+        <gui:Enabled>false</gui:Enabled>
+        <gui:Visible>true</gui:Visible>
+        <gui:Font>Microsoft Sans Serif, 16pt</gui:Font>
+        <gui:Text>Start!</gui:Text>
+      </Expression>
+      <Expression xsi:type="rx:PublishSubject">
+        <Name>StartButton</Name>
+      </Expression>
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="gui:ButtonVisualizer" />
+      </Expression>
+      <Expression xsi:type="gui:TableLayoutPanelBuilder">
+        <gui:Enabled>true</gui:Enabled>
+        <gui:Visible>true</gui:Visible>
+        <gui:ColumnCount>2</gui:ColumnCount>
+        <gui:RowCount>1</gui:RowCount>
+        <gui:ColumnStyles>
+          <gui:ColumnStyle>
+            <gui:SizeType>Percent</gui:SizeType>
+            <gui:Width>0.8</gui:Width>
+          </gui:ColumnStyle>
+          <gui:ColumnStyle>
+            <gui:SizeType>Percent</gui:SizeType>
+            <gui:Width>0.2</gui:Width>
+          </gui:ColumnStyle>
+        </gui:ColumnStyles>
+        <gui:RowStyles />
+        <gui:CellSpans />
+      </Expression>
+      <Expression xsi:type="VisualizerMapping" />
+      <Expression xsi:type="viz:TableLayoutPanelBuilder">
+        <viz:Name>OlfactometerCalibration</viz:Name>
+        <viz:ColumnCount>1</viz:ColumnCount>
+        <viz:RowCount>2</viz:RowCount>
+        <viz:ColumnStyles />
+        <viz:RowStyles>
+          <viz:RowStyle>
+            <viz:SizeType>Percent</viz:SizeType>
+            <viz:Height>0.7</viz:Height>
+          </viz:RowStyle>
+          <viz:RowStyle>
+            <viz:SizeType>Percent</viz:SizeType>
+            <viz:Height>0.3</viz:Height>
+          </viz:RowStyle>
+        </viz:RowStyles>
+        <viz:CellSpans />
+      </Expression>
+      <Expression xsi:type="WorkflowOutput" />
+      <Expression xsi:type="SubscribeSubject">
+        <Name>StartButton</Name>
+      </Expression>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
+      </Expression>
+      <Expression xsi:type="Unit" />
+      <Expression xsi:type="MulticastSubject">
+        <Name>StartExperimentTrigger</Name>
+      </Expression>
+    </Nodes>
+    <Edges>
+      <Edge From="0" To="1" Label="Source1" />
+      <Edge From="1" To="2" Label="Source1" />
+      <Edge From="2" To="3" Label="Source1" />
+      <Edge From="3" To="29" Label="Source1" />
+      <Edge From="4" To="5" Label="Source1" />
+      <Edge From="5" To="6" Label="Source1" />
+      <Edge From="6" To="7" Label="Source1" />
+      <Edge From="7" To="29" Label="Source2" />
+      <Edge From="8" To="9" Label="Source1" />
+      <Edge From="9" To="10" Label="Source1" />
+      <Edge From="10" To="11" Label="Source1" />
+      <Edge From="11" To="29" Label="Source3" />
+      <Edge From="12" To="13" Label="Source1" />
+      <Edge From="13" To="14" Label="Source1" />
+      <Edge From="14" To="15" Label="Source1" />
+      <Edge From="15" To="29" Label="Source4" />
+      <Edge From="16" To="17" Label="Source1" />
+      <Edge From="17" To="18" Label="Source1" />
+      <Edge From="18" To="19" Label="Source1" />
+      <Edge From="19" To="29" Label="Source5" />
+      <Edge From="20" To="21" Label="Source1" />
+      <Edge From="21" To="22" Label="Source1" />
+      <Edge From="22" To="23" Label="Source1" />
+      <Edge From="23" To="29" Label="Source6" />
+      <Edge From="24" To="25" Label="Source1" />
+      <Edge From="25" To="26" Label="Source1" />
+      <Edge From="26" To="27" Label="Source1" />
+      <Edge From="27" To="28" Label="Source1" />
+      <Edge From="28" To="29" Label="Source7" />
+      <Edge From="29" To="30" Label="Source1" />
+      <Edge From="30" To="45" Label="Source1" />
+      <Edge From="31" To="32" Label="Source1" />
+      <Edge From="32" To="43" Label="Source1" />
+      <Edge From="33" To="34" Label="Source1" />
+      <Edge From="34" To="38" Label="Source1" />
+      <Edge From="35" To="36" Label="Source1" />
+      <Edge From="36" To="37" Label="Source1" />
+      <Edge From="37" To="38" Label="Source2" />
+      <Edge From="38" To="39" Label="Source1" />
+      <Edge From="39" To="40" Label="Source1" />
+      <Edge From="40" To="41" Label="Source1" />
+      <Edge From="41" To="42" Label="Source1" />
+      <Edge From="42" To="43" Label="Source2" />
+      <Edge From="43" To="44" Label="Source1" />
+      <Edge From="44" To="45" Label="Source2" />
+      <Edge From="45" To="46" Label="Source1" />
+      <Edge From="47" To="48" Label="Source1" />
+      <Edge From="48" To="49" Label="Source1" />
+      <Edge From="49" To="50" Label="Source1" />
+    </Edges>
+  </Workflow>
+</WorkflowBuilder>
