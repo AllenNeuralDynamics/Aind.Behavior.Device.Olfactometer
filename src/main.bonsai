@@ -203,7 +203,7 @@
                   </Expression>
                   <Expression xsi:type="Combinator">
                     <Combinator xsi:type="DoubleProperty">
-                      <Value>0</Value>
+                      <Value>1000</Value>
                     </Combinator>
                   </Expression>
                   <Expression xsi:type="Combinator">
@@ -294,15 +294,10 @@
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="gui:ButtonBuilder">
-              <gui:Enabled>true</gui:Enabled>
+              <gui:Enabled>false</gui:Enabled>
               <gui:Visible>true</gui:Visible>
               <gui:Font>Microsoft Sans Serif, 16pt</gui:Font>
               <gui:Text>Start!</gui:Text>
-            </Expression>
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Take">
-                <rx:Count>1</rx:Count>
-              </Combinator>
             </Expression>
             <Expression xsi:type="rx:PublishSubject">
               <Name>StartButton</Name>
@@ -310,12 +305,40 @@
             <Expression xsi:type="VisualizerMapping">
               <VisualizerType xsi:type="TypeMapping" TypeArguments="gui:ButtonVisualizer" />
             </Expression>
+            <Expression xsi:type="gui:TableLayoutPanelBuilder">
+              <gui:Enabled>true</gui:Enabled>
+              <gui:Visible>true</gui:Visible>
+              <gui:ColumnCount>2</gui:ColumnCount>
+              <gui:RowCount>1</gui:RowCount>
+              <gui:ColumnStyles>
+                <gui:ColumnStyle>
+                  <gui:SizeType>Percent</gui:SizeType>
+                  <gui:Width>0.8</gui:Width>
+                </gui:ColumnStyle>
+                <gui:ColumnStyle>
+                  <gui:SizeType>Percent</gui:SizeType>
+                  <gui:Width>0.2</gui:Width>
+                </gui:ColumnStyle>
+              </gui:ColumnStyles>
+              <gui:RowStyles />
+              <gui:CellSpans />
+            </Expression>
+            <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="viz:TableLayoutPanelBuilder">
               <viz:Name>OlfactometerCalibration</viz:Name>
               <viz:ColumnCount>1</viz:ColumnCount>
-              <viz:RowCount>3</viz:RowCount>
+              <viz:RowCount>2</viz:RowCount>
               <viz:ColumnStyles />
-              <viz:RowStyles />
+              <viz:RowStyles>
+                <viz:RowStyle>
+                  <viz:SizeType>Percent</viz:SizeType>
+                  <viz:Height>0.7</viz:Height>
+                </viz:RowStyle>
+                <viz:RowStyle>
+                  <viz:SizeType>Percent</viz:SizeType>
+                  <viz:Height>0.3</viz:Height>
+                </viz:RowStyle>
+              </viz:RowStyles>
               <viz:CellSpans />
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
@@ -363,9 +386,9 @@
             <Edge From="27" To="28" Label="Source1" />
             <Edge From="28" To="29" Label="Source7" />
             <Edge From="29" To="30" Label="Source1" />
-            <Edge From="30" To="44" Label="Source1" />
+            <Edge From="30" To="45" Label="Source1" />
             <Edge From="31" To="32" Label="Source1" />
-            <Edge From="32" To="44" Label="Source2" />
+            <Edge From="32" To="43" Label="Source1" />
             <Edge From="33" To="34" Label="Source1" />
             <Edge From="34" To="38" Label="Source1" />
             <Edge From="35" To="36" Label="Source1" />
@@ -375,12 +398,13 @@
             <Edge From="39" To="40" Label="Source1" />
             <Edge From="40" To="41" Label="Source1" />
             <Edge From="41" To="42" Label="Source1" />
-            <Edge From="42" To="43" Label="Source1" />
-            <Edge From="43" To="44" Label="Source3" />
-            <Edge From="44" To="45" Label="Source1" />
-            <Edge From="46" To="47" Label="Source1" />
+            <Edge From="42" To="43" Label="Source2" />
+            <Edge From="43" To="44" Label="Source1" />
+            <Edge From="44" To="45" Label="Source2" />
+            <Edge From="45" To="46" Label="Source1" />
             <Edge From="47" To="48" Label="Source1" />
             <Edge From="48" To="49" Label="Source1" />
+            <Edge From="49" To="50" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>
