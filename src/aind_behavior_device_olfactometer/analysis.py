@@ -196,7 +196,7 @@ def main():
     parser = argparse.ArgumentParser(description="Process olfactometer data.")
     parser.add_argument("--path", type=str, help="Path to the dataset root directory", required=True)
     args = parser.parse_args()
-    data = Dataset(Path(args.root_path))
+    data = Dataset(Path(args.path))
     data.make_processed_data()
 
     for _, valve_calibration_df in data.processed_data.odor_channel_config.groupby(["channel_index"]):
