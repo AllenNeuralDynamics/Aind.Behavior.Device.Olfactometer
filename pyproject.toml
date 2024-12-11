@@ -47,9 +47,18 @@ docs = [
 
 ]
 
+analysis = [
+    "aind-behavior-core-analysis@git+https://github.com/AllenNeuralDynamics/Aind.Behavior.CoreAnalysis@051bc0c",
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "jupyter",
+]
+
 [project.scripts]
 clabe = "aind_behavior_device_olfactometer.launcher:main"
 regenerate = "aind_behavior_device_olfactometer.regenerate:main"
+olfactometer-qc = "aind_behavior_device_olfactometer.analysis:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
