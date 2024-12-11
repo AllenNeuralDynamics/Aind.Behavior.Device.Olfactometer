@@ -36,7 +36,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.githubpages",
     "sphinx.ext.linkcode",
-    "myst_parser",
+    "sphinx_mdinclude",
     "sphinxcontrib.autodoc_pydantic",
 ]
 

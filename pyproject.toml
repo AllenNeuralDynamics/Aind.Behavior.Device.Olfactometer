@@ -44,7 +44,6 @@ docs = [
     'sphinx-jsonschema',
     'sphinx-copybutton',
     "sphinx_mdinclude",
-
 ]
 
 analysis = [
