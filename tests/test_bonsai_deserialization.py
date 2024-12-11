@@ -10,7 +10,6 @@ from . import build_examples
 
 class BonsaiTests(unittest.TestCase):
     def test_deserialization(self):
-
         build_examples()
         JSON_ROOT = Path("./local").resolve()
         MODULE_NAME = "olfactometer"

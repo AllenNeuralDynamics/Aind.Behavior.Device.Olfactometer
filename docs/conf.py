@@ -6,10 +6,11 @@
 import os
 import sys
 
-import aind_behavior_device_olfactometer.rig
-import aind_behavior_device_olfactometer.task_logic
 import erdantic as erd
 from pydantic import BaseModel
+
+import aind_behavior_device_olfactometer.rig
+import aind_behavior_device_olfactometer.task_logic
 
 sys.path.insert(0, os.path.abspath("../src/DataSchemas"))
 import aind_behavior_device_olfactometer
