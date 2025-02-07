@@ -24,7 +24,9 @@
         <SessionPath>C:\git\AllenNeuralDynamics\Aind.Behavior.Device.Olfactometer\local\olfactometer_session.json</SessionPath>
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Extensions\DeserializeSchemas.bonsai" />
-      <Expression xsi:type="IncludeWorkflow" Path="Extensions\UserInterface.bonsai" />
+      <Expression xsi:type="IncludeWorkflow" Path="Extensions\UserInterface.bonsai">
+        <Span>10</Span>
+      </Expression>
       <Expression xsi:type="GroupWorkflow">
         <Name>HarpDevices</Name>
         <Workflow>
@@ -92,7 +94,7 @@
                 <Property Name="PortName" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.HarpUtils:HarpAnalogInputDevice.bonsai">
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\HarpAnalogInputDevice.bonsai">
               <PortName>COM8</PortName>
               <TriggerHarpReadDumpSubjectName>TriggerHarpReadDump</TriggerHarpReadDumpSubjectName>
             </Expression>
@@ -387,10 +389,10 @@
         </Workflow>
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Extensions\CalibrationLogic.bonsai" />
-            <Expression xsi:type="Combinator">
-              <Combinator xsi:type="rx:Take">
-                <rx:Count>1</rx:Count>
-              </Combinator>
+      <Expression xsi:type="Combinator">
+        <Combinator xsi:type="rx:Take">
+          <rx:Count>1</rx:Count>
+        </Combinator>
       </Expression>
       <Expression xsi:type="Combinator">
         <Combinator xsi:type="rx:Delay">
