@@ -4,7 +4,7 @@
                  xmlns:p1="clr-namespace:AindBehaviorDeviceOlfactometer.TaskLogic;assembly=Extensions"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
-                 xmlns:p2="clr-namespace:Harp.AnalogInput;assembly=Harp.AnalogInput"
+                 xmlns:p2="clr-namespace:AllenNeuralDynamics.WhiteRabbit;assembly=AllenNeuralDynamics.WhiteRabbit"
                  xmlns:p3="clr-namespace:Harp.Olfactometer;assembly=Harp.Olfactometer"
                  xmlns:p4="clr-namespace:AllenNeuralDynamics.HarpUtils;assembly=AllenNeuralDynamics.HarpUtils"
                  xmlns:p5="clr-namespace:AllenNeuralDynamics.VersionControl;assembly=AllenNeuralDynamics.VersionControl"
@@ -112,12 +112,12 @@
                 <Property Name="PortName" />
               </PropertyMappings>
             </Expression>
-            <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.HarpUtils:HarpTimestampGeneratorGen3Device.bonsai">
+            <Expression xsi:type="IncludeWorkflow" Path="Extensions\HarpWhiteRabbit.bonsai">
               <PortName>COMx</PortName>
               <TriggerHarpReadDumpSubjectName>TriggerHarpReadDump</TriggerHarpReadDumpSubjectName>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>HarpAnalogInputEvents</Name>
+              <Name>HarpWhiteRabbitEvents</Name>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="harp:FilterMessageType">
@@ -126,7 +126,7 @@
               </Combinator>
             </Expression>
             <Expression xsi:type="p2:Parse">
-              <harp:Register xsi:type="p2:TimestampedAnalogData" />
+              <harp:Register xsi:type="p2:TimestampedCounter" />
             </Expression>
             <Expression xsi:type="MemberSelector">
               <Selector>Seconds</Selector>

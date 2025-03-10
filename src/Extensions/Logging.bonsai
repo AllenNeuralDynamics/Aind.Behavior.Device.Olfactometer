@@ -59,7 +59,7 @@
                           <HarpDeviceName>Olfactometer</HarpDeviceName>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
-                          <Name>HarpClockGenEvents</Name>
+                          <Name>HarpWhiteRabbitEvents</Name>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>Modality</Name>
@@ -72,8 +72,8 @@
                         <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogHarpDevice.bonsai">
                           <SubjectName>LoggingRootPath</SubjectName>
                           <Modality>Behavior</Modality>
-                          <DeviceName>ClockGenerator</DeviceName>
-                          <HarpDeviceName>TimestampGeneratorGen3</HarpDeviceName>
+                          <DeviceName>WhiteRabbit</DeviceName>
+                          <HarpDeviceName>WhiteRabbit</HarpDeviceName>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>HarpAnalogInputEvents</Name>
@@ -175,7 +175,7 @@
                           <HarpDeviceName>AnalogInput</HarpDeviceName>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
-                          <Name>HarpClockGenCommands</Name>
+                          <Name>HarpWhiteRabbitCommands</Name>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>HarpSeconds</Name>
@@ -200,8 +200,8 @@
                         <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogHarpDevice.bonsai">
                           <SubjectName>LoggingRootPath</SubjectName>
                           <Modality>Behavior</Modality>
-                          <DeviceName>HarpCommands/ClockGenerator</DeviceName>
-                          <HarpDeviceName>TimestampGeneratorGen3</HarpDeviceName>
+                          <DeviceName>HarpCommands/WhiteRabbit</DeviceName>
+                          <HarpDeviceName>WhiteRabbit</HarpDeviceName>
                         </Expression>
                       </Nodes>
                       <Edges>
