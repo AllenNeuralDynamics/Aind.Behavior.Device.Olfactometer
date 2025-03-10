@@ -15,9 +15,9 @@ namespace AindBehaviorDeviceOlfactometer.Session
     public partial class AindBehaviorSessionModel
     {
     
-        private string _aindBehaviorServicesPkgVersion = "0.8.9";
+        private string _aindBehaviorServicesPkgVersion = "0.10.2";
     
-        private string _version = "0.3.0";
+        private string _version = "0.3.1";
     
         private string _experiment;
     

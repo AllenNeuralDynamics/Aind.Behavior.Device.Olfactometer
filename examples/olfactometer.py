@@ -2,6 +2,7 @@ import os
 
 from aind_behavior_services.base import get_commit_hash
 from aind_behavior_services.calibration import olfactometer as olf
+from aind_behavior_services.rig import HarpAnalogInput, HarpWhiteRabbit
 from aind_behavior_services.session import AindBehaviorSessionModel
 from aind_behavior_services.utils import utcnow
 
@@ -46,9 +47,9 @@ calibration_session = AindBehaviorSessionModel(
 
 _rig = rig.OlfactometerCalibrationRig(
     rig_name="OlfactometerRig",
-    harp_olfactometer=olf.Olfactometer(port_name="COM10"),
-    harp_analog_input=olf.HarpAnalogInput(port_name="COM8"),
-    harp_clock_generator=olf.HarpClockGenerator(port_name="COM9"),
+    harp_olfactometer=rig.HarpOlfactometer(port_name="COM10", calibration=calibration),
+    harp_analog_input=HarpAnalogInput(port_name="COM8"),
+    harp_clock_generator=HarpWhiteRabbit(port_name="COM9"),
 )
 
 

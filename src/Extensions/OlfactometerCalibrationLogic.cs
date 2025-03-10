@@ -17,7 +17,7 @@ namespace AindBehaviorDeviceOlfactometer.TaskLogic
     
         private double? _rngSeed;
     
-        private string _aindBehaviorServicesPkgVersion = "0.8.9";
+        private string _aindBehaviorServicesPkgVersion = "0.10.2";
     
         private System.Collections.Generic.IDictionary<string, OlfactometerChannelConfig> _channelConfig;
     
