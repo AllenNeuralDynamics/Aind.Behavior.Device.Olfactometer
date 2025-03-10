@@ -1,8 +1,8 @@
 from pathlib import Path
 
 import aind_behavior_experiment_launcher.launcher.behavior_launcher as behavior_launcher
-from aind_behavior_experiment_launcher.apps.app_service import BonsaiApp
-from aind_behavior_experiment_launcher.resource_monitor.resource_monitor_service import (
+from aind_behavior_experiment_launcher.apps import BonsaiApp
+from aind_behavior_experiment_launcher.resource_monitor import (
     ResourceMonitor,
     available_storage_constraint_factory,
 )
