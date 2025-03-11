@@ -36,8 +36,8 @@
     "HarpAnalogInput": {
       "properties": {
         "device_type": {
-          "const": "analoginput",
-          "default": "analoginput",
+          "const": "AnalogInput",
+          "default": "AnalogInput",
           "title": "Device Type",
           "type": "string"
         },
@@ -96,11 +96,68 @@
       "title": "HarpAnalogInput",
       "type": "object"
     },
-    "HarpClockGenerator": {
+    "HarpOlfactometer": {
+      "description": "Overrides the default settings for the olfactometer calibration",
       "properties": {
         "device_type": {
-          "const": "clockgenerator",
-          "default": "clockgenerator",
+          "const": "Olfactometer",
+          "default": "Olfactometer",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "additional_settings": {
+          "default": null,
+          "description": "Additional settings",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/BaseModel"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "calibration": {
+          "$ref": "#/definitions/OlfactometerCalibration",
+          "description": "Olfactometer calibration"
+        },
+        "who_am_i": {
+          "const": 1140,
+          "default": 1140,
+          "title": "Who Am I",
+          "type": "integer"
+        },
+        "serial_number": {
+          "default": null,
+          "description": "Device serial number",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Serial Number"
+        },
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "calibration",
+        "port_name"
+      ],
+      "title": "HarpOlfactometer",
+      "type": "object"
+    },
+    "HarpWhiteRabbit": {
+      "properties": {
+        "device_type": {
+          "const": "WhiteRabbit",
+          "default": "WhiteRabbit",
           "title": "Device Type",
           "type": "string"
         },
@@ -129,8 +186,8 @@
           ]
         },
         "who_am_i": {
-          "const": 1158,
-          "default": 1158,
+          "const": 1404,
+          "default": 1404,
           "title": "Who Am I",
           "type": "integer"
         },
@@ -165,70 +222,7 @@
       "required": [
         "port_name"
       ],
-      "title": "HarpClockGenerator",
-      "type": "object"
-    },
-    "Olfactometer": {
-      "properties": {
-        "device_type": {
-          "const": "olfactometer",
-          "default": "olfactometer",
-          "title": "Device Type",
-          "type": "string"
-        },
-        "additional_settings": {
-          "default": null,
-          "description": "Additional settings",
-          "oneOf": [
-            {
-              "$ref": "#/definitions/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "calibration": {
-          "default": null,
-          "oneOf": [
-            {
-              "$ref": "#/definitions/OlfactometerCalibration"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Calibration of the olfactometer"
-        },
-        "who_am_i": {
-          "const": 1140,
-          "default": 1140,
-          "title": "Who Am I",
-          "type": "integer"
-        },
-        "serial_number": {
-          "default": null,
-          "description": "Device serial number",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Serial Number"
-        },
-        "port_name": {
-          "description": "Device port name",
-          "title": "Port Name",
-          "type": "string"
-        }
-      },
-      "required": [
-        "port_name"
-      ],
-      "title": "Olfactometer",
+      "title": "HarpWhiteRabbit",
       "type": "object"
     },
     "OlfactometerCalibration": {
@@ -396,14 +390,14 @@
   },
   "properties": {
     "aind_behavior_services_pkg_version": {
-      "default": "0.8.9",
+      "default": "0.10.2",
       "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
       "title": "aind_behavior_services package version",
       "type": "string"
     },
     "version": {
-      "const": "0.1.0",
-      "default": "0.1.0",
+      "const": "0.2.0",
+      "default": "0.2.0",
       "title": "Version",
       "type": "string"
     },
@@ -418,7 +412,7 @@
       "type": "string"
     },
     "harp_olfactometer": {
-      "$ref": "#/definitions/Olfactometer",
+      "$ref": "#/definitions/HarpOlfactometer",
       "title": "Olfactometer device"
     },
     "harp_analog_input": {
@@ -426,7 +420,7 @@
       "title": "Analog input device"
     },
     "harp_clock_generator": {
-      "$ref": "#/definitions/HarpClockGenerator",
+      "$ref": "#/definitions/HarpWhiteRabbit",
       "title": "Clock generator device"
     }
   },
