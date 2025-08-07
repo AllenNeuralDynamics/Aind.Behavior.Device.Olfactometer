@@ -325,6 +325,740 @@ namespace AindBehaviorDeviceOlfactometer
     }
 
 
+    /// <summary>
+    /// Aind manipulator calibration class
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Aind manipulator calibration class")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class AindManipulatorCalibration
+    {
+    
+        private string _deviceName;
+    
+        private AindManipulatorCalibrationInput _input;
+    
+        private AindManipulatorCalibrationOutput _output;
+    
+        private System.DateTimeOffset? _date;
+    
+        private string _description;
+    
+        private string _notes;
+    
+        public AindManipulatorCalibration()
+        {
+            _deviceName = "AindManipulator";
+            _input = new AindManipulatorCalibrationInput();
+            _output = new AindManipulatorCalibrationOutput();
+            _description = "Calibration of the load cells system";
+        }
+    
+        protected AindManipulatorCalibration(AindManipulatorCalibration other)
+        {
+            _deviceName = other._deviceName;
+            _input = other._input;
+            _output = other._output;
+            _date = other._date;
+            _description = other._description;
+            _notes = other._notes;
+        }
+    
+        /// <summary>
+        /// Must match a device name in rig/instrument
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("device_name")]
+        [System.ComponentModel.DescriptionAttribute("Must match a device name in rig/instrument")]
+        public string DeviceName
+        {
+            get
+            {
+                return _deviceName;
+            }
+            set
+            {
+                _deviceName = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("input", Required=Newtonsoft.Json.Required.Always)]
+        public AindManipulatorCalibrationInput Input
+        {
+            get
+            {
+                return _input;
+            }
+            set
+            {
+                _input = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("output", Required=Newtonsoft.Json.Required.Always)]
+        public AindManipulatorCalibrationOutput Output
+        {
+            get
+            {
+                return _output;
+            }
+            set
+            {
+                _output = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("date")]
+        public System.DateTimeOffset? Date
+        {
+            get
+            {
+                return _date;
+            }
+            set
+            {
+                _date = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("description")]
+        public string Description
+        {
+            get
+            {
+                return _description;
+            }
+            set
+            {
+                _description = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("notes")]
+        public string Notes
+        {
+            get
+            {
+                return _notes;
+            }
+            set
+            {
+                _notes = value;
+            }
+        }
+    
+        public System.IObservable<AindManipulatorCalibration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AindManipulatorCalibration(this)));
+        }
+    
+        public System.IObservable<AindManipulatorCalibration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new AindManipulatorCalibration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("DeviceName = " + _deviceName + ", ");
+            stringBuilder.Append("Input = " + _input + ", ");
+            stringBuilder.Append("Output = " + _output + ", ");
+            stringBuilder.Append("Date = " + _date + ", ");
+            stringBuilder.Append("Description = " + _description + ", ");
+            stringBuilder.Append("Notes = " + _notes);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class AindManipulatorCalibrationInput
+    {
+    
+        private ManipulatorPosition _fullStepToMm;
+    
+        private System.Collections.Generic.List<AxisConfiguration> _axisConfiguration;
+    
+        private System.Collections.Generic.List<Axis> _homingOrder;
+    
+        private ManipulatorPosition _initialPosition;
+    
+        public AindManipulatorCalibrationInput()
+        {
+            _fullStepToMm = new ManipulatorPosition();
+            _axisConfiguration = new System.Collections.Generic.List<AxisConfiguration>();
+            _homingOrder = new System.Collections.Generic.List<Axis>();
+            _initialPosition = new ManipulatorPosition();
+        }
+    
+        protected AindManipulatorCalibrationInput(AindManipulatorCalibrationInput other)
+        {
+            _fullStepToMm = other._fullStepToMm;
+            _axisConfiguration = other._axisConfiguration;
+            _homingOrder = other._homingOrder;
+            _initialPosition = other._initialPosition;
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("full_step_to_mm")]
+        public ManipulatorPosition FullStepToMm
+        {
+            get
+            {
+                return _fullStepToMm;
+            }
+            set
+            {
+                _fullStepToMm = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("axis_configuration")]
+        public System.Collections.Generic.List<AxisConfiguration> AxisConfiguration
+        {
+            get
+            {
+                return _axisConfiguration;
+            }
+            set
+            {
+                _axisConfiguration = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("homing_order")]
+        public System.Collections.Generic.List<Axis> HomingOrder
+        {
+            get
+            {
+                return _homingOrder;
+            }
+            set
+            {
+                _homingOrder = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("initial_position")]
+        public ManipulatorPosition InitialPosition
+        {
+            get
+            {
+                return _initialPosition;
+            }
+            set
+            {
+                _initialPosition = value;
+            }
+        }
+    
+        public System.IObservable<AindManipulatorCalibrationInput> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AindManipulatorCalibrationInput(this)));
+        }
+    
+        public System.IObservable<AindManipulatorCalibrationInput> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new AindManipulatorCalibrationInput(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("FullStepToMm = " + _fullStepToMm + ", ");
+            stringBuilder.Append("AxisConfiguration = " + _axisConfiguration + ", ");
+            stringBuilder.Append("HomingOrder = " + _homingOrder + ", ");
+            stringBuilder.Append("InitialPosition = " + _initialPosition);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class AindManipulatorCalibrationOutput
+    {
+    
+        public AindManipulatorCalibrationOutput()
+        {
+        }
+    
+        protected AindManipulatorCalibrationOutput(AindManipulatorCalibrationOutput other)
+        {
+        }
+    
+        public System.IObservable<AindManipulatorCalibrationOutput> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AindManipulatorCalibrationOutput(this)));
+        }
+    
+        public System.IObservable<AindManipulatorCalibrationOutput> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new AindManipulatorCalibrationOutput(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            return false;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class AindManipulatorDevice
+    {
+    
+        private string _deviceType;
+    
+        private string _deviceName;
+    
+        private BaseModel _additionalSettings;
+    
+        private AindManipulatorCalibration _calibration;
+    
+        private int _whoAmI;
+    
+        private string _serialNumber;
+    
+        private string _portName;
+    
+        public AindManipulatorDevice()
+        {
+            _deviceType = "StepperDriver";
+            _whoAmI = 1130;
+        }
+    
+        protected AindManipulatorDevice(AindManipulatorDevice other)
+        {
+            _deviceType = other._deviceType;
+            _deviceName = other._deviceName;
+            _additionalSettings = other._additionalSettings;
+            _calibration = other._calibration;
+            _whoAmI = other._whoAmI;
+            _serialNumber = other._serialNumber;
+            _portName = other._portName;
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("device_type")]
+        public string DeviceType
+        {
+            get
+            {
+                return _deviceType;
+            }
+            set
+            {
+                _deviceType = value;
+            }
+        }
+    
+        /// <summary>
+        /// Device name
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("device_name")]
+        [System.ComponentModel.DescriptionAttribute("Device name")]
+        public string DeviceName
+        {
+            get
+            {
+                return _deviceName;
+            }
+            set
+            {
+                _deviceName = value;
+            }
+        }
+    
+        /// <summary>
+        /// Additional settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("additional_settings")]
+        [System.ComponentModel.DescriptionAttribute("Additional settings")]
+        public BaseModel AdditionalSettings
+        {
+            get
+            {
+                return _additionalSettings;
+            }
+            set
+            {
+                _additionalSettings = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("calibration")]
+        public AindManipulatorCalibration Calibration
+        {
+            get
+            {
+                return _calibration;
+            }
+            set
+            {
+                _calibration = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("who_am_i")]
+        public int WhoAmI
+        {
+            get
+            {
+                return _whoAmI;
+            }
+            set
+            {
+                _whoAmI = value;
+            }
+        }
+    
+        /// <summary>
+        /// Device serial number
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("serial_number")]
+        [System.ComponentModel.DescriptionAttribute("Device serial number")]
+        public string SerialNumber
+        {
+            get
+            {
+                return _serialNumber;
+            }
+            set
+            {
+                _serialNumber = value;
+            }
+        }
+    
+        /// <summary>
+        /// Device port name
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("port_name", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("Device port name")]
+        public string PortName
+        {
+            get
+            {
+                return _portName;
+            }
+            set
+            {
+                _portName = value;
+            }
+        }
+    
+        public System.IObservable<AindManipulatorDevice> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AindManipulatorDevice(this)));
+        }
+    
+        public System.IObservable<AindManipulatorDevice> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new AindManipulatorDevice(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("DeviceType = " + _deviceType + ", ");
+            stringBuilder.Append("DeviceName = " + _deviceName + ", ");
+            stringBuilder.Append("AdditionalSettings = " + _additionalSettings + ", ");
+            stringBuilder.Append("Calibration = " + _calibration + ", ");
+            stringBuilder.Append("WhoAmI = " + _whoAmI + ", ");
+            stringBuilder.Append("SerialNumber = " + _serialNumber + ", ");
+            stringBuilder.Append("PortName = " + _portName);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    /// <summary>
+    /// Motor axis available
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    public enum Axis
+    {
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="0")]
+        None = 0,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="1")]
+        X = 1,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="2")]
+        Y1 = 2,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="3")]
+        Y2 = 3,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="4")]
+        Z = 4,
+    }
+
+
+    /// <summary>
+    /// Axis configuration
+    /// </summary>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.ComponentModel.DescriptionAttribute("Axis configuration")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class AxisConfiguration
+    {
+    
+        private Axis _axis;
+    
+        private int _stepAccelerationInterval;
+    
+        private int _stepInterval;
+    
+        private MicrostepResolution _microstepResolution;
+    
+        private int _maximumStepInterval;
+    
+        private MotorOperationMode _motorOperationMode;
+    
+        private double _maxLimit;
+    
+        private double _minLimit;
+    
+        public AxisConfiguration()
+        {
+            _stepAccelerationInterval = 100;
+            _stepInterval = 100;
+            _microstepResolution = AindBehaviorDeviceOlfactometer.MicrostepResolution.Microstep8;
+            _maximumStepInterval = 2000;
+            _motorOperationMode = AindBehaviorDeviceOlfactometer.MotorOperationMode.Quiet;
+            _maxLimit = 25D;
+            _minLimit = -0.01D;
+        }
+    
+        protected AxisConfiguration(AxisConfiguration other)
+        {
+            _axis = other._axis;
+            _stepAccelerationInterval = other._stepAccelerationInterval;
+            _stepInterval = other._stepInterval;
+            _microstepResolution = other._microstepResolution;
+            _maximumStepInterval = other._maximumStepInterval;
+            _motorOperationMode = other._motorOperationMode;
+            _maxLimit = other._maxLimit;
+            _minLimit = other._minLimit;
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("axis", Required=Newtonsoft.Json.Required.Always)]
+        public Axis Axis
+        {
+            get
+            {
+                return _axis;
+            }
+            set
+            {
+                _axis = value;
+            }
+        }
+    
+        /// <summary>
+        /// Acceleration of the step interval in microseconds
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("step_acceleration_interval")]
+        [System.ComponentModel.DescriptionAttribute("Acceleration of the step interval in microseconds")]
+        public int StepAccelerationInterval
+        {
+            get
+            {
+                return _stepAccelerationInterval;
+            }
+            set
+            {
+                _stepAccelerationInterval = value;
+            }
+        }
+    
+        /// <summary>
+        /// Step interval in microseconds.
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("step_interval")]
+        [System.ComponentModel.DescriptionAttribute("Step interval in microseconds.")]
+        public int StepInterval
+        {
+            get
+            {
+                return _stepInterval;
+            }
+            set
+            {
+                _stepInterval = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("microstep_resolution")]
+        public MicrostepResolution MicrostepResolution
+        {
+            get
+            {
+                return _microstepResolution;
+            }
+            set
+            {
+                _microstepResolution = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("maximum_step_interval")]
+        public int MaximumStepInterval
+        {
+            get
+            {
+                return _maximumStepInterval;
+            }
+            set
+            {
+                _maximumStepInterval = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("motor_operation_mode")]
+        public MotorOperationMode MotorOperationMode
+        {
+            get
+            {
+                return _motorOperationMode;
+            }
+            set
+            {
+                _motorOperationMode = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("max_limit")]
+        public double MaxLimit
+        {
+            get
+            {
+                return _maxLimit;
+            }
+            set
+            {
+                _maxLimit = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("min_limit")]
+        public double MinLimit
+        {
+            get
+            {
+                return _minLimit;
+            }
+            set
+            {
+                _minLimit = value;
+            }
+        }
+    
+        public System.IObservable<AxisConfiguration> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AxisConfiguration(this)));
+        }
+    
+        public System.IObservable<AxisConfiguration> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new AxisConfiguration(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("Axis = " + _axis + ", ");
+            stringBuilder.Append("StepAccelerationInterval = " + _stepAccelerationInterval + ", ");
+            stringBuilder.Append("StepInterval = " + _stepInterval + ", ");
+            stringBuilder.Append("MicrostepResolution = " + _microstepResolution + ", ");
+            stringBuilder.Append("MaximumStepInterval = " + _maximumStepInterval + ", ");
+            stringBuilder.Append("MotorOperationMode = " + _motorOperationMode + ", ");
+            stringBuilder.Append("MaxLimit = " + _maxLimit + ", ");
+            stringBuilder.Append("MinLimit = " + _minLimit);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
@@ -849,6 +1583,148 @@ namespace AindBehaviorDeviceOlfactometer
             stringBuilder.Append("}");
             return stringBuilder.ToString();
         }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class ManipulatorPosition
+    {
+    
+        private double _x;
+    
+        private double _y1;
+    
+        private double _y2;
+    
+        private double _z;
+    
+        public ManipulatorPosition()
+        {
+        }
+    
+        protected ManipulatorPosition(ManipulatorPosition other)
+        {
+            _x = other._x;
+            _y1 = other._y1;
+            _y2 = other._y2;
+            _z = other._z;
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("x", Required=Newtonsoft.Json.Required.Always)]
+        public double X
+        {
+            get
+            {
+                return _x;
+            }
+            set
+            {
+                _x = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("y1", Required=Newtonsoft.Json.Required.Always)]
+        public double Y1
+        {
+            get
+            {
+                return _y1;
+            }
+            set
+            {
+                _y1 = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("y2", Required=Newtonsoft.Json.Required.Always)]
+        public double Y2
+        {
+            get
+            {
+                return _y2;
+            }
+            set
+            {
+                _y2 = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("z", Required=Newtonsoft.Json.Required.Always)]
+        public double Z
+        {
+            get
+            {
+                return _z;
+            }
+            set
+            {
+                _z = value;
+            }
+        }
+    
+        public System.IObservable<ManipulatorPosition> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ManipulatorPosition(this)));
+        }
+    
+        public System.IObservable<ManipulatorPosition> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ManipulatorPosition(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("X = " + _x + ", ");
+            stringBuilder.Append("Y1 = " + _y1 + ", ");
+            stringBuilder.Append("Y2 = " + _y2 + ", ");
+            stringBuilder.Append("Z = " + _z);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    public enum MicrostepResolution
+    {
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="0")]
+        Microstep8 = 0,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="1")]
+        Microstep16 = 1,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="2")]
+        Microstep32 = 2,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="3")]
+        Microstep64 = 3,
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    public enum MotorOperationMode
+    {
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="0")]
+        Quiet = 0,
+    
+        [System.Runtime.Serialization.EnumMemberAttribute(Value="1")]
+        Dynamic = 1,
     }
 
 
@@ -1669,6 +2545,8 @@ namespace AindBehaviorDeviceOlfactometer
     
         private HarpWhiteRabbit _harpClockGenerator;
     
+        private AindManipulatorDevice _harpManipulator;
+    
         public OlfactometerCalibrationRig()
         {
             _aindBehaviorServicesPkgVersion = "0.12.0";
@@ -1676,6 +2554,7 @@ namespace AindBehaviorDeviceOlfactometer
             _harpOlfactometer = new Olfactometer();
             _harpAnalogInput = new HarpAnalogInput();
             _harpClockGenerator = new HarpWhiteRabbit();
+            _harpManipulator = new AindManipulatorDevice();
         }
     
         protected OlfactometerCalibrationRig(OlfactometerCalibrationRig other)
@@ -1687,6 +2566,7 @@ namespace AindBehaviorDeviceOlfactometer
             _harpOlfactometer = other._harpOlfactometer;
             _harpAnalogInput = other._harpAnalogInput;
             _harpClockGenerator = other._harpClockGenerator;
+            _harpManipulator = other._harpManipulator;
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("aind_behavior_services_pkg_version")]
@@ -1791,6 +2671,24 @@ namespace AindBehaviorDeviceOlfactometer
             }
         }
     
+        /// <summary>
+        /// Manipulator
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("harp_manipulator", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("Manipulator")]
+        public AindManipulatorDevice HarpManipulator
+        {
+            get
+            {
+                return _harpManipulator;
+            }
+            set
+            {
+                _harpManipulator = value;
+            }
+        }
+    
         public System.IObservable<OlfactometerCalibrationRig> Generate()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new OlfactometerCalibrationRig(this)));
@@ -1809,7 +2707,8 @@ namespace AindBehaviorDeviceOlfactometer
             stringBuilder.Append("RigName = " + _rigName + ", ");
             stringBuilder.Append("HarpOlfactometer = " + _harpOlfactometer + ", ");
             stringBuilder.Append("HarpAnalogInput = " + _harpAnalogInput + ", ");
-            stringBuilder.Append("HarpClockGenerator = " + _harpClockGenerator);
+            stringBuilder.Append("HarpClockGenerator = " + _harpClockGenerator + ", ");
+            stringBuilder.Append("HarpManipulator = " + _harpManipulator);
             return true;
         }
     
@@ -2052,6 +2951,31 @@ namespace AindBehaviorDeviceOlfactometer
             return Process<AindBehaviorSessionModel>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<AindManipulatorCalibration> source)
+        {
+            return Process<AindManipulatorCalibration>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<AindManipulatorCalibrationInput> source)
+        {
+            return Process<AindManipulatorCalibrationInput>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<AindManipulatorCalibrationOutput> source)
+        {
+            return Process<AindManipulatorCalibrationOutput>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<AindManipulatorDevice> source)
+        {
+            return Process<AindManipulatorDevice>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<AxisConfiguration> source)
+        {
+            return Process<AxisConfiguration>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<BaseModel> source)
         {
             return Process<BaseModel>(source);
@@ -2070,6 +2994,11 @@ namespace AindBehaviorDeviceOlfactometer
         public System.IObservable<string> Process(System.IObservable<HarpWhiteRabbit> source)
         {
             return Process<HarpWhiteRabbit>(source);
+        }
+
+        public System.IObservable<string> Process(System.IObservable<ManipulatorPosition> source)
+        {
+            return Process<ManipulatorPosition>(source);
         }
 
         public System.IObservable<string> Process(System.IObservable<Olfactometer> source)
@@ -2122,10 +3051,16 @@ namespace AindBehaviorDeviceOlfactometer
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindBehaviorSessionModel>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindManipulatorCalibration>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindManipulatorCalibrationInput>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindManipulatorCalibrationOutput>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindManipulatorDevice>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AxisConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BaseModel>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ConnectedClockOutput>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarpAnalogInput>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarpWhiteRabbit>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ManipulatorPosition>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<Olfactometer>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OlfactometerCalibration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<OlfactometerCalibrationInput>))]

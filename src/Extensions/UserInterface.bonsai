@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.8.5"
+<WorkflowBuilder Version="2.9.0"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:p1="clr-namespace:Harp.AnalogInput;assembly=Harp.AnalogInput"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
@@ -321,6 +321,14 @@
         </viz:RowStyles>
         <viz:CellSpans />
       </Expression>
+      <Expression xsi:type="VisualizerMapping" />
+      <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.AindManipulator:AindManipulatorGui.bonsai" />
+      <Expression xsi:type="VisualizerMapping" />
+      <Expression xsi:type="gui:TabControlBuilder">
+        <gui:Name>UserInterface</gui:Name>
+        <gui:Enabled>true</gui:Enabled>
+        <gui:Visible>true</gui:Visible>
+      </Expression>
       <Expression xsi:type="WorkflowOutput" />
       <Expression xsi:type="SubscribeSubject">
         <Name>StartButton</Name>
@@ -383,9 +391,13 @@
       <Edge From="44" To="45" Label="Source1" />
       <Edge From="45" To="46" Label="Source2" />
       <Edge From="46" To="47" Label="Source1" />
+      <Edge From="47" To="50" Label="Source1" />
       <Edge From="48" To="49" Label="Source1" />
-      <Edge From="49" To="50" Label="Source1" />
+      <Edge From="49" To="50" Label="Source2" />
       <Edge From="50" To="51" Label="Source1" />
+      <Edge From="52" To="53" Label="Source1" />
+      <Edge From="53" To="54" Label="Source1" />
+      <Edge From="54" To="55" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>

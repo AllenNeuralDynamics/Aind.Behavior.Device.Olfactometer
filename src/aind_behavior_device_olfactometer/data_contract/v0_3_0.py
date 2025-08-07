@@ -54,6 +54,13 @@ def dataset(
                             device_yml_hint=DeviceYmlByFile(),
                         ),
                     ),
+                    HarpDevice(
+                        name="HarpManipulator",
+                        reader_params=HarpDevice.make_params(
+                            path=root_path / "behavior/StepperDriver.harp",
+                            device_yml_hint=DeviceYmlByFile(),
+                        ),
+                    ),
                     DataStreamCollection(
                         name="HarpCommands",
                         description="Commands sent to Harp devices",
@@ -62,6 +69,13 @@ def dataset(
                                 name="HarpOlfactometer",
                                 reader_params=HarpDevice.make_params(
                                     path=root_path / "behavior/HarpCommands/Olfactometer.harp",
+                                    device_yml_hint=DeviceYmlByFile(),
+                                ),
+                            ),
+                            HarpDevice(
+                                name="HarpManipulator",
+                                reader_params=HarpDevice.make_params(
+                                    path=root_path / "behavior/HarpCommands/StepperDriver.harp",
                                     device_yml_hint=DeviceYmlByFile(),
                                 ),
                             ),
