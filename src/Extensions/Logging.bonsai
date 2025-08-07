@@ -61,7 +61,7 @@
                             <Property Name="DeviceMetadata" />
                           </PropertyMappings>
                         </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogHarpDeviceWithMetadata.bonsai">
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.HarpUtils:LogHarpDeviceWithMetadata.bonsai">
                           <DeviceMetadata />
                           <Modality>Behavior</Modality>
                           <DeviceName>Olfactometer</DeviceName>
@@ -85,7 +85,7 @@
                             <Property Name="DeviceMetadata" />
                           </PropertyMappings>
                         </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogHarpDeviceWithMetadata.bonsai">
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.HarpUtils:LogHarpDeviceWithMetadata.bonsai">
                           <DeviceMetadata />
                           <Modality>Behavior</Modality>
                           <DeviceName>WhiteRabbit</DeviceName>
@@ -109,7 +109,7 @@
                             <Property Name="DeviceMetadata" />
                           </PropertyMappings>
                         </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogHarpDeviceWithMetadata.bonsai">
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.HarpUtils:LogHarpDeviceWithMetadata.bonsai">
                           <DeviceMetadata />
                           <Modality>Behavior</Modality>
                           <DeviceName>AnalogInput</DeviceName>
@@ -175,7 +175,7 @@
                             <Property Name="DeviceMetadata" />
                           </PropertyMappings>
                         </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogHarpDeviceWithMetadata.bonsai">
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.HarpUtils:LogHarpDeviceWithMetadata.bonsai">
                           <DeviceMetadata />
                           <Modality>Behavior</Modality>
                           <DeviceName>HarpCommands/Olfactometer</DeviceName>
@@ -211,7 +211,7 @@
                             <Property Name="DeviceMetadata" />
                           </PropertyMappings>
                         </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogHarpDeviceWithMetadata.bonsai">
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.HarpUtils:LogHarpDeviceWithMetadata.bonsai">
                           <DeviceMetadata />
                           <Modality>Behavior</Modality>
                           <DeviceName>HarpCommands/AnalogInput</DeviceName>
@@ -247,7 +247,7 @@
                             <Property Name="DeviceMetadata" />
                           </PropertyMappings>
                         </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogHarpDeviceWithMetadata.bonsai">
+                        <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.HarpUtils:LogHarpDeviceWithMetadata.bonsai">
                           <DeviceMetadata />
                           <Modality>Behavior</Modality>
                           <DeviceName>HarpCommands/WhiteRabbit</DeviceName>
