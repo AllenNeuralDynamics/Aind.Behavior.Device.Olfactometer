@@ -1,9 +1,8 @@
 from typing import Literal
 
+import aind_behavior_services.calibration.aind_manipulator as man
 from aind_behavior_services import rig
 from aind_behavior_services.calibration import olfactometer as olf
-import aind_behavior_services.calibration.aind_manipulator as man
-
 from pydantic import Field
 
 from . import __version__
