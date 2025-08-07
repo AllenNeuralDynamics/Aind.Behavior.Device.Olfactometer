@@ -1,47 +1,48 @@
 from pathlib import Path
 
-import aind_behavior_experiment_launcher.launcher.behavior_launcher as behavior_launcher
-from aind_behavior_experiment_launcher.apps import BonsaiApp
-from aind_behavior_experiment_launcher.resource_monitor import (
-    ResourceMonitor,
-    available_storage_constraint_factory,
-)
 from aind_behavior_services.session import AindBehaviorSessionModel
+from clabe import resource_monitor
+from clabe.apps import AindBehaviorServicesBonsaiApp
+from clabe.launcher import DefaultBehaviorPicker, DefaultBehaviorPickerSettings, Launcher, LauncherCliArgs
+from pydantic_settings import CliApp
 
-from aind_behavior_device_olfactometer.rig import OlfactometerCalibrationRig
-from aind_behavior_device_olfactometer.task_logic import OlfactometerCalibrationLogic
+from .rig import OlfactometerCalibrationRig
+from .task_logic import OlfactometerCalibrationLogic
 
 
-def make_launcher() -> behavior_launcher.BehaviorLauncher:
-    data_dir = r"C:/Data"
-    srv = behavior_launcher.BehaviorServicesFactoryManager()
-    srv.attach_bonsai_app(BonsaiApp(Path(r"./src/main.bonsai")))
-    srv.attach_resource_monitor(
-        ResourceMonitor(
-            constrains=[
-                available_storage_constraint_factory(data_dir, 2e11),
-            ]
-        )
+def make_launcher(settings: LauncherCliArgs) -> Launcher:
+    monitor = resource_monitor.ResourceMonitor(
+        constrains=[
+            resource_monitor.available_storage_constraint_factory(settings.data_dir, 2e11),
+        ]
+    )
+    app = AindBehaviorServicesBonsaiApp(Path(r"./src/main.bonsai"))
+    picker = DefaultBehaviorPicker[OlfactometerCalibrationRig, AindBehaviorSessionModel, OlfactometerCalibrationLogic](
+        settings=DefaultBehaviorPickerSettings()  # type: ignore[call-arg]
+    )
+    launcher = Launcher(
+        rig=OlfactometerCalibrationRig,
+        session=AindBehaviorSessionModel,
+        task_logic=OlfactometerCalibrationLogic,
+        settings=settings,
     )
 
-    return behavior_launcher.BehaviorLauncher(
-        rig_schema_model=OlfactometerCalibrationRig,
-        session_schema_model=AindBehaviorSessionModel,
-        task_logic_schema_model=OlfactometerCalibrationLogic,
-        data_dir=data_dir,
-        config_library_dir=r"\\allen\aind\scratch\AindBehavior.db\AindBehaviorDeviceOlfactometer",
-        temp_dir=r"./local/.temp",
-        allow_dirty=False,
-        skip_hardware_validation=False,
-        debug_mode=False,
-        group_by_subject_log=True,
-        services=srv,
-        validate_init=True,
+    launcher.register_callable(
+        [
+            picker.initialize,
+            picker.pick_session,
+            picker.pick_task_logic,
+            picker.pick_rig,
+        ]
     )
+    launcher.register_callable(monitor.build_runner())
+    launcher.register_callable(app.build_runner(allow_std_error=True))
+    return launcher
 
 
 def main():
-    launcher = make_launcher()
+    args = CliApp().run(LauncherCliArgs)
+    launcher = make_launcher(args)
     launcher.main()
     return None
 
