@@ -18,7 +18,7 @@ classifiers = [
 ]
 
 dependencies = [
-  "aind_behavior_services>=0.10, <0.11",
+  "aind_behavior_services<0.13",
 ]
 
 [project.urls]
@@ -29,7 +29,7 @@ Changelog = "https://github.com/AllenNeuralDynamics/Aind.Behavior.Device.Olfacto
 
 [project.optional-dependencies]
 
-launcher = ["aind_behavior_experiment_launcher[aind-services]>=0.3.0"]
+launcher = ["aind_clabe[aind-services]"]
 
 dev = ["aind_behavior_device_olfactometer[launcher]",
     "ruff",
@@ -47,7 +47,7 @@ docs = [
 ]
 
 analysis = [
-    "aind-behavior-core-analysis@git+https://github.com/AllenNeuralDynamics/Aind.Behavior.CoreAnalysis@051bc0c",
+    "contraqctor",
     "numpy",
     "pandas",
     "matplotlib",

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WorkflowBuilder Version="2.8.5"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xmlns:p1="clr-namespace:AindBehaviorDeviceOlfactometer.TaskLogic;assembly=Extensions"
+                 xmlns:p1="clr-namespace:AindBehaviorDeviceOlfactometer;assembly=Extensions"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
-                 xmlns:p2="clr-namespace:AindBehaviorDeviceOlfactometer.Rig;assembly=Extensions"
-                 xmlns:p3="clr-namespace:AindBehaviorDeviceOlfactometer.Session;assembly=Extensions"
+                 xmlns:p2="clr-namespace:AindBehaviorDeviceOlfactometer;assembly=Extensions"
+                 xmlns:p3="clr-namespace:AindBehaviorDeviceOlfactometer;assembly=Extensions"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>

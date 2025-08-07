@@ -4,7 +4,7 @@ from aind_behavior_services.calibration import olfactometer as olf
 from aind_behavior_services.task_logic import AindBehaviorTaskLogicModel, TaskParameters
 from pydantic import Field
 
-__version__ = "0.1.0"
+from . import __version__
 
 
 class OlfactometerCalibrationParameters(TaskParameters):
