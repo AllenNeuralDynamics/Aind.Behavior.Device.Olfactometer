@@ -1,6 +1,7 @@
 import os
 
 from aind_behavior_services.base import get_commit_hash
+from aind_behavior_services.calibration import aind_manipulator as man
 from aind_behavior_services.calibration import olfactometer as olf
 from aind_behavior_services.rig.harp import HarpAnalogInput, HarpWhiteRabbit
 from aind_behavior_services.session import AindBehaviorSessionModel
@@ -45,11 +46,27 @@ calibration_session = AindBehaviorSessionModel(
     commit_hash=get_commit_hash(),
 )
 
+manipulator_calibration = man.AindManipulatorCalibration(
+    output=man.AindManipulatorCalibrationOutput(),
+    input=man.AindManipulatorCalibrationInput(
+        full_step_to_mm=(man.ManipulatorPosition(x=0.010, y1=0.010, y2=0.010, z=0.010)),
+        axis_configuration=[
+            man.AxisConfiguration(axis=man.Axis.Y1, min_limit=-0.01, max_limit=25),
+            man.AxisConfiguration(axis=man.Axis.Y2, min_limit=-0.01, max_limit=25),
+            man.AxisConfiguration(axis=man.Axis.X, min_limit=-0.01, max_limit=25),
+            man.AxisConfiguration(axis=man.Axis.Z, min_limit=-0.01, max_limit=25),
+        ],
+        homing_order=[man.Axis.Y1, man.Axis.Y2, man.Axis.X, man.Axis.Z],
+        initial_position=man.ManipulatorPosition(y1=0, y2=0, x=0, z=0),
+    ),
+)
+
 _rig = rig.OlfactometerCalibrationRig(
     rig_name="OlfactometerRig",
     harp_olfactometer=olf.Olfactometer(port_name="COM10", calibration=calibration),
     harp_analog_input=HarpAnalogInput(port_name="COM8"),
     harp_clock_generator=HarpWhiteRabbit(port_name="COM9"),
+    harp_manipulator=man.AindManipulatorDevice(port_name="COM7", calibration=manipulator_calibration),
 )
 
 
