@@ -334,6 +334,76 @@
       "title": "AindManipulatorDevice",
       "type": "object"
     },
+    "AlicatFlowmeter": {
+      "properties": {
+        "device_type": {
+          "const": "AlicatFlowmeter",
+          "default": "AlicatFlowmeter",
+          "title": "Device Type",
+          "type": "string"
+        },
+        "device_name": {
+          "default": null,
+          "description": "Device name",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Device Name"
+        },
+        "additional_settings": {
+          "default": null,
+          "description": "Additional settings",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/BaseModel"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "calibration": {
+          "default": null,
+          "description": "Calibration",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/BaseModel"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
+          "type": "string"
+        },
+        "device_id": {
+          "default": "A",
+          "description": "Alicat device ID",
+          "title": "Device Id",
+          "type": "string"
+        },
+        "pooling_period": {
+          "default": "PT0.2S",
+          "description": "Device pooling interval in seconds",
+          "format": "duration",
+          "title": "Pooling Period",
+          "type": "string"
+        }
+      },
+      "required": [
+        "port_name"
+      ],
+      "title": "AlicatFlowmeter",
+      "type": "object"
+    },
     "Axis": {
       "description": "Motor axis available",
       "enum": [
@@ -966,6 +1036,18 @@
         "harp_manipulator": {
           "$ref": "#/$defs/AindManipulatorDevice",
           "description": "Manipulator"
+        },
+        "flowmeter": {
+          "default": null,
+          "description": "Alicat flowmeter device",
+          "oneOf": [
+            {
+              "$ref": "#/$defs/AlicatFlowmeter"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [

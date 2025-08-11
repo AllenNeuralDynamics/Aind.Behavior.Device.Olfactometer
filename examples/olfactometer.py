@@ -1,3 +1,4 @@
+import datetime
 import os
 
 from aind_behavior_services.base import get_commit_hash
@@ -8,6 +9,7 @@ from aind_behavior_services.session import AindBehaviorSessionModel
 from aind_behavior_services.utils import utcnow
 
 from aind_behavior_device_olfactometer import rig, task_logic
+from aind_behavior_device_olfactometer.rig import AlicatFlowmeter
 
 channels_config = {
     olf.OlfactometerChannel.Channel0: olf.OlfactometerChannelConfig(
@@ -67,6 +69,7 @@ _rig = rig.OlfactometerCalibrationRig(
     harp_analog_input=HarpAnalogInput(port_name="COM8"),
     harp_clock_generator=HarpWhiteRabbit(port_name="COM9"),
     harp_manipulator=man.AindManipulatorDevice(port_name="COM7", calibration=manipulator_calibration),
+    flowmeter=AlicatFlowmeter(port_name="COM6", device_id="A", pooling_period=datetime.timedelta(seconds=0.2)),
 )
 
 

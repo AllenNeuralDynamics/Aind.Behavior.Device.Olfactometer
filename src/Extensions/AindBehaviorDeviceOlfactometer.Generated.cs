@@ -833,6 +833,198 @@ namespace AindBehaviorDeviceOlfactometer
     }
 
 
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class AlicatFlowmeter
+    {
+    
+        private string _deviceType;
+    
+        private string _deviceName;
+    
+        private BaseModel _additionalSettings;
+    
+        private BaseModel _calibration;
+    
+        private string _portName;
+    
+        private string _deviceId;
+    
+        private System.TimeSpan _poolingPeriod;
+    
+        public AlicatFlowmeter()
+        {
+            _deviceType = "AlicatFlowmeter";
+            _deviceId = "A";
+        }
+    
+        protected AlicatFlowmeter(AlicatFlowmeter other)
+        {
+            _deviceType = other._deviceType;
+            _deviceName = other._deviceName;
+            _additionalSettings = other._additionalSettings;
+            _calibration = other._calibration;
+            _portName = other._portName;
+            _deviceId = other._deviceId;
+            _poolingPeriod = other._poolingPeriod;
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("device_type")]
+        public string DeviceType
+        {
+            get
+            {
+                return _deviceType;
+            }
+            set
+            {
+                _deviceType = value;
+            }
+        }
+    
+        /// <summary>
+        /// Device name
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("device_name")]
+        [System.ComponentModel.DescriptionAttribute("Device name")]
+        public string DeviceName
+        {
+            get
+            {
+                return _deviceName;
+            }
+            set
+            {
+                _deviceName = value;
+            }
+        }
+    
+        /// <summary>
+        /// Additional settings
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("additional_settings")]
+        [System.ComponentModel.DescriptionAttribute("Additional settings")]
+        public BaseModel AdditionalSettings
+        {
+            get
+            {
+                return _additionalSettings;
+            }
+            set
+            {
+                _additionalSettings = value;
+            }
+        }
+    
+        /// <summary>
+        /// Calibration
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("calibration")]
+        [System.ComponentModel.DescriptionAttribute("Calibration")]
+        public BaseModel Calibration
+        {
+            get
+            {
+                return _calibration;
+            }
+            set
+            {
+                _calibration = value;
+            }
+        }
+    
+        /// <summary>
+        /// Device port name
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("port_name", Required=Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DescriptionAttribute("Device port name")]
+        public string PortName
+        {
+            get
+            {
+                return _portName;
+            }
+            set
+            {
+                _portName = value;
+            }
+        }
+    
+        /// <summary>
+        /// Alicat device ID
+        /// </summary>
+        [Newtonsoft.Json.JsonPropertyAttribute("device_id")]
+        [System.ComponentModel.DescriptionAttribute("Alicat device ID")]
+        public string DeviceId
+        {
+            get
+            {
+                return _deviceId;
+            }
+            set
+            {
+                _deviceId = value;
+            }
+        }
+    
+        /// <summary>
+        /// Device pooling interval in seconds
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("pooling_period")]
+        [System.ComponentModel.DescriptionAttribute("Device pooling interval in seconds")]
+        public System.TimeSpan PoolingPeriod
+        {
+            get
+            {
+                return _poolingPeriod;
+            }
+            set
+            {
+                _poolingPeriod = value;
+            }
+        }
+    
+        public System.IObservable<AlicatFlowmeter> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new AlicatFlowmeter(this)));
+        }
+    
+        public System.IObservable<AlicatFlowmeter> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new AlicatFlowmeter(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("DeviceType = " + _deviceType + ", ");
+            stringBuilder.Append("DeviceName = " + _deviceName + ", ");
+            stringBuilder.Append("AdditionalSettings = " + _additionalSettings + ", ");
+            stringBuilder.Append("Calibration = " + _calibration + ", ");
+            stringBuilder.Append("PortName = " + _portName + ", ");
+            stringBuilder.Append("DeviceId = " + _deviceId + ", ");
+            stringBuilder.Append("PoolingPeriod = " + _poolingPeriod);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
     /// <summary>
     /// Motor axis available
     /// </summary>
@@ -2547,6 +2739,8 @@ namespace AindBehaviorDeviceOlfactometer
     
         private AindManipulatorDevice _harpManipulator;
     
+        private AlicatFlowmeter _flowmeter;
+    
         public OlfactometerCalibrationRig()
         {
             _aindBehaviorServicesPkgVersion = "0.12.0";
@@ -2567,6 +2761,7 @@ namespace AindBehaviorDeviceOlfactometer
             _harpAnalogInput = other._harpAnalogInput;
             _harpClockGenerator = other._harpClockGenerator;
             _harpManipulator = other._harpManipulator;
+            _flowmeter = other._flowmeter;
         }
     
         [Newtonsoft.Json.JsonPropertyAttribute("aind_behavior_services_pkg_version")]
@@ -2689,6 +2884,24 @@ namespace AindBehaviorDeviceOlfactometer
             }
         }
     
+        /// <summary>
+        /// Alicat flowmeter device
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("flowmeter")]
+        [System.ComponentModel.DescriptionAttribute("Alicat flowmeter device")]
+        public AlicatFlowmeter Flowmeter
+        {
+            get
+            {
+                return _flowmeter;
+            }
+            set
+            {
+                _flowmeter = value;
+            }
+        }
+    
         public System.IObservable<OlfactometerCalibrationRig> Generate()
         {
             return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new OlfactometerCalibrationRig(this)));
@@ -2708,7 +2921,8 @@ namespace AindBehaviorDeviceOlfactometer
             stringBuilder.Append("HarpOlfactometer = " + _harpOlfactometer + ", ");
             stringBuilder.Append("HarpAnalogInput = " + _harpAnalogInput + ", ");
             stringBuilder.Append("HarpClockGenerator = " + _harpClockGenerator + ", ");
-            stringBuilder.Append("HarpManipulator = " + _harpManipulator);
+            stringBuilder.Append("HarpManipulator = " + _harpManipulator + ", ");
+            stringBuilder.Append("Flowmeter = " + _flowmeter);
             return true;
         }
     
@@ -2971,6 +3185,11 @@ namespace AindBehaviorDeviceOlfactometer
             return Process<AindManipulatorDevice>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<AlicatFlowmeter> source)
+        {
+            return Process<AlicatFlowmeter>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<AxisConfiguration> source)
         {
             return Process<AxisConfiguration>(source);
@@ -3055,6 +3274,7 @@ namespace AindBehaviorDeviceOlfactometer
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindManipulatorCalibrationInput>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindManipulatorCalibrationOutput>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AindManipulatorDevice>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AlicatFlowmeter>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AxisConfiguration>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BaseModel>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ConnectedClockOutput>))]
