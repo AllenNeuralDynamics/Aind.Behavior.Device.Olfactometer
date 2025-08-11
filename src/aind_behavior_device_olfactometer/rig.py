@@ -1,4 +1,3 @@
-import datetime
 from typing import Literal, Optional
 
 import aind_behavior_services.calibration.aind_manipulator as man
@@ -13,9 +12,7 @@ class AlicatFlowmeter(rig.Device):
     device_type: Literal["AlicatFlowmeter"] = "AlicatFlowmeter"
     port_name: str = Field(..., description="Device port name")
     device_id: str = Field("A", description="Alicat device ID")
-    pooling_period: datetime.timedelta = Field(
-        datetime.timedelta(seconds=0.2), description="Device pooling interval in seconds"
-    )
+    pooling_period: float = Field(default=0.2, gt=0, description="Device pooling interval in seconds")
 
 
 class OlfactometerCalibrationRig(rig.AindBehaviorRigModel):

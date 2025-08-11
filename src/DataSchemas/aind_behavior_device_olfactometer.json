@@ -391,11 +391,11 @@
           "type": "string"
         },
         "pooling_period": {
-          "default": "PT0.2S",
+          "default": 0.2,
           "description": "Device pooling interval in seconds",
-          "format": "duration",
+          "exclusiveMinimum": 0,
           "title": "Pooling Period",
-          "type": "string"
+          "type": "number"
         }
       },
       "required": [

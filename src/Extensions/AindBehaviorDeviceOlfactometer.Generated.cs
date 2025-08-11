@@ -851,12 +851,13 @@ namespace AindBehaviorDeviceOlfactometer
     
         private string _deviceId;
     
-        private System.TimeSpan _poolingPeriod;
+        private double _poolingPeriod;
     
         public AlicatFlowmeter()
         {
             _deviceType = "AlicatFlowmeter";
             _deviceId = "A";
+            _poolingPeriod = 0.2D;
         }
     
         protected AlicatFlowmeter(AlicatFlowmeter other)
@@ -973,10 +974,9 @@ namespace AindBehaviorDeviceOlfactometer
         /// <summary>
         /// Device pooling interval in seconds
         /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("pooling_period")]
         [System.ComponentModel.DescriptionAttribute("Device pooling interval in seconds")]
-        public System.TimeSpan PoolingPeriod
+        public double PoolingPeriod
         {
             get
             {
