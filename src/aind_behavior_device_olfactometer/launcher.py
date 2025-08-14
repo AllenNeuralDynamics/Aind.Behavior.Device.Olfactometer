@@ -2,7 +2,7 @@ from pathlib import Path
 
 from aind_behavior_services.session import AindBehaviorSessionModel
 from clabe import resource_monitor
-from clabe.apps import AindBehaviorServicesBonsaiApp
+from clabe.apps import AindBehaviorServicesBonsaiApp, BonsaiAppSettings
 from clabe.launcher import DefaultBehaviorPicker, DefaultBehaviorPickerSettings, Launcher, LauncherCliArgs
 from pydantic_settings import CliApp
 
@@ -16,7 +16,7 @@ def make_launcher(settings: LauncherCliArgs) -> Launcher:
             resource_monitor.available_storage_constraint_factory(settings.data_dir, 2e11),
         ]
     )
-    app = AindBehaviorServicesBonsaiApp(Path(r"./src/main.bonsai"))
+    app = AindBehaviorServicesBonsaiApp(settings=BonsaiAppSettings(workflow=Path(r"./src/main.bonsai")))
     picker = DefaultBehaviorPicker[OlfactometerCalibrationRig, AindBehaviorSessionModel, OlfactometerCalibrationLogic](
         settings=DefaultBehaviorPickerSettings()  # type: ignore[call-arg]
     )
