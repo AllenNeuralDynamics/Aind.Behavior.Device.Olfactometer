@@ -10,6 +10,7 @@
                  xmlns:p3="clr-namespace:AllenNeuralDynamics.Core.Design;assembly=AllenNeuralDynamics.Core.Design"
                  xmlns:gui="clr-namespace:Bonsai.Gui;assembly=Bonsai.Gui"
                  xmlns:viz="clr-namespace:Bonsai.Design.Visualizers;assembly=Bonsai.Design.Visualizers"
+                 xmlns:ui="clr-namespace:Bonsai.Design;assembly=Bonsai.Design"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
@@ -286,6 +287,7 @@
         <VisualizerType xsi:type="TypeMapping" TypeArguments="gui:ButtonVisualizer" />
       </Expression>
       <Expression xsi:type="gui:TableLayoutPanelBuilder">
+        <gui:Name>OlfactometerCalibration</gui:Name>
         <gui:Enabled>true</gui:Enabled>
         <gui:Visible>true</gui:Visible>
         <gui:ColumnCount>2</gui:ColumnCount>
@@ -321,24 +323,19 @@
         </viz:RowStyles>
         <viz:CellSpans />
       </Expression>
-      <Expression xsi:type="VisualizerMapping" />
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="viz:TableLayoutPanelVisualizer" />
+      </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.AindManipulator:AindManipulatorGui.bonsai" />
-      <Expression xsi:type="VisualizerMapping" />
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="gui:TableLayoutPanelVisualizer" />
+      </Expression>
       <Expression xsi:type="SubscribeSubject">
         <Name>AlicatFlowmeterEvents</Name>
       </Expression>
-      <Expression xsi:type="SubscribeSubject">
-        <Name>HarpTimestampSource</Name>
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="rx:WithLatestFrom" />
-      </Expression>
-      <Expression xsi:type="Combinator">
-        <Combinator xsi:type="harp:CreateTimestamped" />
-      </Expression>
       <Expression xsi:type="zg:RollingGraphBuilder">
         <zg:IndexSelector>Seconds</zg:IndexSelector>
-        <zg:ValueSelector>Value.AbsolutePressure,Value.Temperature,Value.VolumetricFlowRate,Value.MassFlowRate,Value.MassFlowTotal</zg:ValueSelector>
+        <zg:ValueSelector>Value.VolumetricFlowRate,Value.MassFlowRate,Value.MassFlowTotal</zg:ValueSelector>
         <zg:SymbolType>None</zg:SymbolType>
         <zg:LineWidth>2</zg:LineWidth>
         <zg:CurveSettings>
@@ -347,15 +344,55 @@
             <zg:Color>Orange</zg:Color>
           </zg:CurveConfiguration>
         </zg:CurveSettings>
-        <zg:Capacity>100</zg:Capacity>
+        <zg:Capacity>200</zg:Capacity>
         <zg:Min xsi:nil="true" />
         <zg:Max xsi:nil="true" />
       </Expression>
-      <Expression xsi:type="VisualizerMapping" />
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="zg:RollingGraphVisualizer" />
+      </Expression>
+      <Expression xsi:type="zg:RollingGraphBuilder">
+        <zg:IndexSelector>Seconds</zg:IndexSelector>
+        <zg:ValueSelector>Value.AbsolutePressure,Value.Temperature</zg:ValueSelector>
+        <zg:SymbolType>None</zg:SymbolType>
+        <zg:LineWidth>2</zg:LineWidth>
+        <zg:CurveSettings>
+          <zg:CurveConfiguration>
+            <zg:Label>EndValveState</zg:Label>
+            <zg:Color>Orange</zg:Color>
+          </zg:CurveConfiguration>
+        </zg:CurveSettings>
+        <zg:Capacity>200</zg:Capacity>
+        <zg:Min xsi:nil="true" />
+        <zg:Max xsi:nil="true" />
+      </Expression>
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="zg:RollingGraphVisualizer" />
+      </Expression>
+      <Expression xsi:type="gui:TableLayoutPanelBuilder">
+        <gui:Name>AlicatFlowmeter</gui:Name>
+        <gui:Enabled>true</gui:Enabled>
+        <gui:Visible>true</gui:Visible>
+        <gui:ColumnCount>1</gui:ColumnCount>
+        <gui:RowCount>2</gui:RowCount>
+        <gui:ColumnStyles />
+        <gui:RowStyles />
+        <gui:CellSpans />
+      </Expression>
+      <Expression xsi:type="VisualizerMapping">
+        <VisualizerType xsi:type="TypeMapping" TypeArguments="gui:TableLayoutPanelVisualizer" />
+      </Expression>
       <Expression xsi:type="gui:TabControlBuilder">
         <gui:Name>UserInterface</gui:Name>
         <gui:Enabled>true</gui:Enabled>
         <gui:Visible>true</gui:Visible>
+      </Expression>
+      <Expression xsi:type="ui:VisualizerWindow">
+        <ui:Text>OlfactometerCalibration</ui:Text>
+        <ui:Visible>true</ui:Visible>
+        <ui:Location xsi:nil="true" />
+        <ui:Size xsi:nil="true" />
+        <ui:WindowState>Minimized</ui:WindowState>
       </Expression>
       <Expression xsi:type="WorkflowOutput" />
       <Expression xsi:type="SubscribeSubject">
@@ -419,19 +456,22 @@
       <Edge From="44" To="45" Label="Source1" />
       <Edge From="45" To="46" Label="Source2" />
       <Edge From="46" To="47" Label="Source1" />
-      <Edge From="47" To="56" Label="Source1" />
+      <Edge From="47" To="57" Label="Source1" />
       <Edge From="48" To="49" Label="Source1" />
-      <Edge From="49" To="56" Label="Source2" />
-      <Edge From="50" To="52" Label="Source1" />
-      <Edge From="51" To="52" Label="Source2" />
-      <Edge From="52" To="53" Label="Source1" />
+      <Edge From="49" To="57" Label="Source2" />
+      <Edge From="50" To="51" Label="Source1" />
+      <Edge From="50" To="53" Label="Source1" />
+      <Edge From="51" To="52" Label="Source1" />
+      <Edge From="52" To="55" Label="Source1" />
       <Edge From="53" To="54" Label="Source1" />
-      <Edge From="54" To="55" Label="Source1" />
-      <Edge From="55" To="56" Label="Source3" />
-      <Edge From="56" To="57" Label="Source1" />
+      <Edge From="54" To="55" Label="Source2" />
+      <Edge From="55" To="56" Label="Source1" />
+      <Edge From="56" To="57" Label="Source3" />
+      <Edge From="57" To="58" Label="Source1" />
       <Edge From="58" To="59" Label="Source1" />
-      <Edge From="59" To="60" Label="Source1" />
       <Edge From="60" To="61" Label="Source1" />
+      <Edge From="61" To="62" Label="Source1" />
+      <Edge From="62" To="63" Label="Source1" />
     </Edges>
   </Workflow>
 </WorkflowBuilder>
