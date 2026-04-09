@@ -1,47 +1,90 @@
 {
   "$defs": {
-    "AindBehaviorSessionModel": {
+    "AindManipulator": {
+      "description": "AindManipulator device definition",
       "properties": {
-        "aind_behavior_services_pkg_version": {
-          "default": "0.12.0",
-          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
-          "title": "aind_behavior_services package version",
+        "device_type": {
+          "const": "StepperDriver",
+          "default": "StepperDriver",
+          "title": "Device Type",
           "type": "string"
         },
-        "version": {
-          "const": "0.3.1",
-          "default": "0.3.1",
-          "title": "Version",
-          "type": "string"
-        },
-        "experiment": {
-          "description": "Name of the experiment",
-          "title": "Experiment",
-          "type": "string"
-        },
-        "experimenter": {
-          "default": [],
-          "description": "Name of the experimenter",
-          "items": {
-            "type": "string"
+        "calibration": {
+          "$ref": "#/$defs/AindManipulatorCalibration",
+          "default": {
+            "description": "AindManipulator calibration and settings",
+            "full_step_to_mm": {
+              "x": 0.01,
+              "y1": 0.01,
+              "y2": 0.01,
+              "z": 0.01
+            },
+            "axis_configuration": [
+              {
+                "axis": 2,
+                "max_limit": 25.0,
+                "maximum_step_interval": 2000,
+                "microstep_resolution": 0,
+                "min_limit": -0.01,
+                "motor_operation_mode": 0,
+                "step_acceleration_interval": 100,
+                "step_interval": 100
+              },
+              {
+                "axis": 3,
+                "max_limit": 25.0,
+                "maximum_step_interval": 2000,
+                "microstep_resolution": 0,
+                "min_limit": -0.01,
+                "motor_operation_mode": 0,
+                "step_acceleration_interval": 100,
+                "step_interval": 100
+              },
+              {
+                "axis": 1,
+                "max_limit": 25.0,
+                "maximum_step_interval": 2000,
+                "microstep_resolution": 0,
+                "min_limit": -0.01,
+                "motor_operation_mode": 0,
+                "step_acceleration_interval": 100,
+                "step_interval": 100
+              },
+              {
+                "axis": 4,
+                "max_limit": 25.0,
+                "maximum_step_interval": 2000,
+                "microstep_resolution": 0,
+                "min_limit": -0.01,
+                "motor_operation_mode": 0,
+                "step_acceleration_interval": 100,
+                "step_interval": 100
+              }
+            ],
+            "homing_order": [
+              2,
+              3,
+              1,
+              4
+            ],
+            "initial_position": {
+              "x": 0.0,
+              "y1": 0.0,
+              "y2": 0.0,
+              "z": 0.0
+            }
           },
-          "title": "Experimenter",
-          "type": "array"
+          "description": "Calibration for the device."
         },
-        "date": {
-          "description": "Date of the experiment",
-          "format": "date-time",
-          "title": "Date",
-          "type": "string"
+        "who_am_i": {
+          "const": 1130,
+          "default": 1130,
+          "title": "Who Am I",
+          "type": "integer"
         },
-        "root_path": {
-          "description": "Root path where data will be logged",
-          "title": "Root Path",
-          "type": "string"
-        },
-        "session_name": {
+        "serial_number": {
           "default": null,
-          "description": "Name of the session. This will be used to create a folder in the root path.",
+          "description": "Device serial number",
           "oneOf": [
             {
               "type": "string"
@@ -50,124 +93,30 @@
               "type": "null"
             }
           ],
-          "title": "Session Name"
+          "title": "Serial Number"
         },
-        "subject": {
-          "description": "Name of the subject",
-          "title": "Subject",
+        "port_name": {
+          "description": "Device port name",
+          "title": "Port Name",
           "type": "string"
-        },
-        "experiment_version": {
-          "description": "Version of the experiment",
-          "title": "Experiment Version",
-          "type": "string"
-        },
-        "notes": {
-          "default": null,
-          "description": "Notes about the experiment",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Notes"
-        },
-        "commit_hash": {
-          "default": null,
-          "description": "Commit hash of the repository",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Commit Hash"
-        },
-        "allow_dirty_repo": {
-          "default": false,
-          "description": "Allow running from a dirty repository",
-          "title": "Allow Dirty Repo",
-          "type": "boolean"
-        },
-        "skip_hardware_validation": {
-          "default": false,
-          "description": "Skip hardware validation",
-          "title": "Skip Hardware Validation",
-          "type": "boolean"
         }
       },
       "required": [
-        "experiment",
-        "root_path",
-        "subject",
-        "experiment_version"
+        "port_name"
       ],
-      "title": "AindBehaviorSessionModel",
-      "type": "object"
+      "title": "AindManipulator",
+      "type": "object",
+      "x-sgen-typename": "AllenNeuralDynamics.AindManipulator.AindManipulator"
     },
     "AindManipulatorCalibration": {
-      "description": "Aind manipulator calibration class",
+      "description": "AindManipulator calibration class",
       "properties": {
-        "device_name": {
-          "default": "AindManipulator",
-          "description": "Must match a device name in rig/instrument",
-          "title": "Device name",
-          "type": "string"
-        },
-        "input": {
-          "$ref": "#/$defs/AindManipulatorCalibrationInput",
-          "title": "Input of the calibration"
-        },
-        "output": {
-          "$ref": "#/$defs/AindManipulatorCalibrationOutput",
-          "title": "Output of the calibration."
-        },
-        "date": {
-          "default": null,
-          "oneOf": [
-            {
-              "format": "date-time",
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Date"
-        },
         "description": {
-          "const": "Calibration of the load cells system",
-          "default": "Calibration of the load cells system",
+          "const": "AindManipulator calibration and settings",
+          "default": "AindManipulator calibration and settings",
           "title": "Description",
           "type": "string"
         },
-        "notes": {
-          "default": null,
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Notes"
-        }
-      },
-      "required": [
-        "input",
-        "output"
-      ],
-      "title": "AindManipulatorCalibration",
-      "type": "object"
-    },
-    "AindManipulatorCalibrationInput": {
-      "properties": {
         "full_step_to_mm": {
           "$ref": "#/$defs/ManipulatorPosition",
           "default": {
@@ -250,89 +199,9 @@
           }
         }
       },
-      "title": "AindManipulatorCalibrationInput",
-      "type": "object"
-    },
-    "AindManipulatorCalibrationOutput": {
-      "properties": {},
-      "title": "AindManipulatorCalibrationOutput",
-      "type": "object"
-    },
-    "AindManipulatorDevice": {
-      "properties": {
-        "device_type": {
-          "const": "StepperDriver",
-          "default": "StepperDriver",
-          "title": "Device Type",
-          "type": "string"
-        },
-        "device_name": {
-          "default": null,
-          "description": "Device name",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Device Name"
-        },
-        "additional_settings": {
-          "default": null,
-          "description": "Additional settings",
-          "oneOf": [
-            {
-              "$ref": "#/$defs/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "calibration": {
-          "default": null,
-          "oneOf": [
-            {
-              "$ref": "#/$defs/AindManipulatorCalibration"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Calibration of the manipulator"
-        },
-        "who_am_i": {
-          "const": 1130,
-          "default": 1130,
-          "title": "Who Am I",
-          "type": "integer"
-        },
-        "serial_number": {
-          "default": null,
-          "description": "Device serial number",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Serial Number"
-        },
-        "port_name": {
-          "description": "Device port name",
-          "title": "Port Name",
-          "type": "string"
-        }
-      },
-      "required": [
-        "port_name"
-      ],
-      "title": "AindManipulatorDevice",
-      "type": "object"
+      "title": "AindManipulatorCalibration",
+      "type": "object",
+      "x-sgen-typename": "AllenNeuralDynamics.AindManipulator.AindManipulatorCalibration"
     },
     "AlicatFlowmeter": {
       "properties": {
@@ -342,34 +211,9 @@
           "title": "Device Type",
           "type": "string"
         },
-        "device_name": {
-          "default": null,
-          "description": "Device name",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Device Name"
-        },
-        "additional_settings": {
-          "default": null,
-          "description": "Additional settings",
-          "oneOf": [
-            {
-              "$ref": "#/$defs/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
         "calibration": {
           "default": null,
-          "description": "Calibration",
+          "description": "Calibration for the device.",
           "oneOf": [
             {
               "$ref": "#/$defs/BaseModel"
@@ -421,7 +265,8 @@
         "Y1",
         "Y2",
         "Z"
-      ]
+      ],
+      "x-sgen-typename": "AllenNeuralDynamics.AindManipulator.Axis"
     },
     "AxisConfiguration": {
       "description": "Axis configuration",
@@ -478,7 +323,8 @@
         "axis"
       ],
       "title": "AxisConfiguration",
-      "type": "object"
+      "type": "object",
+      "x-sgen-typename": "AllenNeuralDynamics.AindManipulator.AxisConfiguration"
     },
     "BaseModel": {
       "properties": {},
@@ -521,34 +367,9 @@
           "title": "Device Type",
           "type": "string"
         },
-        "device_name": {
-          "default": null,
-          "description": "Device name",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Device Name"
-        },
-        "additional_settings": {
-          "default": null,
-          "description": "Additional settings",
-          "oneOf": [
-            {
-              "$ref": "#/$defs/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
         "calibration": {
           "default": null,
-          "description": "Calibration",
+          "description": "Calibration for the device.",
           "oneOf": [
             {
               "$ref": "#/$defs/BaseModel"
@@ -597,34 +418,9 @@
           "title": "Device Type",
           "type": "string"
         },
-        "device_name": {
-          "default": null,
-          "description": "Device name",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Device Name"
-        },
-        "additional_settings": {
-          "default": null,
-          "description": "Additional settings",
-          "oneOf": [
-            {
-              "$ref": "#/$defs/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
         "calibration": {
           "default": null,
-          "description": "Calibration",
+          "description": "Calibration for the device.",
           "oneOf": [
             {
               "$ref": "#/$defs/BaseModel"
@@ -675,6 +471,7 @@
       "type": "object"
     },
     "ManipulatorPosition": {
+      "description": "Represents a position in the manipulator coordinate system",
       "properties": {
         "x": {
           "title": "X coordinate",
@@ -700,9 +497,11 @@
         "z"
       ],
       "title": "ManipulatorPosition",
-      "type": "object"
+      "type": "object",
+      "x-sgen-typename": "AllenNeuralDynamics.AindManipulator.ManipulatorPosition"
     },
     "MicrostepResolution": {
+      "description": "Microstep resolution available",
       "enum": [
         0,
         1,
@@ -716,9 +515,11 @@
         "Microstep16",
         "Microstep32",
         "Microstep64"
-      ]
+      ],
+      "x-sgen-typename": "AllenNeuralDynamics.AindManipulator.MicrostepResolution"
     },
     "MotorOperationMode": {
+      "description": "Motor operation mode",
       "enum": [
         0,
         1
@@ -728,9 +529,11 @@
       "x-enumNames": [
         "Quiet",
         "Dynamic"
-      ]
+      ],
+      "x-sgen-typename": "AllenNeuralDynamics.AindManipulator.MotorOperationMode"
     },
     "Olfactometer": {
+      "description": "A calibrated olfactometer device",
       "properties": {
         "device_type": {
           "const": "Olfactometer",
@@ -738,41 +541,12 @@
           "title": "Device Type",
           "type": "string"
         },
-        "device_name": {
-          "default": null,
-          "description": "Device name",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Device Name"
-        },
-        "additional_settings": {
-          "default": null,
-          "description": "Additional settings",
-          "oneOf": [
-            {
-              "$ref": "#/$defs/BaseModel"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
         "calibration": {
-          "default": null,
-          "oneOf": [
-            {
-              "$ref": "#/$defs/OlfactometerCalibration"
-            },
-            {
-              "type": "null"
-            }
-          ],
+          "$ref": "#/$defs/OlfactometerCalibration",
+          "default": {
+            "date": null,
+            "channel_config": {}
+          },
           "title": "Calibration of the olfactometer"
         },
         "who_am_i": {
@@ -807,24 +581,11 @@
       "type": "object"
     },
     "OlfactometerCalibration": {
-      "description": "Olfactometer calibration class",
+      "description": "Olfactometer device configuration model",
       "properties": {
-        "device_name": {
-          "default": "Olfactometer",
-          "description": "Name of the device being calibrated",
-          "title": "Device name",
-          "type": "string"
-        },
-        "input": {
-          "$ref": "#/$defs/OlfactometerCalibrationInput",
-          "title": "Input of the calibration"
-        },
-        "output": {
-          "$ref": "#/$defs/OlfactometerCalibrationOutput",
-          "title": "Output of the calibration"
-        },
         "date": {
           "default": null,
+          "description": "Date of the calibration",
           "oneOf": [
             {
               "format": "date-time",
@@ -836,34 +597,6 @@
           ],
           "title": "Date"
         },
-        "description": {
-          "const": "Calibration of the harp olfactometer device",
-          "default": "Calibration of the harp olfactometer device",
-          "title": "Description",
-          "type": "string"
-        },
-        "notes": {
-          "default": null,
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "title": "Notes"
-        }
-      },
-      "required": [
-        "input",
-        "output"
-      ],
-      "title": "OlfactometerCalibration",
-      "type": "object"
-    },
-    "OlfactometerCalibrationInput": {
-      "properties": {
         "channel_config": {
           "additionalProperties": {
             "$ref": "#/$defs/OlfactometerChannelConfig"
@@ -877,7 +610,7 @@
           "type": "object"
         }
       },
-      "title": "OlfactometerCalibrationInput",
+      "title": "OlfactometerCalibration",
       "type": "object"
     },
     "OlfactometerCalibrationLogic": {
@@ -900,8 +633,8 @@
           "title": "Task parameters"
         },
         "version": {
-          "const": "0.3.0",
-          "default": "0.3.0",
+          "const": "0.2.0rc0",
+          "default": "0.2.0rc0",
           "title": "Version",
           "type": "string"
         },
@@ -925,11 +658,6 @@
       "title": "OlfactometerCalibrationLogic",
       "type": "object"
     },
-    "OlfactometerCalibrationOutput": {
-      "properties": {},
-      "title": "OlfactometerCalibrationOutput",
-      "type": "object"
-    },
     "OlfactometerCalibrationParameters": {
       "additionalProperties": true,
       "properties": {
@@ -947,7 +675,7 @@
           "title": "Rng Seed"
         },
         "aind_behavior_services_pkg_version": {
-          "default": "0.12.0",
+          "default": "0.13.6",
           "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
           "title": "aind_behavior_services package version",
           "type": "string"
@@ -956,7 +684,6 @@
           "additionalProperties": {
             "$ref": "#/$defs/OlfactometerChannelConfig"
           },
-          "default": {},
           "description": "Configuration of olfactometer channels",
           "propertyNames": {
             "$ref": "#/$defs/OlfactometerChannel"
@@ -1000,14 +727,14 @@
     "OlfactometerCalibrationRig": {
       "properties": {
         "aind_behavior_services_pkg_version": {
-          "default": "0.12.0",
+          "default": "0.13.6",
           "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
           "title": "aind_behavior_services package version",
           "type": "string"
         },
         "version": {
-          "const": "0.3.0",
-          "default": "0.3.0",
+          "const": "0.2.0rc0",
+          "default": "0.2.0rc0",
           "title": "Version",
           "type": "string"
         },
@@ -1019,6 +746,12 @@
         "rig_name": {
           "description": "Rig name",
           "title": "Rig Name",
+          "type": "string"
+        },
+        "data_directory": {
+          "description": "Directory where data will be saved to",
+          "format": "path",
+          "title": "Data Directory",
           "type": "string"
         },
         "harp_olfactometer": {
@@ -1034,7 +767,7 @@
           "title": "Clock generator device"
         },
         "harp_manipulator": {
-          "$ref": "#/$defs/AindManipulatorDevice",
+          "$ref": "#/$defs/AindManipulator",
           "description": "Manipulator"
         },
         "flowmeter": {
@@ -1051,7 +784,9 @@
         }
       },
       "required": [
+        "computer_name",
         "rig_name",
+        "data_directory",
         "harp_olfactometer",
         "harp_analog_input",
         "harp_clock_generator",
@@ -1078,15 +813,16 @@
       ]
     },
     "OlfactometerChannelConfig": {
+      "description": "Configuration for a single olfactometer channel",
       "properties": {
         "channel_index": {
-          "title": "Channel index",
+          "title": "Odor channel index",
           "type": "integer"
         },
         "channel_type": {
           "$ref": "#/$defs/OlfactometerChannelType",
           "default": "Odor",
-          "title": "Channel type"
+          "title": "Olfactometer channel type"
         },
         "flow_rate_capacity": {
           "default": 100,
@@ -1135,13 +871,118 @@
       "type": "object"
     },
     "OlfactometerChannelType": {
-      "description": "Channel type",
+      "description": "Olfactometer channel type",
       "enum": [
         "Odor",
         "Carrier"
       ],
       "title": "OlfactometerChannelType",
       "type": "string"
+    },
+    "Session": {
+      "properties": {
+        "aind_behavior_services_pkg_version": {
+          "default": "0.13.6",
+          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
+          "title": "aind_behavior_services package version",
+          "type": "string"
+        },
+        "version": {
+          "const": "0.13.6",
+          "default": "0.13.6",
+          "title": "Version",
+          "type": "string"
+        },
+        "experiment": {
+          "default": null,
+          "description": "Name of the experiment",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Experiment"
+        },
+        "experimenter": {
+          "default": [],
+          "description": "Name of the experimenter",
+          "items": {
+            "type": "string"
+          },
+          "title": "Experimenter",
+          "type": "array"
+        },
+        "date": {
+          "description": "Date of the experiment",
+          "format": "date-time",
+          "title": "Date",
+          "type": "string"
+        },
+        "session_name": {
+          "default": null,
+          "description": "Name of the session. This will be used to create a folder in the root path. If not provided, it will be generated using subject and date.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Session Name"
+        },
+        "subject": {
+          "description": "Name of the subject",
+          "title": "Subject",
+          "type": "string"
+        },
+        "notes": {
+          "default": null,
+          "description": "Notes about the experiment",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Notes"
+        },
+        "commit_hash": {
+          "default": null,
+          "description": "Commit hash of the repository",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Commit Hash"
+        },
+        "allow_dirty_repo": {
+          "default": false,
+          "description": "Allow running from a dirty repository",
+          "title": "Allow Dirty Repo",
+          "type": "boolean"
+        },
+        "skip_hardware_validation": {
+          "default": false,
+          "description": "Skip hardware validation",
+          "title": "Skip Hardware Validation",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "subject"
+      ],
+      "title": "Session",
+      "type": "object"
     }
   }
 }

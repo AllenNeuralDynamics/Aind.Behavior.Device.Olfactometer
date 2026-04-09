@@ -9,7 +9,7 @@ from . import rig, task_logic
 
 SCHEMA_ROOT = Path("./schema/")
 EXTENSIONS_ROOT = Path("./src/Extensions/")
-NAMESPACE_PREFIX = "AindBehaviorTelekinesisDataSchema"
+NAMESPACE_PREFIX = "AindBehaviorDeviceOlfactometerDataSchema"
 
 
 def main():
@@ -22,7 +22,7 @@ def main():
 
     convert_pydantic_to_bonsai(
         model,
-        model_name="aind_behavior_telekinesis",
+        model_name="aind_behavior_device_olfactometer",
         root_element="Root",
         cs_namespace=NAMESPACE_PREFIX,
         json_schema_output_dir=SCHEMA_ROOT,
