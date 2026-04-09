@@ -1,25 +1,21 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build>=0.8.22"]
+build-backend = "uv_build"
 
 [project]
 name = "aind-behavior-device-olfactometer"
 description = "A library that can be used to generate models and configuration files for the harp olfactometer device."
-authors = [
-    { name = "Bruno Cruz", email = "bruno.cruz@alleninstitute.org" },
-]
-license = {text = "MIT"}
+authors = [{ name = "Bruno Cruz", email = "bruno.cruz@alleninstitute.org" }]
+license = { text = "MIT" }
 requires-python = ">=3.11"
-dynamic = ["version", "readme"]
+version = "0.2.0rc0"
+readme = { file = "README.md", content-type = "text/markdown" }
 classifiers = [
     "Programming Language :: Python :: 3.11",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: Microsoft :: Windows",
 ]
 
-dependencies = [
-  "aind_behavior_services<0.13",
-]
+dependencies = ["aind_behavior_services>=0.13.5, <0.14", "pydantic-settings"]
 
 [project.urls]
 Documentation = "https://allenneuraldynamics.github.io/Aind.Behavior.Device.Olfactometer/"
@@ -29,11 +25,23 @@ Changelog = "https://github.com/AllenNeuralDynamics/Aind.Behavior.Device.Olfacto
 
 [project.optional-dependencies]
 
-launcher = ["aind_clabe[aind-services]"]
+launcher = ["aind-clabe[aind-services]>=0.10.0"]
 
-dev = ["aind_behavior_device_olfactometer[launcher]",
+data = [
+    "contraqctor>= 0.5.3, < 0.6",
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "jupyter",
+]
+
+[dependency-groups]
+
+dev = [
+    "aind_behavior_device_olfactometer[launcher]",
+    "aind_behavior_device_olfactometer[data]",
     "ruff",
-    "codespell"
+    "codespell",
 ]
 
 docs = [
@@ -46,28 +54,9 @@ docs = [
     "sphinx_mdinclude",
 ]
 
-analysis = [
-    "contraqctor",
-    "numpy",
-    "pandas",
-    "matplotlib",
-    "jupyter",
-]
 
 [project.scripts]
-clabe = "aind_behavior_device_olfactometer.launcher:main"
-regenerate = "aind_behavior_device_olfactometer.regenerate:main"
-olfactometer-qc = "aind_behavior_device_olfactometer.analysis:main"
-
-[tool.setuptools.packages.find]
-where = ["src"]
-
-[tool.setuptools.package-data]
-aind_behavior_device_olfactometer = ["py.typed"]
-
-[tool.setuptools.dynamic]
-version = {attr = "aind_behavior_device_olfactometer.__version__"}
-readme = {file = "README.md", content-type = "text/markdown"}
+device-olfactometer = "aind_behavior_device_olfactometer.cli:main"
 
 [tool.ruff]
 line-length = 120
@@ -80,5 +69,10 @@ mccabe = { max-complexity = 14 }
 pydocstyle = { convention = 'google' }
 
 [tool.codespell]
-skip = '.git,*.pdf,*.svg,./bonsai,*.bonsai,./docs/_build,uv.lock'
+skip = '.git,*.pdf,*.svg,./bonsai,*.bonsai,./docs/_build,uv.lock,*Generated.cs'
 ignore-words-list = 'nd'
+
+
+[tool.uv]
+default-groups = ['dev']
+required-version = '>=0.8.4'

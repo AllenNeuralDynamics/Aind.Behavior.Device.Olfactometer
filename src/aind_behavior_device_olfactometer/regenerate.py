@@ -2,24 +2,21 @@ from pathlib import Path
 from typing import Union
 
 import pydantic
-from aind_behavior_services.session import AindBehaviorSessionModel
-from aind_behavior_services.utils import (
-    BonsaiSgenSerializers,
-    convert_pydantic_to_bonsai,
-)
+from aind_behavior_services.schema import BonsaiSgenSerializers, convert_pydantic_to_bonsai
+from aind_behavior_services.session import Session
 
-from aind_behavior_device_olfactometer import rig, task_logic
+from . import rig, task_logic
 
-SCHEMA_ROOT = Path("./src/DataSchemas/")
+SCHEMA_ROOT = Path("./schema/")
 EXTENSIONS_ROOT = Path("./src/Extensions/")
-NAMESPACE_PREFIX = "AindBehaviorDeviceOlfactometer"
+NAMESPACE_PREFIX = "AindBehaviorDeviceOlfactometerDataSchema"
 
 
 def main():
     models = [
         task_logic.OlfactometerCalibrationLogic,
         rig.OlfactometerCalibrationRig,
-        AindBehaviorSessionModel,
+        Session,
     ]
     model = pydantic.RootModel[Union[tuple(models)]]
 

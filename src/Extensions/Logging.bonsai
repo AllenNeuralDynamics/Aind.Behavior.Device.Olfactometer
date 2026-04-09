@@ -7,11 +7,11 @@
                  xmlns:p2="clr-namespace:Harp.Olfactometer;assembly=Harp.Olfactometer"
                  xmlns:p3="clr-namespace:AllenNeuralDynamics.WhiteRabbit;assembly=AllenNeuralDynamics.WhiteRabbit"
                  xmlns:p4="clr-namespace:Harp.AnalogInput;assembly=Harp.AnalogInput"
-                 xmlns:p5="clr-namespace:AllenNeuralDynamics.HarpUtils;assembly=AllenNeuralDynamics.HarpUtils"
+                 xmlns:p5="clr-namespace:Harp.StepperDriver;assembly=Harp.StepperDriver"
+                 xmlns:p6="clr-namespace:AllenNeuralDynamics.HarpUtils;assembly=AllenNeuralDynamics.HarpUtils"
+                 xmlns:p7="clr-namespace:AllenNeuralDynamics.VersionControl;assembly=AllenNeuralDynamics.VersionControl"
                  xmlns:harp="clr-namespace:Bonsai.Harp;assembly=Bonsai.Harp"
-                 xmlns:p6="clr-namespace:AllenNeuralDynamics.VersionControl;assembly=AllenNeuralDynamics.VersionControl"
-                 xmlns:p7="clr-namespace:AindBehaviorDeviceOlfactometer;assembly=Extensions"
-                 xmlns:p8="clr-namespace:AllenNeuralDynamics.AindBehaviorServices.DataTypes;assembly=AllenNeuralDynamics.AindBehaviorServices"
+                 xmlns:p8="clr-namespace:AindBehaviorDeviceOlfactometerDataSchema;assembly=Extensions"
                  xmlns="https://bonsai-rx.org/2018/workflow">
   <Workflow>
     <Nodes>
@@ -54,7 +54,7 @@
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p2:GetMetadata" />
+                          <Combinator xsi:type="p2:GetDeviceMetadata" />
                         </Expression>
                         <Expression xsi:type="PropertyMapping">
                           <PropertyMappings>
@@ -125,7 +125,9 @@
                             <Property Name="Modality" />
                           </PropertyMappings>
                         </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\HarpStepperDriverGetMetadata.bonsai" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p5:GetDeviceMetadata" />
+                        </Expression>
                         <Expression xsi:type="PropertyMapping">
                           <PropertyMappings>
                             <Property Name="DeviceMetadata" />
@@ -181,9 +183,9 @@
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p5:ModifyMessage">
-                            <p5:Address xsi:nil="true" />
-                            <p5:MessageTypeModified xsi:nil="true" />
+                          <Combinator xsi:type="p6:ModifyMessage">
+                            <p6:Address xsi:nil="true" />
+                            <p6:MessageTypeModified xsi:nil="true" />
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -195,7 +197,7 @@
                           </PropertyMappings>
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p2:GetMetadata" />
+                          <Combinator xsi:type="p2:GetDeviceMetadata" />
                         </Expression>
                         <Expression xsi:type="PropertyMapping">
                           <PropertyMappings>
@@ -217,9 +219,9 @@
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p5:ModifyMessage">
-                            <p5:Address xsi:nil="true" />
-                            <p5:MessageTypeModified xsi:nil="true" />
+                          <Combinator xsi:type="p6:ModifyMessage">
+                            <p6:Address xsi:nil="true" />
+                            <p6:MessageTypeModified xsi:nil="true" />
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -253,9 +255,9 @@
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p5:ModifyMessage">
-                            <p5:Address xsi:nil="true" />
-                            <p5:MessageTypeModified xsi:nil="true" />
+                          <Combinator xsi:type="p6:ModifyMessage">
+                            <p6:Address xsi:nil="true" />
+                            <p6:MessageTypeModified xsi:nil="true" />
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -289,9 +291,9 @@
                           <Combinator xsi:type="rx:WithLatestFrom" />
                         </Expression>
                         <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="p5:ModifyMessage">
-                            <p5:Address xsi:nil="true" />
-                            <p5:MessageTypeModified xsi:nil="true" />
+                          <Combinator xsi:type="p6:ModifyMessage">
+                            <p6:Address xsi:nil="true" />
+                            <p6:MessageTypeModified xsi:nil="true" />
                           </Combinator>
                         </Expression>
                         <Expression xsi:type="SubscribeSubject">
@@ -302,7 +304,9 @@
                             <Property Name="Modality" />
                           </PropertyMappings>
                         </Expression>
-                        <Expression xsi:type="IncludeWorkflow" Path="Extensions\HarpStepperDriverGetMetadata.bonsai" />
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="p5:GetDeviceMetadata" />
+                        </Expression>
                         <Expression xsi:type="PropertyMapping">
                           <PropertyMappings>
                             <Property Name="DeviceMetadata" />
@@ -355,21 +359,64 @@
                     <Name>SoftwareEvents</Name>
                     <Workflow>
                       <Nodes>
+                        <Expression xsi:type="GroupWorkflow">
+                          <Name>Metadata</Name>
+                          <Workflow>
+                            <Nodes>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>Repository</Name>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="p7:IsRepositoryClean">
+                                  <p7:IgnoreUntracked>false</p7:IgnoreUntracked>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="p1:CreateSoftwareEvent">
+                                  <p1:EventName>RepositoryStatus</p1:EventName>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="SubscribeSubject">
+                                <Name>EndExperiment</Name>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="StringProperty">
+                                  <Value>ExperimentCompleted</Value>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="p1:CreateSoftwareEvent">
+                                  <p1:EventName>EndSession</p1:EventName>
+                                </Combinator>
+                              </Expression>
+                              <Expression xsi:type="Combinator">
+                                <Combinator xsi:type="rx:Merge" />
+                              </Expression>
+                              <Expression xsi:type="MulticastSubject">
+                                <Name>SoftwareEvent</Name>
+                              </Expression>
+                            </Nodes>
+                            <Edges>
+                              <Edge From="0" To="1" Label="Source1" />
+                              <Edge From="1" To="2" Label="Source1" />
+                              <Edge From="2" To="6" Label="Source1" />
+                              <Edge From="3" To="4" Label="Source1" />
+                              <Edge From="4" To="5" Label="Source1" />
+                              <Edge From="5" To="6" Label="Source2" />
+                              <Edge From="6" To="7" Label="Source1" />
+                            </Edges>
+                          </Workflow>
+                        </Expression>
+                        <Expression xsi:type="Combinator">
+                          <Combinator xsi:type="rx:DelaySubscription">
+                            <rx:DueTime>PT1S</rx:DueTime>
+                          </Combinator>
+                        </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>SoftwareEvent</Name>
                         </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:ObserveOn">
-                            <rx:Scheduler>TaskPoolScheduler</rx:Scheduler>
-                          </Combinator>
-                        </Expression>
                         <Expression xsi:type="SubscribeSubject">
                           <Name>HarpTimestampSource</Name>
-                        </Expression>
-                        <Expression xsi:type="Combinator">
-                          <Combinator xsi:type="rx:ObserveOn">
-                            <rx:Scheduler>TaskPoolScheduler</rx:Scheduler>
-                          </Combinator>
                         </Expression>
                         <Expression xsi:type="Combinator">
                           <Combinator xsi:type="rx:WithLatestFrom" />
@@ -394,39 +441,10 @@
                           <Modality xsi:nil="true" />
                         </Expression>
                         <Expression xsi:type="WorkflowOutput" />
-                        <Expression xsi:type="GroupWorkflow">
-                          <Name>Metadata</Name>
-                          <Workflow>
-                            <Nodes>
-                              <Expression xsi:type="SubscribeSubject">
-                                <Name>Repository</Name>
-                              </Expression>
-                              <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="p6:IsRepositoryClean">
-                                  <p6:IgnoreUntracked>false</p6:IgnoreUntracked>
-                                </Combinator>
-                              </Expression>
-                              <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="p1:CreateSoftwareEvent">
-                                  <p1:EventName>RepositoryStatus</p1:EventName>
-                                </Combinator>
-                              </Expression>
-                              <Expression xsi:type="MulticastSubject">
-                                <Name>SoftwareEvent</Name>
-                              </Expression>
-                            </Nodes>
-                            <Edges>
-                              <Edge From="0" To="1" Label="Source1" />
-                              <Edge From="1" To="2" Label="Source1" />
-                              <Edge From="2" To="3" Label="Source1" />
-                            </Edges>
-                          </Workflow>
-                        </Expression>
                       </Nodes>
                       <Edges>
                         <Edge From="0" To="1" Label="Source1" />
-                        <Edge From="1" To="4" Label="Source1" />
-                        <Edge From="2" To="3" Label="Source1" />
+                        <Edge From="2" To="4" Label="Source1" />
                         <Edge From="3" To="4" Label="Source2" />
                         <Edge From="4" To="5" Label="Source1" />
                         <Edge From="5" To="6" Label="Source1" />
@@ -462,8 +480,8 @@
                                 <Name>SessionSchema</Name>
                               </Expression>
                               <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="p7:SerializeToJson">
-                                  <p7:Formatting>None</p7:Formatting>
+                                <Combinator xsi:type="p8:SerializeToJson">
+                                  <p8:Formatting>None</p8:Formatting>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="SubscribeSubject">
@@ -492,8 +510,8 @@
                                 <Name>TaskLogicSchema</Name>
                               </Expression>
                               <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="p7:SerializeToJson">
-                                  <p7:Formatting>None</p7:Formatting>
+                                <Combinator xsi:type="p8:SerializeToJson">
+                                  <p8:Formatting>None</p8:Formatting>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="SubscribeSubject">
@@ -522,8 +540,8 @@
                                 <Name>RigSchema</Name>
                               </Expression>
                               <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="p7:SerializeToJson">
-                                  <p7:Formatting>None</p7:Formatting>
+                                <Combinator xsi:type="p8:SerializeToJson">
+                                  <p8:Formatting>None</p8:Formatting>
                                 </Combinator>
                               </Expression>
                               <Expression xsi:type="SubscribeSubject">
@@ -661,79 +679,6 @@
                               <Edge From="35" To="38" Label="Source2" />
                               <Edge From="36" To="37" Label="Source1" />
                               <Edge From="37" To="38" Label="Source3" />
-                            </Edges>
-                          </Workflow>
-                        </Expression>
-                        <Expression xsi:type="GroupWorkflow">
-                          <Name>Logs</Name>
-                          <Workflow>
-                            <Nodes>
-                              <Expression xsi:type="SubscribeSubject">
-                                <Name>EndExperiment</Name>
-                              </Expression>
-                              <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="StringProperty">
-                                  <Value>ExperimentCompleted</Value>
-                                </Combinator>
-                              </Expression>
-                              <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="p1:CreateSoftwareEvent">
-                                  <p1:EventName>EndSession</p1:EventName>
-                                </Combinator>
-                              </Expression>
-                              <Expression xsi:type="SubscribeSubject">
-                                <Name>HarpTimestampSource</Name>
-                              </Expression>
-                              <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="rx:WithLatestFrom" />
-                              </Expression>
-                              <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="harp:CreateTimestamped" />
-                              </Expression>
-                              <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="p1:TimestampSoftwareEvent" />
-                              </Expression>
-                              <Expression xsi:type="Combinator">
-                                <Combinator xsi:type="p8:SerializeToJson">
-                                  <p8:Formatting>None</p8:Formatting>
-                                </Combinator>
-                              </Expression>
-                              <Expression xsi:type="SubscribeSubject">
-                                <Name>Modality</Name>
-                              </Expression>
-                              <Expression xsi:type="PropertyMapping">
-                                <PropertyMappings>
-                                  <Property Name="Modality" />
-                                </PropertyMappings>
-                              </Expression>
-                              <Expression xsi:type="SubscribeSubject">
-                                <Name>DeviceName</Name>
-                              </Expression>
-                              <Expression xsi:type="PropertyMapping">
-                                <PropertyMappings>
-                                  <Property Name="DeviceName" />
-                                </PropertyMappings>
-                              </Expression>
-                              <Expression xsi:type="IncludeWorkflow" Path="AllenNeuralDynamics.Core:LogDataSchema.bonsai">
-                                <SubjectName>LoggingRootPath</SubjectName>
-                                <Modality xsi:nil="true" />
-                                <DeviceName />
-                                <LogName>endsession</LogName>
-                              </Expression>
-                            </Nodes>
-                            <Edges>
-                              <Edge From="0" To="1" Label="Source1" />
-                              <Edge From="1" To="2" Label="Source1" />
-                              <Edge From="2" To="4" Label="Source1" />
-                              <Edge From="3" To="4" Label="Source2" />
-                              <Edge From="4" To="5" Label="Source1" />
-                              <Edge From="5" To="6" Label="Source1" />
-                              <Edge From="6" To="7" Label="Source1" />
-                              <Edge From="7" To="12" Label="Source1" />
-                              <Edge From="8" To="9" Label="Source1" />
-                              <Edge From="9" To="12" Label="Source2" />
-                              <Edge From="10" To="11" Label="Source1" />
-                              <Edge From="11" To="12" Label="Source3" />
                             </Edges>
                           </Workflow>
                         </Expression>
