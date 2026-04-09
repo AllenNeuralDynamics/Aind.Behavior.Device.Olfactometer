@@ -9,7 +9,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
 {
     #pragma warning disable // Disable all warnings
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
     public partial class AlicatFlowmeter
@@ -158,7 +158,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     }
 
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
     public partial class BaseModel
@@ -202,7 +202,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     }
 
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
     public partial class ConnectedClockOutput
@@ -288,7 +288,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     }
 
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
     public partial class HarpAnalogInput
@@ -432,7 +432,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     }
 
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
     public partial class HarpWhiteRabbit
@@ -602,7 +602,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     /// <summary>
     /// A calibrated olfactometer device
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [System.ComponentModel.DescriptionAttribute("A calibrated olfactometer device")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
@@ -747,7 +747,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     /// <summary>
     /// Olfactometer device configuration model
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [System.ComponentModel.DescriptionAttribute("Olfactometer device configuration model")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
@@ -756,11 +756,11 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     
         private System.DateTimeOffset? _date;
     
-        private System.Collections.Generic.Dictionary<string, OlfactometerChannelConfig> _channelConfig;
+        private System.Collections.Generic.Dictionary<OlfactometerChannel, OlfactometerChannelConfig> _channelConfig;
     
         public OlfactometerCalibration()
         {
-            _channelConfig = new System.Collections.Generic.Dictionary<string, OlfactometerChannelConfig>();
+            _channelConfig = new System.Collections.Generic.Dictionary<OlfactometerChannel, OlfactometerChannelConfig>();
         }
     
         protected OlfactometerCalibration(OlfactometerCalibration other)
@@ -793,7 +793,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("channel_config")]
         [System.ComponentModel.DescriptionAttribute("Configuration of olfactometer channels")]
-        public System.Collections.Generic.Dictionary<string, OlfactometerChannelConfig> ChannelConfig
+        public System.Collections.Generic.Dictionary<OlfactometerChannel, OlfactometerChannelConfig> ChannelConfig
         {
             get
             {
@@ -840,7 +840,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     /// <summary>
     /// Olfactometer operation control model that is used to run a calibration data acquisition workflow
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [System.ComponentModel.DescriptionAttribute("Olfactometer operation control model that is used to run a calibration data acqui" +
         "sition workflow")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
@@ -984,7 +984,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     }
 
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
     public partial class OlfactometerCalibrationParameters
@@ -994,7 +994,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     
         private string _aindBehaviorServicesPkgVersion;
     
-        private System.Collections.Generic.Dictionary<string, OlfactometerChannelConfig> _channelConfig;
+        private System.Collections.Generic.Dictionary<OlfactometerChannel, OlfactometerChannelConfig> _channelConfig;
     
         private double _fullFlowRate;
     
@@ -1027,7 +1027,6 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
         /// <summary>
         /// Seed of the random number generator
         /// </summary>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("rng_seed")]
         [System.ComponentModel.DescriptionAttribute("Seed of the random number generator")]
         public double? RngSeed
@@ -1061,7 +1060,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("channel_config")]
         [System.ComponentModel.DescriptionAttribute("Configuration of olfactometer channels")]
-        public System.Collections.Generic.Dictionary<string, OlfactometerChannelConfig> ChannelConfig
+        public System.Collections.Generic.Dictionary<OlfactometerChannel, OlfactometerChannelConfig> ChannelConfig
         {
             get
             {
@@ -1178,7 +1177,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     }
 
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
     public partial class OlfactometerCalibrationRig
@@ -1426,7 +1425,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     /// <summary>
     /// Harp Olfactometer available channel
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     public enum OlfactometerChannel
     {
     
@@ -1447,7 +1446,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     /// <summary>
     /// Configuration for a single olfactometer channel
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [System.ComponentModel.DescriptionAttribute("Configuration for a single olfactometer channel")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
@@ -1468,8 +1467,8 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     
         public OlfactometerChannelConfig()
         {
-            _channelType = AindBehaviorDeviceOlfactometerDataSchema.OlfactometerChannelType.Odor;
-            _flowRateCapacity = AindBehaviorDeviceOlfactometerDataSchema.OlfactometerChannelConfigFlowRateCapacity._100;
+            _channelType = OlfactometerChannelType.Odor;
+            _flowRateCapacity = OlfactometerChannelConfigFlowRateCapacity._100;
             _flowRate = 100D;
         }
     
@@ -1496,7 +1495,6 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
             }
         }
     
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("channel_type")]
         public OlfactometerChannelType ChannelType
         {
@@ -1510,7 +1508,6 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
             }
         }
     
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("flow_rate_capacity")]
         public OlfactometerChannelConfigFlowRateCapacity FlowRateCapacity
         {
@@ -1550,7 +1547,6 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
             }
         }
     
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("odorant_dilution")]
         public double? OdorantDilution
         {
@@ -1603,7 +1599,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     /// <summary>
     /// Olfactometer channel type
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
     public enum OlfactometerChannelType
     {
@@ -1616,7 +1612,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     }
 
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
     public partial class Session
@@ -1744,6 +1740,22 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
             set
             {
                 _date = value;
+            }
+        }
+    
+        [Newtonsoft.Json.JsonIgnoreAttribute()]
+        [System.ComponentModel.BrowsableAttribute(false)]
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+        [System.Xml.Serialization.XmlElementAttribute("Date")]
+        public string DateXml
+        {
+            get
+            {
+                return _date.ToString("o");
+            }
+            set
+            {
+                _date = System.DateTimeOffset.Parse(value);
             }
         }
     
@@ -1891,7 +1903,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     }
 
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     public enum OlfactometerChannelConfigFlowRateCapacity
     {
     
@@ -1906,7 +1918,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     /// <summary>
     /// Serializes a sequence of data model objects into JSON strings.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [System.ComponentModel.DescriptionAttribute("Serializes a sequence of data model objects into JSON strings.")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
     [Bonsai.CombinatorAttribute()]
@@ -1986,7 +1998,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     /// <summary>
     /// Deserializes a sequence of JSON strings into data model objects.
     /// </summary>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.6.1.0 (Newtonsoft.Json v13.0.0.0)")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [System.ComponentModel.DescriptionAttribute("Deserializes a sequence of JSON strings into data model objects.")]
     [System.ComponentModel.DefaultPropertyAttribute("Type")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
