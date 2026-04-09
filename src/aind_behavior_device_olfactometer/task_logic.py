@@ -4,7 +4,7 @@ from aind_behavior_services.rig import olfactometer as olf
 from aind_behavior_services.task import Task, TaskParameters
 from pydantic import Field
 
-from . import __version__
+from . import __semver__
 
 
 class OlfactometerCalibrationParameters(TaskParameters):
@@ -21,5 +21,5 @@ class OlfactometerCalibrationLogic(Task):
     """Olfactometer operation control model that is used to run a calibration data acquisition workflow"""
 
     name: str = Field(default="OlfactometerCalibration", title="Name of the task logic", frozen=True)
-    version: Literal[__version__] = __version__
+    version: Literal[__semver__] = __semver__
     task_parameters: OlfactometerCalibrationParameters = Field(title="Task parameters", validate_default=True)

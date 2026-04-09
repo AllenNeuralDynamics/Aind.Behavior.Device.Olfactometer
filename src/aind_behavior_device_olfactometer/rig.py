@@ -6,7 +6,7 @@ from aind_behavior_services.rig import harp
 from aind_behavior_services.rig import olfactometer as olf
 from pydantic import Field
 
-from . import __version__
+from . import __semver__
 
 
 class AlicatFlowmeter(rig.Device):
@@ -17,7 +17,7 @@ class AlicatFlowmeter(rig.Device):
 
 
 class OlfactometerCalibrationRig(rig.Rig):
-    version: Literal[__version__] = __version__
+    version: Literal[__semver__] = __semver__
     harp_olfactometer: olf.Olfactometer = Field(title="Olfactometer device")
     harp_analog_input: harp.HarpAnalogInput = Field(title="Analog input device")
     harp_clock_generator: harp.HarpWhiteRabbit = Field(title="Clock generator device")
