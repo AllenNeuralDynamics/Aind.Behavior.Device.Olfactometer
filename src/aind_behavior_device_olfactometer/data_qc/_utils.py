@@ -1,30 +1,32 @@
 import argparse
+import typing
+import typing as t
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Literal
+from typing import List, Literal, cast
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from aind_behavior_core_analysis.io._core import DataStreamCollection
-from aind_behavior_core_analysis.io.data_stream import (
-    DataStreamCollectionFromFilePattern,
-    HarpDataStreamCollectionFactory,
-    SoftwareEventStream,
-)
-from aind_behavior_services.calibration import olfactometer as olf
-from aind_behavior_services.utils import model_from_json_file
+from aind_behavior_services.rig import olfactometer as olf
+from contraqctor import contract, qc
+from contraqctor.contract import Dataset, DataStream
+from contraqctor.contract.harp import HarpDevice
+from contraqctor.qc._context_extensions import ContextExportableObj
 from matplotlib.colors import LinearSegmentedColormap
 
-from aind_behavior_device_olfactometer.rig import OlfactometerCalibrationRig
-from aind_behavior_device_olfactometer.task_logic import OlfactometerCalibrationLogic
+from ..data_contract import dataset
+from ..task_logic import OlfactometerCalibrationLogic
+
+if typing.TYPE_CHECKING:
+    pass
 
 plt.style.use("dark_background")
 
 
 @dataclass
 class ProcessedData:
-    _parent_dataset_ref: "Dataset" = field(repr=False)
+    _parent_dataset_ref: Dataset = field(repr=False)
     pid: pd.Series = field(init=False)
     end_valve_state: pd.Series = field(init=False)
     odor_mixture: pd.Series = field(init=False)
@@ -42,51 +44,36 @@ class ProcessedData:
         return _p
 
 
-@dataclass
-class Dataset:
-    root_path: Path
-    analog_input: DataStreamCollection = field(init=False)
-    olfactometer: DataStreamCollection = field(init=False)
-    software_events: DataStreamCollection = field(init=False)
-    metadata_task_logic: OlfactometerCalibrationLogic = field(init=False)
-    metadata_rig: OlfactometerCalibrationRig = field(init=False)
-    processed_data: ProcessedData = field(init=False)
+class ProcessedDataStream(DataStream[ProcessedData, Dataset]):
+    @staticmethod
+    def _reader(params: Dataset) -> ProcessedData:
+        return ProcessedData.from_dataset(params)
 
-    def __post_init__(self):
-        self.analog_input = HarpDataStreamCollectionFactory(
-            path=self.root_path / "behavior" / "AnalogInput.harp", default_inference_mode="register_0"
-        ).build()
-        self.olfactometer = HarpDataStreamCollectionFactory(
-            path=self.root_path / "behavior" / "Olfactometer.harp", default_inference_mode="register_0"
-        ).build()
-        self.software_events = DataStreamCollectionFromFilePattern(
-            path=self.root_path / "behavior" / "SoftwareEvents", pattern="*.json", stream_type=SoftwareEventStream
-        ).build()
-        self.metadata_task_logic = model_from_json_file(
-            self.root_path / "behavior" / "Logs" / "tasklogic_input.json", OlfactometerCalibrationLogic
-        )
-        self.metadata_rig = model_from_json_file(
-            self.root_path / "behavior" / "Logs" / "rig_input.json", OlfactometerCalibrationRig
-        )
 
-    def make_processed_data(self):
-        self.processed_data = ProcessedData.from_dataset(self)
+def append_processed_data(dataset: Dataset):
+    dataset.add_stream(
+        ProcessedDataStream(
+            name="Processed",
+            description="Processed data from the Olfactometer calibration procedure",
+            reader_params=dataset,
+        )
+    )
 
 
 def load_pid(
     dataset: Dataset, channel: Literal["Channel0", "Channel1", "Channel2", "Channel3"] = "Channel0"
 ) -> pd.Series:
-    _data = dataset.analog_input["AnalogData"].load()
+    _data = dataset["Behavior"]["HarpAnalogInput"]["AnalogData"].data
     return _data[_data["MessageType"] == "EVENT"][channel]
 
 
 def load_end_valve_state(dataset: Dataset, channel: Literal["EndValve0", "EndValve1"] = "EndValve0") -> pd.Series:
-    _data = dataset.olfactometer["EndValveState"].load()[channel]
+    _data = dataset["Behavior"]["HarpOlfactometer"]["EndValveState"].data
     return _data[_data.shift() != _data]
 
 
 def load_odor_mixture(dataset: Dataset) -> pd.Series:
-    target_flow = dataset.olfactometer["ChannelsTargetFlow"].reload()
+    target_flow = dataset["Behavior"]["HarpOlfactometer"]["ChannelsTargetFlow"].data
     target_flow = target_flow[target_flow["MessageType"] == "WRITE"]
     return target_flow
 
@@ -95,15 +82,15 @@ def load_flowmeter(dataset: Dataset) -> List[pd.Series]:
     channel_data: List[pd.Series] = []
     for i in range(5):
         _channel_reg = f"Channel{i}ActualFlow"
-        _data = dataset.olfactometer[_channel_reg].load()
+        _data = dataset["Behavior"]["HarpOlfactometer"][_channel_reg].data
         channel_data.append(_data[_data["MessageType"] == "EVENT"][_channel_reg])
     return channel_data
 
 
 def load_odor_channel_configuration(dataset: Dataset, tolerance_seconds: float = 0.01) -> pd.DataFrame:
-    _is_end_valve = dataset.software_events["IsEndValveCalibration"].reload()["data"]
+    _is_end_valve: pd.DataFrame = dataset["Behavior"]["IsEndValveCalibration"].data
 
-    _odor_config = dataset.software_events["OdorChannel"].reload()
+    _odor_config: pd.DataFrame = dataset["Behavior"]["SoftwareEvents"]["OdorChannel"].data
     _odor_config["data_parsed"] = _odor_config["data"].apply(lambda x: olf.OlfactometerChannelConfig.model_validate(x))
     _odor_config = _odor_config["data_parsed"]
 
@@ -136,11 +123,13 @@ def stream_slice(event: tuple[float, float], stream: pd.Series, window: tuple[fl
 def plot_channel(
     df: pd.DataFrame, dataset: Dataset, window: tuple[float, float] = (-0.2, 0.5)
 ) -> tuple[plt.Figure, plt.Axes]:
-    expected_repeats = dataset.metadata_task_logic.task_parameters.n_repeats_per_stimulus
+    task_logic: OlfactometerCalibrationLogic = dataset["Behavior"]["InputSchemas"]["TaskLogic"].data
+    expected_repeats = task_logic.task_parameters.n_repeats_per_stimulus
     cmap = LinearSegmentedColormap.from_list("blue_to_yellow", ["blue", "yellow"], expected_repeats)
     channel_config: olf.OlfactometerChannelConfig = df.iloc[0].odor_channel_config
 
     fig, ax = plt.subplots(2, 2, sharex=True)
+    processed = cast(ProcessedData, dataset["Processed"].data)
 
     for env_valve_mode, mode_df in df.groupby(["is_end_valve_calibration"]):
         t = mode_df.index[0]
@@ -148,28 +137,25 @@ def plot_channel(
         if env_valve_mode[0] == 1:
             # if end_valve_calibration we use the valve state to find the start and end of each trial
             _plt_col = 0
-            _start = dataset.processed_data.end_valve_state[
-                (dataset.processed_data.end_valve_state.index >= t) & (dataset.processed_data.end_valve_state == 1)
+            _start = processed.end_valve_state[
+                (processed.end_valve_state.index >= t) & (processed.end_valve_state == 1)
             ].head(expected_repeats)
-            _end = dataset.processed_data.end_valve_state[
-                (dataset.processed_data.end_valve_state.index >= _start.index[0])
-                & (dataset.processed_data.end_valve_state == 0)
+            _end = processed.end_valve_state[
+                (processed.end_valve_state.index >= _start.index[0]) & (processed.end_valve_state == 0)
             ].head(expected_repeats)
 
         else:
             _plt_col = 1
             _channel = olf.OlfactometerChannel(channel_config.channel_index).name
-            _odor_mix = dataset.processed_data.odor_mixture[_channel]
+            _odor_mix = processed.odor_mixture[_channel]
 
             _start = _odor_mix[(_odor_mix.index >= t) & (_odor_mix > 0)].head(expected_repeats)
             _end = _odor_mix[(_odor_mix.index >= _start.index[0]) & (_odor_mix == 0)].head(expected_repeats)
 
         color_iter = iter(cmap(np.linspace(0, 1, expected_repeats)))
         for t_on, t_off in zip(_start.index, _end.index):
-            pid_slice = stream_slice((t_on, t_off), dataset.processed_data.pid, window)
-            flowmeter_slice = stream_slice(
-                (t_on, t_off), dataset.processed_data.flowmeter[channel_config.channel_index], window
-            )
+            pid_slice = stream_slice((t_on, t_off), processed.pid, window)
+            flowmeter_slice = stream_slice((t_on, t_off), processed.flowmeter[channel_config.channel_index], window)
 
             _color = next(color_iter)
             ax[0, _plt_col].plot(pid_slice.index - t_on, pid_slice, color=_color)
@@ -192,14 +178,95 @@ def plot_channel(
     return fig, ax
 
 
+class DeviceOlfactometerQcSuite(qc.Suite):
+    def __init__(self, dataset: contract.Dataset):
+        self.dataset = dataset
+
+    def test_end_session_exists(self):
+        """Check that the session has an end event."""
+        end_session = self.dataset["Behavior"]["SoftwareEvents"]["EndSession"]
+
+        if not end_session.has_data:
+            return self.fail_test(
+                None, "EndSession event does not exist. Session may be corrupted or not ended properly."
+            )
+
+        assert isinstance(end_session.data, pd.DataFrame)
+        if end_session.data.empty:
+            return self.fail_test(None, "No data in EndSession. Session may be corrupted or not ended properly.")
+        else:
+            return self.pass_test(None, "EndSession event exists with data.")
+
+    def test_plot_channels(self):
+        """Generate calibration plots for each odor channel and export as assets."""
+        processed = ProcessedData.from_dataset(self.dataset)
+        channel_groups = list(processed.odor_channel_config.groupby(["channel_index"]))
+
+        if not channel_groups:
+            return self.fail_test(None, "No odor channel configurations found in the dataset.")
+
+        figs = []
+        for _, channel_df in channel_groups:
+            fig, _ = plot_channel(channel_df, self.dataset)
+            fig.set_size_inches(10, 6)
+            figs.append(fig)
+
+        return self.pass_test(
+            None,
+            f"Generated calibration plots for {len(figs)} channel(s).",
+            context=ContextExportableObj.as_context(figs),
+        )
+
+
+def make_qc_runner(dataset: contract.Dataset) -> qc.Runner:
+    _runner = qc.Runner()
+    dataset.load_all(strict=False)
+    exclude: list[contract.DataStream] = []
+
+    # Exclude commands to Harp boards as these are tested separately
+    for cmd in dataset["Behavior"]["HarpCommands"]:
+        for stream in cmd:
+            if isinstance(stream, contract.harp.HarpRegister):
+                exclude.append(stream)
+
+    # Add the outcome of the dataset loading step to the automatic qc
+    _runner.add_suite(qc.contract.ContractTestSuite(dataset.collect_errors(), exclude=exclude), group="Data contract")
+
+    # Add Harp tests for ALL Harp devices in the dataset
+    for stream in (_r := dataset["Behavior"]):
+        if isinstance(stream, HarpDevice):
+            commands = t.cast(HarpDevice, _r["HarpCommands"][stream.name])
+            _runner.add_suite(qc.harp.HarpDeviceTestSuite(stream, commands), stream.name)
+
+    # Add Harp Hub tests
+    _runner.add_suite(
+        qc.harp.HarpHubTestSuite(
+            dataset["Behavior"]["HarpClockGenerator"],
+            [harp_device for harp_device in dataset["Behavior"] if isinstance(harp_device, HarpDevice)],
+        ),
+        "HarpHub",
+    )
+    # Add Csv tests
+    csv_streams = [stream for stream in dataset.iter_all() if isinstance(stream, contract.csv.Csv)]
+    for stream in csv_streams:
+        _runner.add_suite(qc.csv.CsvTestSuite(stream), stream.name)
+
+    # Add the DeviceOlfactometer specific tests
+    _runner.add_suite(DeviceOlfactometerQcSuite(dataset), "DeviceOlfactometer")
+    return _runner
+
+
 def main():
     parser = argparse.ArgumentParser(description="Process olfactometer data.")
     parser.add_argument("--path", type=str, help="Path to the dataset root directory", required=True)
     args = parser.parse_args()
-    data = Dataset(Path(args.path))
-    data.make_processed_data()
+    data = dataset(Path(args.path))
+    append_processed_data(data)
+    data.load_all()
 
-    for _, valve_calibration_df in data.processed_data.odor_channel_config.groupby(["channel_index"]):
+    for _, valve_calibration_df in cast(ProcessedDataStream, data["Processed"]).data.odor_channel_config.groupby(
+        ["channel_index"]
+    ):
         fig = plot_channel(valve_calibration_df, data)[0]
         fig.set_size_inches(10, 6)
         plt.show()

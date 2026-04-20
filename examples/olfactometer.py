@@ -1,33 +1,35 @@
 import os
 
-from aind_behavior_services.base import get_commit_hash
-from aind_behavior_services.calibration import olfactometer as olf
-from aind_behavior_services.rig import HarpAnalogInput, HarpWhiteRabbit
-from aind_behavior_services.session import AindBehaviorSessionModel
+from aind_behavior_services.rig import aind_manipulator as man
+from aind_behavior_services.rig import olfactometer as olf
+from aind_behavior_services.rig.harp import HarpAnalogInput, HarpWhiteRabbit
+from aind_behavior_services.session import Session
 from aind_behavior_services.utils import utcnow
 
 from aind_behavior_device_olfactometer import rig, task_logic
+from aind_behavior_device_olfactometer.rig import AlicatFlowmeter
 
-channels_config = {
-    olf.OlfactometerChannel.Channel0: olf.OlfactometerChannelConfig(
-        channel_index=olf.OlfactometerChannel.Channel0,
-        channel_type=olf.OlfactometerChannelType.ODOR,
-        flow_rate=100,
-        odorant="Banana",
-        odorant_dilution=0.1,
-    ),
-    olf.OlfactometerChannel.Channel3: olf.OlfactometerChannelConfig(
-        channel_index=olf.OlfactometerChannel.Channel3, channel_type=olf.OlfactometerChannelType.CARRIER, odorant="Air"
-    ),
-}
-
-calibration = olf.OlfactometerCalibration(
-    input=olf.OlfactometerCalibrationInput(), output=olf.OlfactometerCalibrationOutput()
+olf_calibration = olf.OlfactometerCalibration(
+    channel_config={
+        olf.OlfactometerChannel.Channel0: olf.OlfactometerChannelConfig(
+            channel_index=olf.OlfactometerChannel.Channel0,
+            channel_type=olf.OlfactometerChannelType.ODOR,
+            flow_rate=100,
+            odorant="Banana",
+            odorant_dilution=0.1,
+        ),
+        olf.OlfactometerChannel.Channel3: olf.OlfactometerChannelConfig(
+            channel_index=olf.OlfactometerChannel.Channel3,
+            channel_type=olf.OlfactometerChannelType.CARRIER,
+            odorant="Air",
+        ),
+    }
 )
+
 
 calibration_logic = task_logic.OlfactometerCalibrationLogic(
     task_parameters=task_logic.OlfactometerCalibrationParameters(
-        channel_config=channels_config,
+        channel_config=olf_calibration.channel_config,
         full_flow_rate=1000,
         n_repeats_per_stimulus=10,
         time_on=2,
@@ -35,21 +37,35 @@ calibration_logic = task_logic.OlfactometerCalibrationLogic(
     )
 )
 
-calibration_session = AindBehaviorSessionModel(
-    root_path="C:\\Data",
+calibration_session = Session(
     date=utcnow(),
     allow_dirty_repo=False,
     experiment="OlfactometerCalibration",
-    experiment_version="0.0.0",
     subject="Olfactometer",
-    commit_hash=get_commit_hash(),
+    experimenter=["A. Scientist"],
+)
+
+manipulator_calibration = man.AindManipulatorCalibration(
+    full_step_to_mm=(man.ManipulatorPosition(x=0.010, y1=0.010, y2=0.010, z=0.010)),
+    axis_configuration=[
+        man.AxisConfiguration(axis=man.Axis.Y1, min_limit=-0.01, max_limit=25),
+        man.AxisConfiguration(axis=man.Axis.Y2, min_limit=-0.01, max_limit=25),
+        man.AxisConfiguration(axis=man.Axis.X, min_limit=-0.01, max_limit=25),
+        man.AxisConfiguration(axis=man.Axis.Z, min_limit=-0.01, max_limit=25),
+    ],
+    homing_order=[man.Axis.Y1, man.Axis.Y2, man.Axis.X, man.Axis.Z],
+    initial_position=man.ManipulatorPosition(y1=0, y2=0, x=0, z=0),
 )
 
 _rig = rig.OlfactometerCalibrationRig(
+    computer_name="TestPC",
+    data_directory="c:/data",
     rig_name="OlfactometerRig",
-    harp_olfactometer=rig.HarpOlfactometer(port_name="COM10", calibration=calibration),
+    harp_olfactometer=olf.Olfactometer(port_name="COM10", calibration=olf_calibration),
     harp_analog_input=HarpAnalogInput(port_name="COM8"),
     harp_clock_generator=HarpWhiteRabbit(port_name="COM9"),
+    harp_manipulator=man.AindManipulator(port_name="COM7", calibration=manipulator_calibration),
+    flowmeter=AlicatFlowmeter(port_name="COM6", device_id="A", pooling_period=0.2),
 )
 
 

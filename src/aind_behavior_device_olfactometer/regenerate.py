@@ -1,37 +1,34 @@
-import inspect
 from pathlib import Path
+from typing import Union
 
-from aind_behavior_services.session import AindBehaviorSessionModel
-from aind_behavior_services.utils import (
-    convert_pydantic_to_bonsai,
-    pascal_to_snake_case,
-    snake_to_pascal_case,
-)
+import pydantic
+from aind_behavior_services.schema import BonsaiSgenSerializers, convert_pydantic_to_bonsai
+from aind_behavior_services.session import Session
 
-from aind_behavior_device_olfactometer import rig, task_logic
+from . import rig, task_logic
 
-SCHEMA_ROOT = Path("./src/DataSchemas/")
+SCHEMA_ROOT = Path("./schema/")
 EXTENSIONS_ROOT = Path("./src/Extensions/")
-NAMESPACE_PREFIX = "AindBehaviorDeviceOlfactometer"
+NAMESPACE_PREFIX = "AindBehaviorDeviceOlfactometerDataSchema"
 
 
 def main():
     models = [
         task_logic.OlfactometerCalibrationLogic,
         rig.OlfactometerCalibrationRig,
-        AindBehaviorSessionModel,
+        Session,
     ]
+    model = pydantic.RootModel[Union[tuple(models)]]
 
-    for model in models:
-        module_name = inspect.getmodule(model).__name__
-        module_name = module_name.split(".")[-1]
-        schema_name = f"{pascal_to_snake_case(model.__name__)}"
-        namespace = f"{NAMESPACE_PREFIX}.{snake_to_pascal_case(module_name)}"
-
-        print((schema_name, namespace))
-        convert_pydantic_to_bonsai(
-            {schema_name: model}, schema_path=SCHEMA_ROOT, output_path=EXTENSIONS_ROOT, namespace=namespace
-        )
+    convert_pydantic_to_bonsai(
+        model,
+        model_name="aind_behavior_device_olfactometer",
+        root_element="Root",
+        cs_namespace=NAMESPACE_PREFIX,
+        json_schema_output_dir=SCHEMA_ROOT,
+        cs_output_dir=EXTENSIONS_ROOT,
+        cs_serializer=[BonsaiSgenSerializers.JSON],
+    )
 
 
 if __name__ == "__main__":

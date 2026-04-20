@@ -6,24 +6,22 @@
 import os
 import sys
 
-import erdantic as erd
-from pydantic import BaseModel
-
+import aind_behavior_device_olfactometer.data_contract as contract
 import aind_behavior_device_olfactometer.rig
 import aind_behavior_device_olfactometer.task_logic
 
 sys.path.insert(0, os.path.abspath("../src/DataSchemas"))
 import aind_behavior_device_olfactometer
 
-SOURCE_ROOT = "https://github.com/AllenNeuralDynamics/Aind.Behavior.Device.Olfactometer/tree/main/src/DataSchemas/"
+SOURCE_ROOT = "https://github.com/AllenNeuralDynamics/Aind.Behavior.Device.Olfactometer/tree/main/src/"
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "AIND Behavior Device Olfactometer project"
-copyright = "2024, Allen Institute for Neural Dynamics"
+copyright = "2026, Allen Institute for Neural Dynamics"
 author = "Bruno Cruz"
-release = aind_behavior_device_olfactometer.__version__
+release = aind_behavior_device_olfactometer.__semver__
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -80,12 +78,7 @@ def linkcode_resolve(domain, info):
     return f"{SOURCE_ROOT}/{filename}.py"
 
 
-# -- Class diagram generation
+# -- Dataset rendering
 
-
-def export_model_diagram(model: BaseModel, root: str = "_static") -> None:
-    diagram = erd.create(model)
-    diagram.draw(f"{root}/{model.__name__}.svg")
-
-
-_diagram_root = "_static"
+with open("_static/dataset.html", "w", encoding="utf-8") as f:
+    f.write(contract.render_dataset(version=aind_behavior_device_olfactometer.__semver__))
