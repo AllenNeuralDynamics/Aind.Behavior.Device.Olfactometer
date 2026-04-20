@@ -675,7 +675,7 @@
           "title": "Rng Seed"
         },
         "aind_behavior_services_pkg_version": {
-          "default": "0.13.6",
+          "default": "0.13.7",
           "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
           "title": "aind_behavior_services package version",
           "type": "string"
@@ -727,7 +727,7 @@
     "OlfactometerCalibrationRig": {
       "properties": {
         "aind_behavior_services_pkg_version": {
-          "default": "0.13.6",
+          "default": "0.13.7",
           "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
           "title": "aind_behavior_services package version",
           "type": "string"
@@ -757,6 +757,14 @@
         "harp_olfactometer": {
           "$ref": "#/$defs/Olfactometer",
           "title": "Olfactometer device"
+        },
+        "harp_olfactometer_extension": {
+          "description": "A collection of subordinate olfactometers that can be added to increase the number of independently delivered odors. The order of the list determines the order by which odors are numbered",
+          "items": {
+            "$ref": "#/$defs/Olfactometer"
+          },
+          "title": "Harp Olfactometer Extension",
+          "type": "array"
         },
         "harp_analog_input": {
           "$ref": "#/$defs/HarpAnalogInput",
@@ -882,14 +890,14 @@
     "Session": {
       "properties": {
         "aind_behavior_services_pkg_version": {
-          "default": "0.13.6",
+          "default": "0.13.7",
           "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
           "title": "aind_behavior_services package version",
           "type": "string"
         },
         "version": {
-          "const": "0.13.6",
-          "default": "0.13.6",
+          "const": "0.13.7",
+          "default": "0.13.7",
           "title": "Version",
           "type": "string"
         },

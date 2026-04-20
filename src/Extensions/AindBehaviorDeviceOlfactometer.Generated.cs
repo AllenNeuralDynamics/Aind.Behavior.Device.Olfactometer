@@ -1006,7 +1006,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     
         public OlfactometerCalibrationParameters()
         {
-            _aindBehaviorServicesPkgVersion = "0.13.6";
+            _aindBehaviorServicesPkgVersion = "0.13.7";
             _fullFlowRate = 1000D;
             _nRepeatsPerStimulus = 1;
             _timeOn = 1D;
@@ -1195,6 +1195,8 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     
         private Olfactometer _harpOlfactometer;
     
+        private System.Collections.Generic.List<Olfactometer> _harpOlfactometerExtension;
+    
         private HarpAnalogInput _harpAnalogInput;
     
         private HarpWhiteRabbit _harpClockGenerator;
@@ -1205,9 +1207,10 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     
         public OlfactometerCalibrationRig()
         {
-            _aindBehaviorServicesPkgVersion = "0.13.6";
+            _aindBehaviorServicesPkgVersion = "0.13.7";
             _version = "0.2.0-rc1";
             _harpOlfactometer = new Olfactometer();
+            _harpOlfactometerExtension = new System.Collections.Generic.List<Olfactometer>();
             _harpAnalogInput = new HarpAnalogInput();
             _harpClockGenerator = new HarpWhiteRabbit();
             _harpManipulator = new AllenNeuralDynamics.AindManipulator.AindManipulator();
@@ -1221,6 +1224,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
             _rigName = other._rigName;
             _dataDirectory = other._dataDirectory;
             _harpOlfactometer = other._harpOlfactometer;
+            _harpOlfactometerExtension = other._harpOlfactometerExtension;
             _harpAnalogInput = other._harpAnalogInput;
             _harpClockGenerator = other._harpClockGenerator;
             _harpManipulator = other._harpManipulator;
@@ -1318,6 +1322,26 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
             }
         }
     
+        /// <summary>
+        /// A collection of subordinate olfactometers that can be added to increase the number of independently delivered odors. The order of the list determines the order by which odors are numbered
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("harp_olfactometer_extension")]
+        [System.ComponentModel.DescriptionAttribute("A collection of subordinate olfactometers that can be added to increase the numbe" +
+            "r of independently delivered odors. The order of the list determines the order b" +
+            "y which odors are numbered")]
+        public System.Collections.Generic.List<Olfactometer> HarpOlfactometerExtension
+        {
+            get
+            {
+                return _harpOlfactometerExtension;
+            }
+            set
+            {
+                _harpOlfactometerExtension = value;
+            }
+        }
+    
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("harp_analog_input", Required=Newtonsoft.Json.Required.Always)]
         public HarpAnalogInput HarpAnalogInput
@@ -1400,6 +1424,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
             stringBuilder.Append("RigName = " + _rigName + ", ");
             stringBuilder.Append("DataDirectory = " + _dataDirectory + ", ");
             stringBuilder.Append("HarpOlfactometer = " + _harpOlfactometer + ", ");
+            stringBuilder.Append("HarpOlfactometerExtension = " + _harpOlfactometerExtension + ", ");
             stringBuilder.Append("HarpAnalogInput = " + _harpAnalogInput + ", ");
             stringBuilder.Append("HarpClockGenerator = " + _harpClockGenerator + ", ");
             stringBuilder.Append("HarpManipulator = " + _harpManipulator + ", ");
@@ -1642,8 +1667,8 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     
         public Session()
         {
-            _aindBehaviorServicesPkgVersion = "0.13.6";
-            _version = "0.13.6";
+            _aindBehaviorServicesPkgVersion = "0.13.7";
+            _version = "0.13.7";
             _experimenter = new System.Collections.Generic.List<string>();
             _allowDirtyRepo = false;
             _skipHardwareValidation = false;
