@@ -205,6 +205,86 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
     [Bonsai.CombinatorAttribute(MethodName="Generate")]
+    public partial class ChannelToCalibrate
+    {
+    
+        private int _odorIndex;
+    
+        private OlfactometerChannelConfig _odorConfiguration;
+    
+        public ChannelToCalibrate()
+        {
+            _odorConfiguration = new OlfactometerChannelConfig();
+        }
+    
+        protected ChannelToCalibrate(ChannelToCalibrate other)
+        {
+            _odorIndex = other._odorIndex;
+            _odorConfiguration = other._odorConfiguration;
+        }
+    
+        [Newtonsoft.Json.JsonPropertyAttribute("odor_index", Required=Newtonsoft.Json.Required.Always)]
+        public int OdorIndex
+        {
+            get
+            {
+                return _odorIndex;
+            }
+            set
+            {
+                _odorIndex = value;
+            }
+        }
+    
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [Newtonsoft.Json.JsonPropertyAttribute("odor_configuration", Required=Newtonsoft.Json.Required.Always)]
+        public OlfactometerChannelConfig OdorConfiguration
+        {
+            get
+            {
+                return _odorConfiguration;
+            }
+            set
+            {
+                _odorConfiguration = value;
+            }
+        }
+    
+        public System.IObservable<ChannelToCalibrate> Generate()
+        {
+            return System.Reactive.Linq.Observable.Defer(() => System.Reactive.Linq.Observable.Return(new ChannelToCalibrate(this)));
+        }
+    
+        public System.IObservable<ChannelToCalibrate> Generate<TSource>(System.IObservable<TSource> source)
+        {
+            return System.Reactive.Linq.Observable.Select(source, _ => new ChannelToCalibrate(this));
+        }
+    
+        protected virtual bool PrintMembers(System.Text.StringBuilder stringBuilder)
+        {
+            stringBuilder.Append("OdorIndex = " + _odorIndex + ", ");
+            stringBuilder.Append("OdorConfiguration = " + _odorConfiguration);
+            return true;
+        }
+    
+        public override string ToString()
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            stringBuilder.Append(GetType().Name);
+            stringBuilder.Append(" { ");
+            if (PrintMembers(stringBuilder))
+            {
+                stringBuilder.Append(" ");
+            }
+            stringBuilder.Append("}");
+            return stringBuilder.ToString();
+        }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Bonsai.Sgen", "0.9.0.0 (Newtonsoft.Json v13.0.0.0)")]
+    [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Source)]
+    [Bonsai.CombinatorAttribute(MethodName="Generate")]
     public partial class ConnectedClockOutput
     {
     
@@ -994,7 +1074,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     
         private string _aindBehaviorServicesPkgVersion;
     
-        private System.Collections.Generic.Dictionary<OlfactometerChannel, OlfactometerChannelConfig> _channelConfig;
+        private System.Collections.Generic.List<ChannelToCalibrate> _channelConfig;
     
         private double _fullFlowRate;
     
@@ -1007,6 +1087,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
         public OlfactometerCalibrationParameters()
         {
             _aindBehaviorServicesPkgVersion = "0.13.7";
+            _channelConfig = new System.Collections.Generic.List<ChannelToCalibrate>();
             _fullFlowRate = 1000D;
             _nRepeatsPerStimulus = 1;
             _timeOn = 1D;
@@ -1055,12 +1136,12 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
         }
     
         /// <summary>
-        /// Configuration of olfactometer channels
+        /// List of olfactometer channels to calibrate with their configurations
         /// </summary>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         [Newtonsoft.Json.JsonPropertyAttribute("channel_config")]
-        [System.ComponentModel.DescriptionAttribute("Configuration of olfactometer channels")]
-        public System.Collections.Generic.Dictionary<OlfactometerChannel, OlfactometerChannelConfig> ChannelConfig
+        [System.ComponentModel.DescriptionAttribute("List of olfactometer channels to calibrate with their configurations")]
+        public System.Collections.Generic.List<ChannelToCalibrate> ChannelConfig
         {
             get
             {
@@ -1968,6 +2049,11 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
             return Process<BaseModel>(source);
         }
 
+        public System.IObservable<string> Process(System.IObservable<ChannelToCalibrate> source)
+        {
+            return Process<ChannelToCalibrate>(source);
+        }
+
         public System.IObservable<string> Process(System.IObservable<ConnectedClockOutput> source)
         {
             return Process<ConnectedClockOutput>(source);
@@ -2029,6 +2115,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     [Bonsai.WorkflowElementCategoryAttribute(Bonsai.ElementCategory.Transform)]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<AlicatFlowmeter>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<BaseModel>))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ChannelToCalibrate>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<ConnectedClockOutput>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarpAnalogInput>))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Bonsai.Expressions.TypeMapping<HarpWhiteRabbit>))]

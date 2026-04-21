@@ -331,6 +331,24 @@
       "title": "BaseModel",
       "type": "object"
     },
+    "ChannelToCalibrate": {
+      "properties": {
+        "odor_index": {
+          "title": "Olfactometer odor channel index. This is an absolute count across all olfactometer channels",
+          "type": "integer"
+        },
+        "odor_configuration": {
+          "$ref": "#/$defs/OlfactometerChannelConfig",
+          "title": "Olfactometer channel configuration"
+        }
+      },
+      "required": [
+        "odor_index",
+        "odor_configuration"
+      ],
+      "title": "ChannelToCalibrate",
+      "type": "object"
+    },
     "ConnectedClockOutput": {
       "properties": {
         "target_device": {
@@ -681,15 +699,12 @@
           "type": "string"
         },
         "channel_config": {
-          "additionalProperties": {
-            "$ref": "#/$defs/OlfactometerChannelConfig"
-          },
-          "description": "Configuration of olfactometer channels",
-          "propertyNames": {
-            "$ref": "#/$defs/OlfactometerChannel"
+          "description": "List of olfactometer channels to calibrate with their configurations",
+          "items": {
+            "$ref": "#/$defs/ChannelToCalibrate"
           },
           "title": "Channel Config",
-          "type": "object"
+          "type": "array"
         },
         "full_flow_rate": {
           "default": 1000,

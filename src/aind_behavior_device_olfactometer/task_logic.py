@@ -1,15 +1,18 @@
-from typing import Dict, Literal
+from typing import Dict, List, Literal, Tuple
 
 from aind_behavior_services.rig import olfactometer as olf
 from aind_behavior_services.task import Task, TaskParameters
-from pydantic import Field
+from pydantic import Field, BaseModel
 
 from . import __semver__
 
-
+class ChannelToCalibrate(BaseModel):
+    odor_index: int = Field(title="Olfactometer odor channel index. This is an absolute count across all olfactometer channels")
+    odor_configuration: olf.OlfactometerChannelConfig = Field(title="Olfactometer channel configuration")
+    
 class OlfactometerCalibrationParameters(TaskParameters):
-    channel_config: Dict[olf.OlfactometerChannel, olf.OlfactometerChannelConfig] = Field(
-        default_factory=dict, description="Configuration of olfactometer channels"
+    channel_config: List[ChannelToCalibrate] = Field(
+        default_factory=list, description="List of olfactometer channels to calibrate with their configurations"
     )
     full_flow_rate: float = Field(default=1000, ge=0, le=1000, description="Full flow rate of the olfactometer")
     n_repeats_per_stimulus: int = Field(default=1, ge=1, description="Number of repeats per stimulus")
