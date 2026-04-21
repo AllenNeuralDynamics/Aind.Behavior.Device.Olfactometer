@@ -9,27 +9,31 @@ from aind_behavior_services.utils import utcnow
 from aind_behavior_device_olfactometer import rig, task_logic
 from aind_behavior_device_olfactometer.rig import AlicatFlowmeter
 
-olf_calibration = olf.OlfactometerCalibration(
-    channel_config={
-        olf.OlfactometerChannel.Channel0: olf.OlfactometerChannelConfig(
+channels2calibrate = [
+    task_logic.ChannelToCalibrate(
+        odor_index=0,
+        odor_configuration=olf.OlfactometerChannelConfig(
             channel_index=olf.OlfactometerChannel.Channel0,
             channel_type=olf.OlfactometerChannelType.ODOR,
             flow_rate=100,
             odorant="Banana",
             odorant_dilution=0.1,
         ),
-        olf.OlfactometerChannel.Channel3: olf.OlfactometerChannelConfig(
+    ),
+    task_logic.ChannelToCalibrate(
+        odor_index=3,
+        odor_configuration=olf.OlfactometerChannelConfig(
             channel_index=olf.OlfactometerChannel.Channel3,
             channel_type=olf.OlfactometerChannelType.CARRIER,
             odorant="Air",
         ),
-    }
-)
+    ),
+]
 
 
 calibration_logic = task_logic.OlfactometerCalibrationLogic(
     task_parameters=task_logic.OlfactometerCalibrationParameters(
-        channel_config=olf_calibration.channel_config,
+        channel_config=channels2calibrate,
         full_flow_rate=1000,
         n_repeats_per_stimulus=10,
         time_on=2,
@@ -56,6 +60,25 @@ manipulator_calibration = man.AindManipulatorCalibration(
     homing_order=[man.Axis.Y1, man.Axis.Y2, man.Axis.X, man.Axis.Z],
     initial_position=man.ManipulatorPosition(y1=0, y2=0, x=0, z=0),
 )
+
+
+olf_calibration = olf.OlfactometerCalibration(
+    channel_config={
+        olf.OlfactometerChannel.Channel0: olf.OlfactometerChannelConfig(
+            channel_index=olf.OlfactometerChannel.Channel0,
+            channel_type=olf.OlfactometerChannelType.ODOR,
+            flow_rate=100,
+            odorant="Banana",
+            odorant_dilution=0.1,
+        ),
+        olf.OlfactometerChannel.Channel3: olf.OlfactometerChannelConfig(
+            channel_index=olf.OlfactometerChannel.Channel3,
+            channel_type=olf.OlfactometerChannelType.CARRIER,
+            odorant="Air",
+        ),
+    }
+)
+
 
 _rig = rig.OlfactometerCalibrationRig(
     computer_name="TestPC",
