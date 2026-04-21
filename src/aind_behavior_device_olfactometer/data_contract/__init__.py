@@ -13,6 +13,8 @@ def _dataset_lookup_helper(version: str) -> t.Callable[[Path], contraqctor.contr
     parsed_version = semver.Version.parse(version)
     if semver.Version.parse("0.3.0") <= parsed_version < semver.Version.parse("0.4.0"):
         from .v0_3_0 import dataset as _dataset
+    elif semver.Version.parse("0.4.0") <= parsed_version:
+        from .v0_4_0 import dataset as _dataset
     else:
         raise ValueError(f"Unsupported version: {version}")
     return partial(_dataset, version=version)

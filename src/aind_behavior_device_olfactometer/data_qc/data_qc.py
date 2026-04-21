@@ -71,14 +71,32 @@ def make_qc_runner(dataset: contract.Dataset) -> qc.Runner:
             commands = t.cast(HarpDevice, _r["HarpCommands"][stream.name])
             _runner.add_suite(qc.harp.HarpDeviceTestSuite(stream, commands), stream.name)
 
+    # Also add the HarpOlfactometerExtension if it exists, as it may not be present in all sessions and is not a HarpDevice itself but contains them
+    dataset["Behavior"]["HarpOlfactometerExtension"].load()
+    dataset["Behavior"]["HarpCommands"]["HarpOlfactometerExtension"].load()
+
+    for stream in dataset["Behavior"]["HarpOlfactometerExtension"]:
+        if isinstance(stream, HarpDevice):
+            commands = t.cast(HarpDevice, dataset["Behavior"]["HarpCommands"]["HarpOlfactometerExtension"][stream.name])
+            _runner.add_suite(qc.harp.HarpDeviceTestSuite(stream, commands), stream.name)
+
     # Add Harp Hub tests
+    all_harp_devices = [harp_device for harp_device in dataset["Behavior"] if isinstance(harp_device, HarpDevice)]
+    all_harp_devices.extend(
+        [
+            harp_device
+            for harp_device in dataset["Behavior"]["HarpOlfactometerExtension"]
+            if isinstance(harp_device, HarpDevice)
+        ]
+    )
     _runner.add_suite(
         qc.harp.HarpHubTestSuite(
             dataset["Behavior"]["HarpClockGenerator"],
-            [harp_device for harp_device in dataset["Behavior"] if isinstance(harp_device, HarpDevice)],
+            all_harp_devices,
         ),
         "HarpHub",
     )
+
     # Add Csv tests
     csv_streams = [stream for stream in dataset.iter_all() if isinstance(stream, contract.csv.Csv)]
     for stream in csv_streams:

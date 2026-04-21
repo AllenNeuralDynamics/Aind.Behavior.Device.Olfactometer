@@ -1,19 +1,24 @@
 from pathlib import Path
 
+from aind_behavior_services.session import Session
 from contraqctor.contract import Dataset, DataStreamCollection
 from contraqctor.contract.harp import (
     DeviceYmlByFile,
     HarpDevice,
 )
-from contraqctor.contract.json import Json, SoftwareEvents
+from contraqctor.contract.json import PydanticModel, SoftwareEvents
+from contraqctor.contract.mux import MapFromPaths
 from contraqctor.contract.text import Text
+
+from ..rig import OlfactometerCalibrationRig
+from ..task_logic import OlfactometerCalibrationLogic
 
 
 def dataset(
     root_path: Path,
     name: str = "OlfactometerCalibrationDataset",
     description: str = "A Olfactometer Calibration dataset",
-    version: str = "0.3.0",
+    version: str = "0.4.0",
 ) -> Dataset:
     """
     Creates a Dataset object for the Olfactometer calibration procedure.
@@ -57,6 +62,19 @@ def dataset(
                             device_yml_hint=DeviceYmlByFile(),
                         ),
                     ),
+                    MapFromPaths(
+                        name="HarpOlfactometerExtension",
+                        description="Data from any additional Harp Olfactometer devices that were added as extensions to the main olfactometer. The number of these devices can vary between sessions, but they will always be named sequentially as OlfactometerExtension1, OlfactometerExtension2, etc.",
+                        reader_params=MapFromPaths.make_params(
+                            paths=[root_path / "behavior"],
+                            include_glob_pattern=["OlfactometerExtension*.harp"],
+                            inner_data_stream=HarpDevice,
+                            inner_param_factory=lambda device_name: HarpDevice.make_params(
+                                path=root_path / "behavior" / device_name,
+                                device_yml_hint=DeviceYmlByFile(),
+                            ),
+                        ),
+                    ),
                     DataStreamCollection(
                         name="HarpCommands",
                         description="Commands sent to Harp devices",
@@ -87,6 +105,19 @@ def dataset(
                                 reader_params=HarpDevice.make_params(
                                     path=root_path / "behavior/HarpCommands/AnalogInput.harp",
                                     device_yml_hint=DeviceYmlByFile(),
+                                ),
+                            ),
+                            MapFromPaths(
+                                name="HarpOlfactometerExtension",
+                                description="Data from any additional Harp Olfactometer devices that were added as extensions to the main olfactometer. The number of these devices can vary between sessions, but they will always be named sequentially as OlfactometerExtension1, OlfactometerExtension2, etc.",
+                                reader_params=MapFromPaths.make_params(
+                                    paths=[root_path / "behavior/HarpCommands"],
+                                    include_glob_pattern=["OlfactometerExtension*.harp"],
+                                    inner_data_stream=HarpDevice,
+                                    inner_param_factory=lambda device_name: HarpDevice.make_params(
+                                        path=root_path / "behavior/HarpCommands" / device_name,
+                                        device_yml_hint=DeviceYmlByFile(),
+                                    ),
                                 ),
                             ),
                         ],
@@ -125,7 +156,7 @@ def dataset(
                                 name="EndSession",
                                 description="A file that determines the end of the session. If the file is empty, the session is still running or it was not closed properly.",
                                 reader_params=SoftwareEvents.make_params(
-                                    path=root_path / "behavior/Logs/EndSession.json",
+                                    path=root_path / "behavior/SoftwareEvents/EndSession.json",
                                 ),
                             ),
                         ],
@@ -134,21 +165,24 @@ def dataset(
                         name="InputSchemas",
                         description="Configuration files for the behavior rig, task_logic and session.",
                         data_streams=[
-                            Json(
+                            PydanticModel(
                                 name="Rig",
-                                reader_params=Json.make_params(
+                                reader_params=PydanticModel.make_params(
+                                    model=OlfactometerCalibrationRig,
                                     path=root_path / "behavior/Logs/rig_input.json",
                                 ),
                             ),
-                            Json(
+                            PydanticModel(
                                 name="TaskLogic",
-                                reader_params=Json.make_params(
+                                reader_params=PydanticModel.make_params(
+                                    model=OlfactometerCalibrationLogic,
                                     path=root_path / "behavior/Logs/tasklogic_input.json",
                                 ),
                             ),
-                            Json(
+                            PydanticModel(
                                 name="Session",
-                                reader_params=Json.make_params(
+                                reader_params=PydanticModel.make_params(
+                                    model=Session,
                                     path=root_path / "behavior/Logs/session_input.json",
                                 ),
                             ),
