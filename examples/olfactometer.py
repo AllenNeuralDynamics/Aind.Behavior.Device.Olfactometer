@@ -71,6 +71,20 @@ olf_calibration = olf.OlfactometerCalibration(
             odorant="Banana",
             odorant_dilution=0.1,
         ),
+        olf.OlfactometerChannel.Channel1: olf.OlfactometerChannelConfig(
+            channel_index=olf.OlfactometerChannel.Channel1,
+            channel_type=olf.OlfactometerChannelType.ODOR,
+            flow_rate=100,
+            odorant="None",
+            odorant_dilution=0.0,
+        ),
+        olf.OlfactometerChannel.Channel2: olf.OlfactometerChannelConfig(
+            channel_index=olf.OlfactometerChannel.Channel2,
+            channel_type=olf.OlfactometerChannelType.ODOR,
+            flow_rate=100,
+            odorant="None",
+            odorant_dilution=0.0,
+        ),
         olf.OlfactometerChannel.Channel3: olf.OlfactometerChannelConfig(
             channel_index=olf.OlfactometerChannel.Channel3,
             channel_type=olf.OlfactometerChannelType.CARRIER,

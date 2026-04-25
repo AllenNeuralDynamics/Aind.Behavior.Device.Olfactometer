@@ -331,24 +331,6 @@
       "title": "BaseModel",
       "type": "object"
     },
-    "ChannelToCalibrate": {
-      "properties": {
-        "odor_index": {
-          "title": "Olfactometer odor channel index. This is an absolute count across all olfactometer channels",
-          "type": "integer"
-        },
-        "odor_configuration": {
-          "$ref": "#/$defs/OlfactometerChannelConfig",
-          "title": "Olfactometer channel configuration"
-        }
-      },
-      "required": [
-        "odor_index",
-        "odor_configuration"
-      ],
-      "title": "ChannelToCalibrate",
-      "type": "object"
-    },
     "ConnectedClockOutput": {
       "properties": {
         "target_device": {
@@ -697,14 +679,6 @@
           "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$",
           "title": "aind_behavior_services package version",
           "type": "string"
-        },
-        "channel_config": {
-          "description": "List of olfactometer channels to calibrate with their configurations",
-          "items": {
-            "$ref": "#/$defs/ChannelToCalibrate"
-          },
-          "title": "Channel Config",
-          "type": "array"
         },
         "full_flow_rate": {
           "default": 1000,

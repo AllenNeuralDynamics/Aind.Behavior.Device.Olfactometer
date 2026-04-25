@@ -3,8 +3,9 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:p1="clr-namespace:AllenNeuralDynamics.VersionControl;assembly=AllenNeuralDynamics.VersionControl"
-                 xmlns:p2="clr-namespace:AllenNeuralDynamics.AindBehaviorServices.DataTypes;assembly=AllenNeuralDynamics.AindBehaviorServices"
-                 xmlns:p3="clr-namespace:AindBehaviorDeviceOlfactometerDataSchema;assembly=Extensions"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 xmlns:p2="clr-namespace:AindBehaviorDeviceOlfactometerDataSchema;assembly=Extensions"
+                 xmlns:p3="clr-namespace:AllenNeuralDynamics.AindBehaviorServices.DataTypes;assembly=AllenNeuralDynamics.AindBehaviorServices"
                  xmlns:p4="clr-namespace:System.Reactive;assembly=System.Reactive.Core"
                  xmlns:p5="clr-namespace:;assembly=Extensions"
                  xmlns="https://bonsai-rx.org/2018/workflow">
@@ -84,11 +85,11 @@
             <Expression xsi:type="rx:AsyncSubject">
               <Name>Repository</Name>
             </Expression>
-            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p2:SoftwareEvent">
-              <rx:Name>SoftwareEvent</rx:Name>
-            </Expression>
-            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p3:ChannelToCalibrate">
+            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="sys:Tuple(sys:Int32,p2:OlfactometerChannelConfig)">
               <rx:Name>CurrentOdorBeingCalibrated</rx:Name>
+            </Expression>
+            <Expression xsi:type="rx:BehaviorSubject" TypeArguments="p3:SoftwareEvent">
+              <rx:Name>SoftwareEvent</rx:Name>
             </Expression>
           </Nodes>
           <Edges>
@@ -173,17 +174,34 @@
                 <Value>0</Value>
               </Combinator>
             </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="p2:OlfactometerChannelConfig">
+                <p2:ChannelIndex>0</p2:ChannelIndex>
+                <p2:ChannelType>Odor</p2:ChannelType>
+                <p2:FlowRateCapacity>_100</p2:FlowRateCapacity>
+                <p2:FlowRate>100</p2:FlowRate>
+                <p2:OdorantDilution xsi:nil="true" />
+              </Combinator>
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Zip" />
+            </Expression>
+            <Expression xsi:type="Combinator">
+              <Combinator xsi:type="rx:Take">
+                <rx:Count>1</rx:Count>
+              </Combinator>
+            </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>olfactometerChannelsCount</Name>
+              <Name>olfactometesCount</Name>
             </Expression>
             <Expression xsi:type="PropertyMapping">
               <PropertyMappings>
-                <Property Name="ChannelNumber" />
+                <Property Name="OlfactometerCount" />
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p5:CreateOneHotConcentrationArray">
-                <p5:ChannelNumber>3</p5:ChannelNumber>
+                <p5:OlfactometerCount>12</p5:OlfactometerCount>
                 <p5:Concentration>0</p5:Concentration>
               </Combinator>
             </Expression>
@@ -213,15 +231,18 @@
             <Expression xsi:type="WorkflowOutput" />
           </Nodes>
           <Edges>
-            <Edge From="0" To="3" Label="Source1" />
-            <Edge From="1" To="2" Label="Source1" />
-            <Edge From="2" To="3" Label="Source2" />
-            <Edge From="3" To="4" Label="Source1" />
+            <Edge From="0" To="2" Label="Source1" />
+            <Edge From="1" To="2" Label="Source2" />
+            <Edge From="2" To="3" Label="Source1" />
+            <Edge From="3" To="6" Label="Source1" />
             <Edge From="4" To="5" Label="Source1" />
-            <Edge From="5" To="6" Label="Source1" />
+            <Edge From="5" To="6" Label="Source2" />
             <Edge From="6" To="7" Label="Source1" />
             <Edge From="7" To="8" Label="Source1" />
             <Edge From="8" To="9" Label="Source1" />
+            <Edge From="9" To="10" Label="Source1" />
+            <Edge From="10" To="11" Label="Source1" />
+            <Edge From="11" To="12" Label="Source1" />
           </Edges>
         </Workflow>
       </Expression>

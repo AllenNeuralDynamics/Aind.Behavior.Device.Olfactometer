@@ -11,11 +11,11 @@ using AindBehaviorDeviceOlfactometerDataSchema;
 [WorkflowElementCategory(ElementCategory.Transform)]
 public class CreateOneHotConcentrationArray
 {
-    private int channelNumber = 3;
-    public int ChannelNumber
+    private int olfactometerCount = 12;
+    public int OlfactometerCount
     {
-        get { return channelNumber; }
-        set { channelNumber = value; }
+        get { return olfactometerCount; }
+        set { olfactometerCount = value; }
     }
 
     private double concentration = 1.0;
@@ -24,19 +24,22 @@ public class CreateOneHotConcentrationArray
         get { return concentration; }
         set { concentration = value; }
     }
-    
-    public IObservable<List<double>> Process(IObservable<OlfactometerChannel> source)
+
+    public IObservable<List<double>> Process(IObservable<Tuple<int, OlfactometerChannelConfig>> source)
     {
         return source.Select(value =>
         {
-            var oneHotArray = new List<double>(new double[channelNumber]);
-            oneHotArray[channelNumber] = concentration;
+            var olfactometerIndex = value.Item1;
+            var channelConfig = value.Item2;
+            var numberOfChannels = 3 + (olfactometerCount-1) * 4; // 3 channels for the first olfactometer, 4 channels for each additional olfactometer
+            var oneHotArray = new List<double>(new double[numberOfChannels]);
+            var globalChannelIndex = olfactometerIndex == 0 ? channelConfig.ChannelIndex : (3 + olfactometerIndex * 4) + channelConfig.ChannelIndex;
+            if (globalChannelIndex >= oneHotArray.Count)
+            {
+                throw new ArgumentOutOfRangeException("Calculated global channel index " + globalChannelIndex + " exceeds the one-hot array size.");
+            }
+            oneHotArray[globalChannelIndex] = concentration;
             return oneHotArray;
         });
-    }
-
-    public IObservable<List<double>> Process(IObservable<int> source)
-    {
-        return Process(source);
     }
 }

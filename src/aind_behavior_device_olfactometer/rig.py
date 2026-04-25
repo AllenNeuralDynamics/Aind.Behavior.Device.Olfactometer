@@ -3,7 +3,7 @@ from typing import Literal, Optional
 import aind_behavior_services.rig.aind_manipulator as man
 from aind_behavior_services import rig
 from aind_behavior_services.rig import harp
-from aind_behavior_services.rig import olfactometer as olf
+from aind_behavior_services.rig import olfactometer as oc
 from pydantic import Field
 
 from . import __semver__
@@ -18,8 +18,8 @@ class AlicatFlowmeter(rig.Device):
 
 class OlfactometerCalibrationRig(rig.Rig):
     version: Literal[__semver__] = __semver__
-    harp_olfactometer: olf.Olfactometer = Field(title="Olfactometer device")
-    harp_olfactometer_extension: list[olf.Olfactometer] = Field(
+    harp_olfactometer: oc.Olfactometer = Field(title="Olfactometer device")
+    harp_olfactometer_extension: list[oc.Olfactometer] = Field(
         default_factory=list,
         description="A collection of subordinate olfactometers that can be added to increase the number of independently delivered odors. The order of the list determines the order by which odors are numbered",
     )

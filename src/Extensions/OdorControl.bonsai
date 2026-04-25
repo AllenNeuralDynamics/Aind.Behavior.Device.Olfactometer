@@ -165,7 +165,7 @@
               </Combinator>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>olfactometerChannelsCount</Name>
+              <Name>olfactometesCount</Name>
             </Expression>
             <Expression xsi:type="PropertyMapping">
               <PropertyMappings>
@@ -193,7 +193,7 @@
               <Selector>Item2</Selector>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>olfactometerChannelsCount</Name>
+              <Name>olfactometesCount</Name>
             </Expression>
             <Expression xsi:type="PropertyMapping">
               <PropertyMappings>
@@ -256,7 +256,7 @@
         <scr:Expression>3 + 4*it.Count()</scr:Expression>
       </Expression>
       <Expression xsi:type="rx:AsyncSubject">
-        <Name>olfactometerChannelsCount</Name>
+        <Name>olfactometesCount</Name>
       </Expression>
       <Expression xsi:type="rx:BehaviorSubject" TypeArguments="scg:IList(p2:OdorMixMessages)">
         <rx:Name>SetOdorMix</rx:Name>

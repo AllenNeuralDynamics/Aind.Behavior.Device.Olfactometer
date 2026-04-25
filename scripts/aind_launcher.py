@@ -12,7 +12,7 @@ from clabe.pickers import DefaultBehaviorPicker, DefaultBehaviorPickerSettings
 from pydantic_settings import CliApp
 
 from aind_behavior_device_olfactometer.rig import OlfactometerCalibrationRig
-from aind_behavior_device_olfactometer.task_logic import OlfactometerCalibrationLogic
+from aind_behavior_device_olfactometer.task_logic import OlfactometerCalibrationLogic, OlfactometerCalibrationParameters
 
 logger = logging.getLogger(__name__)
 
@@ -29,9 +29,16 @@ async def calibration_experiment(launcher: Launcher) -> None:
     )
 
     session = picker.pick_session(Session)
-    task_logic = picker.pick_task(OlfactometerCalibrationLogic)
+
+    task_logic = OlfactometerCalibrationLogic(task_parameters=OlfactometerCalibrationParameters())
+    launcher.ui_helper.print(f"Loading task logic with default parameters: {task_logic.task_parameters}")
+    skip_manual_task = launcher.ui_helper.prompt_yes_no_question(
+        "Skip manual task parameter configuration and use defaults?"
+    )
+    if not skip_manual_task:
+        task_logic = picker.pick_task(OlfactometerCalibrationLogic)
+
     rig = picker.pick_rig(OlfactometerCalibrationRig)
-    ensure_rig_and_computer_name(rig)
 
     launcher.register_session(session, rig.data_directory)
 
@@ -67,7 +74,7 @@ async def calibration_experiment(launcher: Launcher) -> None:
             runner.run_all_with_progress(reporter=reporter)
             webbrowser.open(qc_path.as_uri(), new=2)
         except Exception as e:
-            logger.error(f"Failed to run data QC: {e}")
+            logger.error("Failed to run data QC: %s", e)
 
     # Transfer data
     is_transfer = picker.ui_helper.prompt_yes_no_question("Would you like to transfer data?")
@@ -78,37 +85,6 @@ async def calibration_experiment(launcher: Launcher) -> None:
     launcher.copy_logs()
     RobocopyService(source=launcher.session_directory, settings=RobocopySettings()).transfer()
     return
-
-
-def ensure_rig_and_computer_name(rig: OlfactometerCalibrationRig) -> None:
-    """Ensures rig and computer name are set from environment variables if available, otherwise defaults to rig configuration values."""
-
-    import os
-
-    rig_name = os.environ.get("aibs_comp_id", None)
-    computer_name = os.environ.get("hostname", None)
-
-    if rig_name is None:
-        logger.warning(
-            "'aibs_comp_id' environment variable not set. Defaulting to rig name from configuration. %s", rig.rig_name
-        )
-        rig_name = rig.rig_name
-    if computer_name is None:
-        computer_name = rig.computer_name
-        logger.warning(
-            "'hostname' environment variable not set. Defaulting to computer name from configuration. %s",
-            rig.computer_name,
-        )
-
-    if rig_name != rig.rig_name or computer_name != rig.computer_name:
-        logger.warning(
-            "Rig name or computer name from environment variables do not match the rig configuration. "
-            "Forcing rig name: %s and computer name: %s from environment variables.",
-            rig_name,
-            computer_name,
-        )
-        rig.rig_name = rig_name
-        rig.computer_name = computer_name
 
 
 class ClabeCli(LauncherCliArgs):
