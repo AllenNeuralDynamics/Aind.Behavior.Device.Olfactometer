@@ -33,7 +33,7 @@ public class CreateOneHotConcentrationArray
             var channelConfig = value.Item2;
             var numberOfChannels = 3 + (olfactometerCount-1) * 4; // 3 channels for the first olfactometer, 4 channels for each additional olfactometer
             var oneHotArray = new List<double>(new double[numberOfChannels]);
-            var globalChannelIndex = olfactometerIndex == 0 ? channelConfig.ChannelIndex : (3 + olfactometerIndex * 4) + channelConfig.ChannelIndex;
+            var globalChannelIndex = olfactometerIndex == 0 ? channelConfig.ChannelIndex : (3 + (olfactometerIndex-1) * 4) + channelConfig.ChannelIndex;
             if (globalChannelIndex >= oneHotArray.Count)
             {
                 throw new ArgumentOutOfRangeException("Calculated global channel index " + globalChannelIndex + " exceeds the one-hot array size.");

@@ -43,7 +43,7 @@ public class CreateHubOdorMixture : Transform<IList<double>, IList<OdorMixMessag
 
     private IList<OdorMixMessages> ConstructMessage(IList<double> channelConcentrations)
     {
-        int nChannels = OlfactometerChannelCount;
+        int nChannels = 3 + (4 * (OlfactometerChannelCount - 1));
         if (channelConcentrations.Count > nChannels)
         {
             throw new ArgumentException("The number of channel concentrations provided " + channelConcentrations.Count + " does not match the expected number based on the olfactometer count " + nChannels + ".");

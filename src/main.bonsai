@@ -12,14 +12,14 @@
   <Workflow>
     <Nodes>
       <Expression xsi:type="ExternalizedMapping">
-        <Property Name="TaskLogicPath" />
+        <Property Name="TaskLogicPath" DisplayName="TaskPath" />
         <Property Name="RigPath" />
         <Property Name="SessionPath" />
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Extensions\LoadSchemas.bonsai">
-        <TaskLogicPath>C:\git\AllenNeuralDynamics\Aind.Behavior.Device.Olfactometer\local\olfactometer_calibration_logic.json</TaskLogicPath>
-        <RigPath>C:\git\AllenNeuralDynamics\Aind.Behavior.Device.Olfactometer\local\olfactometer_rig.json</RigPath>
-        <SessionPath>C:\git\AllenNeuralDynamics\Aind.Behavior.Device.Olfactometer\local\olfactometer_session.json</SessionPath>
+        <TaskLogicPath />
+        <RigPath />
+        <SessionPath />
       </Expression>
       <Expression xsi:type="IncludeWorkflow" Path="Extensions\DeserializeSchemas.bonsai" />
       <Expression xsi:type="IncludeWorkflow" Path="Extensions\UserInterface.bonsai" />
