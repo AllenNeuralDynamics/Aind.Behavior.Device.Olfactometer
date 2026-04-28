@@ -11,11 +11,11 @@ using AindBehaviorDeviceOlfactometerDataSchema;
 [WorkflowElementCategory(ElementCategory.Transform)]
 public class CreateOneHotConcentrationArray
 {
-    private int olfactometerCount = 12;
-    public int OlfactometerCount
+    private int olfactometerChannelsCount = 12;
+    public int OlfactometerChannelsCount
     {
-        get { return olfactometerCount; }
-        set { olfactometerCount = value; }
+        get { return olfactometerChannelsCount; }
+        set { olfactometerChannelsCount = value; }
     }
 
     private double concentration = 1.0;
@@ -31,7 +31,7 @@ public class CreateOneHotConcentrationArray
         {
             var olfactometerIndex = value.Item1;
             var channelConfig = value.Item2;
-            var numberOfChannels = 3 + (olfactometerCount-1) * 4; // 3 channels for the first olfactometer, 4 channels for each additional olfactometer
+            var numberOfChannels = olfactometerChannelsCount; // 3 channels for the first olfactometer, 4 channels for each additional olfactometer
             var oneHotArray = new List<double>(new double[numberOfChannels]);
             var globalChannelIndex = olfactometerIndex == 0 ? channelConfig.ChannelIndex : (3 + (olfactometerIndex-1) * 4) + channelConfig.ChannelIndex;
             if (globalChannelIndex >= oneHotArray.Count)

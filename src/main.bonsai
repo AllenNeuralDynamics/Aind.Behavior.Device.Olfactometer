@@ -192,16 +192,16 @@
               </Combinator>
             </Expression>
             <Expression xsi:type="SubscribeSubject">
-              <Name>olfactometesCount</Name>
+              <Name>olfactometerChannelCount</Name>
             </Expression>
             <Expression xsi:type="PropertyMapping">
               <PropertyMappings>
-                <Property Name="OlfactometerCount" />
+                <Property Name="OlfactometerChannelsCount" />
               </PropertyMappings>
             </Expression>
             <Expression xsi:type="Combinator">
               <Combinator xsi:type="p5:CreateOneHotConcentrationArray">
-                <p5:OlfactometerCount>12</p5:OlfactometerCount>
+                <p5:OlfactometerChannelsCount>12</p5:OlfactometerChannelsCount>
                 <p5:Concentration>0</p5:Concentration>
               </Combinator>
             </Expression>
