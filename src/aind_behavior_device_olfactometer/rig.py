@@ -4,7 +4,8 @@ import aind_behavior_services.rig.aind_manipulator as man
 from aind_behavior_services import rig
 from aind_behavior_services.rig import harp
 from aind_behavior_services.rig import olfactometer as oc
-from pydantic import Field
+from pydantic import Field, model_validator
+from typing_extensions import Self
 
 from . import __semver__
 
@@ -27,3 +28,21 @@ class OlfactometerCalibrationRig(rig.Rig):
     harp_clock_generator: harp.HarpWhiteRabbit = Field(title="Clock generator device")
     harp_manipulator: man.AindManipulator = Field(description="Manipulator")
     flowmeter: Optional[AlicatFlowmeter] = Field(default=None, description="Alicat flowmeter device")
+
+    @model_validator(mode="after")
+    def _validate_olfactometer_configuration(self) -> Self:
+        for olfactometer in self.harp_olfactometer_extension:
+            for channel in olfactometer.calibration.channel_config.values():
+                if channel.channel_type != oc.OlfactometerChannelType.ODOR:
+                    raise ValueError(
+                        f"All channels in olfactometer extensions must be of type 'Odor'. Found channel with type {channel.channel_type} in olfactometer {olfactometer}"
+                    )
+        if (
+            self.harp_olfactometer.calibration.channel_config[oc.OlfactometerChannel.Channel3].channel_type
+            != oc.OlfactometerChannelType.CARRIER
+        ):
+            raise ValueError(
+                f"Channel 3 of the main olfactometer must be configured as 'Carrier'. Found type {self.harp_olfactometer.calibration.channel_config[oc.OlfactometerChannel.Channel3].channel_type}"
+            )
+
+        return self

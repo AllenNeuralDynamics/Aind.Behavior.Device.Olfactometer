@@ -66,11 +66,12 @@ olf_calibration = olf.OlfactometerCalibration(
             channel_index=olf.OlfactometerChannel.Channel3,
             channel_type=olf.OlfactometerChannelType.CARRIER,
             odorant="Air",
+            flow_rate_capacity=1000,
         ),
     }
 )
 
-extra_olf = olf_calibration.model_copy()
+extra_olf = olf_calibration.model_copy(deep=True)
 extra_olf.channel_config[olf.OlfactometerChannel.Channel3] = olf.OlfactometerChannelConfig(
     channel_index=olf.OlfactometerChannel.Channel3,
     channel_type=olf.OlfactometerChannelType.ODOR,
@@ -78,7 +79,7 @@ extra_olf.channel_config[olf.OlfactometerChannel.Channel3] = olf.OlfactometerCha
     odorant="Vanilla",
 )
 
-
+print(olf_calibration)
 _rig = rig.OlfactometerCalibrationRig(
     computer_name="TestPC",
     data_directory=r"C:/data",
