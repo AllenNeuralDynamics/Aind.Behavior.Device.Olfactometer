@@ -37,12 +37,11 @@ class OlfactometerCalibrationRig(rig.Rig):
                     raise ValueError(
                         f"All channels in olfactometer extensions must be of type 'Odor'. Found channel with type {channel.channel_type} in olfactometer {olfactometer}"
                     )
-        if (
-            self.harp_olfactometer.calibration.channel_config[oc.OlfactometerChannel.Channel3].channel_type
-            != oc.OlfactometerChannelType.CARRIER
-        ):
+
+        c3 = self.harp_olfactometer.calibration.channel_config.get(oc.OlfactometerChannel.Channel3, None)
+        if c3 is not None and c3.channel_type != oc.OlfactometerChannelType.CARRIER:
             raise ValueError(
-                f"Channel 3 of the main olfactometer must be configured as 'Carrier'. Found type {self.harp_olfactometer.calibration.channel_config[oc.OlfactometerChannel.Channel3].channel_type}"
+                f"Channel 3 of the main olfactometer must be configured as 'Carrier'. Found type {c3.channel_type}"
             )
 
         return self
