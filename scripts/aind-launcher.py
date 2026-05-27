@@ -9,6 +9,7 @@ from clabe.apps import (
 from clabe.data_transfer.robocopy import RobocopyService, RobocopySettings
 from clabe.launcher import Launcher, LauncherCliArgs, experiment
 from clabe.pickers import DefaultBehaviorPicker, DefaultBehaviorPickerSettings
+from clabe.utils import utcnow
 from pydantic_settings import CliApp
 
 from aind_behavior_device_olfactometer.rig import OlfactometerCalibrationRig
@@ -25,10 +26,20 @@ async def calibration_experiment(launcher: Launcher) -> None:
         settings=DefaultBehaviorPickerSettings(
             config_library_dir=r"\\allen\aind\scratch\AindBehavior.db\AindBehaviorDeviceOlfactometer",
         ),
-        experimenter_validator=None,
     )
-
-    session = picker.pick_session(Session)
+    experimenter = picker.prompt_experimenter()
+    assert experimenter is not None and len(experimenter) > 0, (
+        "Experimenter selection is required to proceed with the experiment setup."
+    )
+    # Pick and register session
+    session = Session(
+        subject="CALIBRATION",
+        experiment="CALIBRATION",
+        date=utcnow(),
+        allow_dirty_repo=False,
+        experimenter=experimenter,
+        notes="Session for rig calibration. No actual experiment data will be recorded.",
+    )
 
     task_logic = OlfactometerCalibrationLogic(task_parameters=OlfactometerCalibrationParameters())
     launcher.ui_helper.print(f"Loading task logic with default parameters: {task_logic.task_parameters}")
