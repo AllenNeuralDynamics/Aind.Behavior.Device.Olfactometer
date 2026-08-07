@@ -8,7 +8,7 @@ description = "A library that can be used to generate models and configuration f
 authors = [{ name = "Bruno Cruz", email = "bruno.cruz@alleninstitute.org" }]
 license = { text = "MIT" }
 requires-python = ">=3.11"
-version = "0.2.0rc1"
+version = "0.2.0rc2"
 readme = { file = "README.md", content-type = "text/markdown" }
 classifiers = [
     "Programming Language :: Python :: 3.11",

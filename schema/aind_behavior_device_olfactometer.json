@@ -633,8 +633,8 @@
           "title": "Task parameters"
         },
         "version": {
-          "const": "0.2.0-rc1",
-          "default": "0.2.0-rc1",
+          "const": "0.2.0-rc2",
+          "default": "0.2.0-rc2",
           "title": "Version",
           "type": "string"
         },
@@ -722,8 +722,8 @@
           "type": "string"
         },
         "version": {
-          "const": "0.2.0-rc1",
-          "default": "0.2.0-rc1",
+          "const": "0.2.0-rc2",
+          "default": "0.2.0-rc2",
           "title": "Version",
           "type": "string"
         },

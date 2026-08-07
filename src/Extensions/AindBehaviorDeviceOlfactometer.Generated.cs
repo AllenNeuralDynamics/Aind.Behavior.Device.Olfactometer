@@ -863,7 +863,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
             _name = "OlfactometerCalibration";
             _description = "";
             _taskParameters = new OlfactometerCalibrationParameters();
-            _version = "0.2.0-rc1";
+            _version = "0.2.0-rc2";
         }
     
         protected OlfactometerCalibrationLogic(OlfactometerCalibrationLogic other)
@@ -1186,7 +1186,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
         public OlfactometerCalibrationRig()
         {
             _aindBehaviorServicesPkgVersion = "0.13.7";
-            _version = "0.2.0-rc1";
+            _version = "0.2.0-rc2";
             _harpOlfactometer = new Olfactometer();
             _harpOlfactometerExtension = new System.Collections.Generic.List<Olfactometer>();
             _harpAnalogInput = new HarpAnalogInput();
