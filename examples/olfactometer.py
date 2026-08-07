@@ -9,27 +9,8 @@ from aind_behavior_services.utils import utcnow
 from aind_behavior_device_olfactometer import rig, task_logic
 from aind_behavior_device_olfactometer.rig import AlicatFlowmeter
 
-olf_calibration = olf.OlfactometerCalibration(
-    channel_config={
-        olf.OlfactometerChannel.Channel0: olf.OlfactometerChannelConfig(
-            channel_index=olf.OlfactometerChannel.Channel0,
-            channel_type=olf.OlfactometerChannelType.ODOR,
-            flow_rate=100,
-            odorant="Banana",
-            odorant_dilution=0.1,
-        ),
-        olf.OlfactometerChannel.Channel3: olf.OlfactometerChannelConfig(
-            channel_index=olf.OlfactometerChannel.Channel3,
-            channel_type=olf.OlfactometerChannelType.CARRIER,
-            odorant="Air",
-        ),
-    }
-)
-
-
 calibration_logic = task_logic.OlfactometerCalibrationLogic(
     task_parameters=task_logic.OlfactometerCalibrationParameters(
-        channel_config=olf_calibration.channel_config,
         full_flow_rate=1000,
         n_repeats_per_stimulus=10,
         time_on=2,
@@ -57,11 +38,54 @@ manipulator_calibration = man.AindManipulatorCalibration(
     initial_position=man.ManipulatorPosition(y1=0, y2=0, x=0, z=0),
 )
 
+
+olf_calibration = olf.OlfactometerCalibration(
+    channel_config={
+        olf.OlfactometerChannel.Channel0: olf.OlfactometerChannelConfig(
+            channel_index=olf.OlfactometerChannel.Channel0,
+            channel_type=olf.OlfactometerChannelType.ODOR,
+            flow_rate=100,
+            odorant="Banana",
+            odorant_dilution=0.1,
+        ),
+        olf.OlfactometerChannel.Channel1: olf.OlfactometerChannelConfig(
+            channel_index=olf.OlfactometerChannel.Channel1,
+            channel_type=olf.OlfactometerChannelType.ODOR,
+            flow_rate=100,
+            odorant="None",
+            odorant_dilution=0.0,
+        ),
+        olf.OlfactometerChannel.Channel2: olf.OlfactometerChannelConfig(
+            channel_index=olf.OlfactometerChannel.Channel2,
+            channel_type=olf.OlfactometerChannelType.ODOR,
+            flow_rate=100,
+            odorant="None",
+            odorant_dilution=0.0,
+        ),
+        olf.OlfactometerChannel.Channel3: olf.OlfactometerChannelConfig(
+            channel_index=olf.OlfactometerChannel.Channel3,
+            channel_type=olf.OlfactometerChannelType.CARRIER,
+            odorant="Air",
+            flow_rate_capacity=1000,
+        ),
+    }
+)
+
+extra_olf = olf_calibration.model_copy(deep=True)
+extra_olf.channel_config[olf.OlfactometerChannel.Channel3] = olf.OlfactometerChannelConfig(
+    channel_index=olf.OlfactometerChannel.Channel3,
+    channel_type=olf.OlfactometerChannelType.ODOR,
+    flow_rate=100,
+    odorant="Vanilla",
+)
+
+print(olf_calibration)
 _rig = rig.OlfactometerCalibrationRig(
     computer_name="TestPC",
-    data_directory="c:/data",
+    data_directory=r"C:/data",
     rig_name="OlfactometerRig",
     harp_olfactometer=olf.Olfactometer(port_name="COM10", calibration=olf_calibration),
+    harp_olfactometer_extension=[olf.Olfactometer(port_name="COM11", calibration=extra_olf)],
     harp_analog_input=HarpAnalogInput(port_name="COM8"),
     harp_clock_generator=HarpWhiteRabbit(port_name="COM9"),
     harp_manipulator=man.AindManipulator(port_name="COM7", calibration=manipulator_calibration),
