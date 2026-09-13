@@ -79,7 +79,6 @@ extra_olf.channel_config[olf.OlfactometerChannel.Channel3] = olf.OlfactometerCha
     odorant="Vanilla",
 )
 
-print(olf_calibration)
 _rig = rig.OlfactometerCalibrationRig(
     computer_name="TestPC",
     data_directory=r"C:/data",

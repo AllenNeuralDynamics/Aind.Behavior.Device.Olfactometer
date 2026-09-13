@@ -1004,7 +1004,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     
         public OlfactometerCalibrationParameters()
         {
-            _aindBehaviorServicesPkgVersion = "0.13.7";
+            _aindBehaviorServicesPkgVersion = "0.13.8";
             _fullFlowRate = 1000D;
             _nRepeatsPerStimulus = 1;
             _timeOn = 1D;
@@ -1185,7 +1185,7 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     
         public OlfactometerCalibrationRig()
         {
-            _aindBehaviorServicesPkgVersion = "0.13.7";
+            _aindBehaviorServicesPkgVersion = "0.13.8";
             _version = "0.2.0-rc2";
             _harpOlfactometer = new Olfactometer();
             _harpOlfactometerExtension = new System.Collections.Generic.List<Olfactometer>();
@@ -1645,8 +1645,8 @@ namespace AindBehaviorDeviceOlfactometerDataSchema
     
         public Session()
         {
-            _aindBehaviorServicesPkgVersion = "0.13.7";
-            _version = "0.13.7";
+            _aindBehaviorServicesPkgVersion = "0.13.8";
+            _version = "0.13.8";
             _experimenter = new System.Collections.Generic.List<string>();
             _allowDirtyRepo = false;
             _skipHardwareValidation = false;
