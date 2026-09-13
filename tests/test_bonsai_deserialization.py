@@ -25,6 +25,7 @@ class BonsaiTests(unittest.TestCase):
 
         completed_proc = run_bonsai_process(
             workflow_file=Path("./src/unit_tests.bonsai").resolve(),
+            bonsai_exe=Path("./.bonsai/Bonsai.exe"),
             is_editor_mode=False,
             layout=None,
             additional_properties=workflow_props,
