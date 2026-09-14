@@ -1,9 +1,8 @@
 import argparse
-import typing
 import typing as t
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Literal, cast
+from typing import Literal, cast
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -17,9 +16,6 @@ from matplotlib.colors import LinearSegmentedColormap
 
 from ..data_contract import dataset
 from ..task_logic import OlfactometerCalibrationLogic
-
-if typing.TYPE_CHECKING:
-    pass
 
 plt.style.use("dark_background")
 
@@ -78,8 +74,8 @@ def load_odor_mixture(dataset: Dataset) -> pd.Series:
     return target_flow
 
 
-def load_flowmeter(dataset: Dataset) -> List[pd.Series]:
-    channel_data: List[pd.Series] = []
+def load_flowmeter(dataset: Dataset) -> list[pd.Series]:
+    channel_data: list[pd.Series] = []
     for i in range(5):
         _channel_reg = f"Channel{i}ActualFlow"
         _data = dataset["Behavior"]["HarpOlfactometer"][_channel_reg].data
@@ -270,7 +266,6 @@ def main():
         fig = plot_channel(valve_calibration_df, data)[0]
         fig.set_size_inches(10, 6)
         plt.show()
-    return None
 
 
 if __name__ == "__main__":

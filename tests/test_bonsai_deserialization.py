@@ -1,7 +1,6 @@
 import os
 import unittest
 from pathlib import Path
-from typing import Dict
 
 from aind_behavior_services.utils import run_bonsai_process
 
@@ -13,18 +12,19 @@ class BonsaiTests(unittest.TestCase):
         build_examples()
         JSON_ROOT = Path("./local").resolve()
         MODULE_NAME = "olfactometer"
-        workflow_props: Dict[str, str] = {}
+        workflow_props: dict[str, str] = {}
 
         workflow_props["RigPath"] = JSON_ROOT / f"{MODULE_NAME}_rig.json"
         workflow_props["TaskLogicPath"] = JSON_ROOT / f"{MODULE_NAME}_calibration_logic.json"
         workflow_props["SessionPath"] = JSON_ROOT / f"{MODULE_NAME}_session.json"
 
-        for _, file in workflow_props.items():
+        for file in workflow_props.values():
             if not os.path.exists(file):
                 raise FileNotFoundError(f"File {file} does not exist")
 
         completed_proc = run_bonsai_process(
             workflow_file=Path("./src/unit_tests.bonsai").resolve(),
+            bonsai_exe=Path("./.bonsai/Bonsai.exe"),
             is_editor_mode=False,
             layout=None,
             additional_properties=workflow_props,

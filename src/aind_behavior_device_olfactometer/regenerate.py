@@ -18,7 +18,7 @@ def main():
         rig.OlfactometerCalibrationRig,
         Session,
     ]
-    model = pydantic.RootModel[Union[tuple(models)]]
+    model = pydantic.RootModel[Union[tuple(models)]]  # noqa: UP007 -- dynamic union, cannot use `X | Y` syntax
 
     convert_pydantic_to_bonsai(
         model,

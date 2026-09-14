@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<WorkflowBuilder Version="2.9.0"
+<WorkflowBuilder Version="2.9.1"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xmlns:rx="clr-namespace:Bonsai.Reactive;assembly=Bonsai.Core"
                  xmlns:p1="clr-namespace:Harp.AnalogInput;assembly=Harp.AnalogInput"
@@ -429,6 +429,7 @@
               <gui:Enabled>false</gui:Enabled>
               <gui:Visible>true</gui:Visible>
               <gui:Font>Microsoft Sans Serif, 16pt</gui:Font>
+              <gui:Text />
             </Expression>
             <Expression xsi:type="VisualizerMapping" />
             <Expression xsi:type="gui:TableLayoutPanelBuilder">
@@ -548,7 +549,7 @@
               <ui:Visible>true</ui:Visible>
               <ui:Location xsi:nil="true" />
               <ui:Size xsi:nil="true" />
-              <ui:WindowState>Minimized</ui:WindowState>
+              <ui:WindowState>Normal</ui:WindowState>
             </Expression>
             <Expression xsi:type="WorkflowOutput" />
             <Expression xsi:type="SubscribeSubject">

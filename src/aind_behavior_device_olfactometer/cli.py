@@ -21,13 +21,13 @@ class DslRegenerateCli(RootModel):
         regenerate.main()
 
 
-class DeviceOlfactometer(BaseSettings, cli_prog_name="telekinesis", cli_kebab_case=True):
+class DeviceOlfactometer(BaseSettings, cli_prog_name="device-olfactometer", cli_kebab_case=True):
     data_qc: CliSubCommand[DataQcCli] = Field(description="Run data quality checks.")
     version: CliSubCommand[VersionCli] = Field(
-        description="Print the version of the telekinesis package.",
+        description="Print the version of the olfactometer package.",
     )
     regenerate: CliSubCommand[DslRegenerateCli] = Field(
-        description="Regenerate the telekinesis dsl dependencies.",
+        description="Regenerate the olfactometer DSL dependencies.",
     )
 
     def cli_cmd(self):
