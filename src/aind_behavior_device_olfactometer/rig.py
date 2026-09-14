@@ -1,11 +1,10 @@
-from typing import Literal, Optional
+from typing import Literal, Self
 
 import aind_behavior_services.rig.aind_manipulator as man
 from aind_behavior_services import rig
 from aind_behavior_services.rig import harp
 from aind_behavior_services.rig import olfactometer as oc
 from pydantic import Field, model_validator
-from typing_extensions import Self
 
 from . import __semver__
 
@@ -27,7 +26,7 @@ class OlfactometerCalibrationRig(rig.Rig):
     harp_analog_input: harp.HarpAnalogInput = Field(title="Analog input device")
     harp_clock_generator: harp.HarpWhiteRabbit = Field(title="Clock generator device")
     harp_manipulator: man.AindManipulator = Field(description="Manipulator")
-    flowmeter: Optional[AlicatFlowmeter] = Field(default=None, description="Alicat flowmeter device")
+    flowmeter: AlicatFlowmeter | None = Field(default=None, description="Alicat flowmeter device")
 
     @model_validator(mode="after")
     def _validate_olfactometer_configuration(self) -> Self:
