@@ -6,23 +6,26 @@ from pathlib import Path
 import contraqctor
 import semver
 
-from .. import __version__
+from .. import __semver__
+
+# Oldest package version whose data layout is described by a contract in this package. Contract
+# modules are named after the package version that introduced them, so a new module is only
+# needed when the layout on disk changes, and this bound moves with it.
+_MIN_SUPPORTED_VERSION = semver.Version.parse("0.2.0-rc0")
 
 
 def _dataset_lookup_helper(version: str) -> t.Callable[[Path], contraqctor.contract.Dataset]:
     parsed_version = semver.Version.parse(version)
-    if semver.Version.parse("0.3.0") <= parsed_version < semver.Version.parse("0.4.0"):
-        from .v0_3_0 import dataset as _dataset
-    elif semver.Version.parse("0.4.0") <= parsed_version:
-        from .v0_4_0 import dataset as _dataset
+    if parsed_version >= _MIN_SUPPORTED_VERSION:
+        from .v0_2_0 import dataset as _dataset
     else:
         raise ValueError(f"Unsupported version: {version}")
     return partial(_dataset, version=version)
 
 
-def dataset(path: os.PathLike, version: str = __version__) -> contraqctor.contract.Dataset:
+def dataset(path: os.PathLike, version: str = __semver__) -> contraqctor.contract.Dataset:
     """
-    Loads the dataset for the Aind VR Foraging project from a specified version.
+    Loads the dataset for the Olfactometer calibration procedure from a specified version.
 
     Args:
         path (os.PathLike): The path to the dataset root directory.
@@ -35,7 +38,7 @@ def dataset(path: os.PathLike, version: str = __version__) -> contraqctor.contra
     return dataset_constructor(Path(path))
 
 
-def render_dataset(version: str = __version__) -> str:
+def render_dataset(version: str = __semver__) -> str:
     """Renders the dataset as a tree-like structure for visualization."""
     from contraqctor.contract.utils import print_data_stream_tree_html
 

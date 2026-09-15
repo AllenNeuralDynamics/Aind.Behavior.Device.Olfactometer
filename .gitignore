@@ -71,6 +71,8 @@ cover/
 
 # Sphinx documentation
 docs/_build/
+# written by docs/conf.py at build time
+docs/_static/dataset.html
 
 # Jupyter Notebook
 .ipynb_checkpoints

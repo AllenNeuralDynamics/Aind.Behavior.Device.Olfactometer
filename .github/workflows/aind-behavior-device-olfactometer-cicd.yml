@@ -24,9 +24,8 @@ jobs:
     runs-on: windows-latest
     name: device-olfactometer unit tests
     steps:
-      - uses: actions/checkout@v6
-
-      - uses: astral-sh/setup-uv@v7
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.1.0
         with:
           enable-cache: true
 
@@ -43,7 +42,7 @@ jobs:
         run: uv run codespell
 
       - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 8.x
 
@@ -82,12 +81,12 @@ jobs:
       github.event.head_commit.author.email != 'github-actions[bot]@users.noreply.github.com'
     name: Create GitHub pre-release
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: main
 
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@v10.1.0
         with:
           enable-cache: true
 
@@ -112,7 +111,7 @@ jobs:
           echo "version=$version" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -141,12 +140,12 @@ jobs:
     #   github.event.action == 'published' &&
     #   !github.event.release.prerelease
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           ref: main
 
-      - uses: astral-sh/setup-uv@v7
+      - uses: astral-sh/setup-uv@v10.1.0
         with:
           enable-cache: true
 
@@ -182,14 +181,26 @@ jobs:
   build-docs:
     name: Build and deploy documentation to GitHub Pages
     runs-on: ubuntu-latest
-    needs: github-rc-release
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: [tests, github-rc-release]
+    if: >
+      !cancelled() &&
+      needs.tests.result == 'success' &&
+      needs['github-rc-release'].result != 'failure' &&
+      (
+        (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+        (github.event_name == 'release' && github.event.action == 'published')
+      )
+    concurrency:
+      group: build-docs
+      cancel-in-progress: false
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
+        with:
+          ref: main
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v10.1.0
 
       - name: Setup Graphviz
         uses: ts-graphviz/setup-graphviz@v2
