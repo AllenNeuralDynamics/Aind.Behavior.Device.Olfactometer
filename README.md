@@ -75,6 +75,23 @@ Once an experiment is collected, the primary data quality-control script can be 
 uv run device-olfactometer data-qc <path-to-data-dir>
 ```
 
+## 🗂️ AIND metadata mapping
+
+After a calibration session is collected, `acquisition.json`, `instrument.json` and `subject.json`
+(following [aind-data-schema](https://aind-data-schema.readthedocs.io/en/stable/index.html)) can be
+generated from Python:
+
+```python
+from aind_behavior_device_olfactometer.data_mappers import map_dataset
+
+mapped = map_dataset(
+    session_directory,  # where the Bonsai workflow wrote its data
+    repository_path,  # this repository's checkout
+    session_end_time=utcnow(),
+)
+mapped.write_standard_files(session_directory)
+```
+
 ## 🔄 Regenerating schemas
 
 DSL schemas can be modified in `./src/aind_behavior_device_olfactometer/rig.py` (or `(...)/task_logic.py`).

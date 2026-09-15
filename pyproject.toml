@@ -33,10 +33,17 @@ data = [
     "jupyter",
 ]
 
+data-mappers = [
+    "aind-clabe[aind-services]>=0.12.2",
+    "aind-data-schema>=2.7.1",
+    "aind-data-schema-models",
+    "GitPython",
+]
+
 [dependency-groups]
 
 dev = [
-    "aind_behavior_device_olfactometer[data]",
+    "aind_behavior_device_olfactometer[data, data-mappers]",
     "ruff",
     "codespell",
 ]
