@@ -1,54 +1,69 @@
+import argparse
 import typing as t
+from functools import cached_property
+from pathlib import Path
 
-import pandas as pd
+import matplotlib.pyplot as plt
 from contraqctor import contract, qc
 from contraqctor.contract.harp import HarpDevice
 from contraqctor.qc._context_extensions import ContextExportableObj
 
+from ..analysis import ProcessedSession, process
+from ..data_contract import dataset
+from ._adapter import raw_session_from_dataset
+from ._plot import plot_channel
+
 
 class DeviceOlfactometerQcSuite(qc.Suite):
     def __init__(self, dataset: contract.Dataset):
-        from ._utils import ProcessedData
-
-        self._processed_data = ProcessedData.from_dataset(dataset)
         self.dataset = dataset
+
+    @cached_property
+    def processed(self) -> ProcessedSession:
+        return process(raw_session_from_dataset(self.dataset))
+
+    def _check(self, name: str):
+        result = next(c for c in self.processed.checks if c.name == name)
+        return self.pass_test(None, result.message) if result.passed else self.fail_test(None, result.message)
 
     def test_end_session_exists(self):
         """Check that the session has an end event."""
-        end_session = self.dataset["Behavior"]["SoftwareEvents"]["EndSession"]
+        return self._check("end_session_exists")
 
-        if not end_session.has_data:
-            return self.fail_test(
-                None, "EndSession event does not exist. Session may be corrupted or not ended properly."
-            )
+    def test_odor_channels_configured(self):
+        """Check that at least one odor channel was configured."""
+        return self._check("odor_channels_configured")
 
-        assert isinstance(end_session.data, pd.DataFrame)
-        if end_session.data.empty:
-            return self.fail_test(None, "No data in EndSession. Session may be corrupted or not ended properly.")
-        else:
-            return self.pass_test(None, "EndSession event exists with data.")
+    def test_expected_repeats_found(self):
+        """Check that every (device, channel, mode) has the expected number of repeats."""
+        return self._check("expected_repeats_found")
+
+    def test_flow_within_tolerance(self):
+        """Check that the mean flow of every repeat is close to the target flow."""
+        return self._check("flow_within_tolerance")
 
     def test_plot_channels(self):
         """Generate calibration plots for each odor channel and export as assets."""
-        from ._utils import plot_channel
-
-        processed = self._processed_data
-        channel_groups = list(processed.odor_channel_config.groupby(["channel_index"]))
-
-        if not channel_groups:
+        figs = make_channel_figures(self.processed)
+        if not figs:
             return self.fail_test(None, "No odor channel configurations found in the dataset.")
-
-        figs = []
-        for _, channel_df in channel_groups:
-            fig, _ = plot_channel(channel_df, self.dataset)
-            fig.set_size_inches(10, 6)
-            figs.append(fig)
-
         return self.pass_test(
             None,
             f"Generated calibration plots for {len(figs)} channel(s).",
             context=ContextExportableObj.as_context(figs),
         )
+
+
+def make_channel_figures(processed: ProcessedSession) -> list[plt.Figure]:
+    channels: dict[tuple[int, int], list] = {}
+    for cal in processed.calibrations:
+        channels.setdefault((cal.device_index, cal.channel_index), []).append(cal)
+    figs = []
+    for calibrations in channels.values():
+        fig, _ = plot_channel(calibrations, processed.raw.task_parameters.n_repeats_per_stimulus)
+        fig.set_size_inches(10, 6)
+        figs.append(fig)
+    return figs
 
 
 def make_qc_runner(dataset: contract.Dataset) -> qc.Runner:
@@ -105,3 +120,17 @@ def make_qc_runner(dataset: contract.Dataset) -> qc.Runner:
     # Add the DeviceOlfactometer specific tests
     _runner.add_suite(DeviceOlfactometerQcSuite(dataset), "DeviceOlfactometer")
     return _runner
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Process olfactometer data.")
+    parser.add_argument("--path", type=str, help="Path to the dataset root directory", required=True)
+    args = parser.parse_args()
+    data = dataset(Path(args.path))
+    data.load_all()
+    make_channel_figures(process(raw_session_from_dataset(data)))
+    plt.show()
+
+
+if __name__ == "__main__":
+    main()
