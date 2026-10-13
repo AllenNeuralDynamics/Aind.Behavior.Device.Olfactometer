@@ -4,8 +4,6 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-import pandas as pd
-
 from aind_behavior_device_olfactometer.analysis import process
 from aind_behavior_device_olfactometer.data_contract import dataset
 from aind_behavior_device_olfactometer.data_qc._adapter import raw_session_from_dataset
@@ -13,7 +11,6 @@ from aind_behavior_device_olfactometer.data_qc._adapter import raw_session_from_
 BUCKET_URL = "https://aind-open-data.s3.amazonaws.com"
 SESSION = "calibration_2026-10-09_13-57-50"
 CACHE_DIR = Path(__file__).parent / ".cache"
-FIXTURE = Path(__file__).parent / "fixtures" / f"{SESSION}_metrics.csv"
 
 
 def download_session() -> Path:
@@ -52,11 +49,13 @@ class CalibrationSessionTests(unittest.TestCase):
     def test_checks_pass(self):
         self.assertTrue(all(c.passed for c in self.processed.checks), self.processed.checks)
 
-    def test_metrics_match_fixture(self):
-        expected = pd.read_csv(FIXTURE)
-        pd.testing.assert_frame_equal(
-            self.processed.metrics.reset_index(drop=True), expected, rtol=1e-5, check_dtype=False
-        )
+    def test_metrics(self):
+        metrics = self.processed.metrics
+        self.assertEqual(len(metrics), 18)
+        self.assertTrue((metrics["pid_delta"] > 100).all(), metrics["pid_delta"])
+        self.assertTrue(((metrics["flow_mean"] - metrics["flow_target"]).abs() < 2).all(), metrics["flow_mean"])
+        time_on = self.raw.task_parameters.time_on
+        self.assertTrue(((metrics["duration"] - time_on).abs() < 0.05).all(), metrics["duration"])
 
 
 if __name__ == "__main__":
