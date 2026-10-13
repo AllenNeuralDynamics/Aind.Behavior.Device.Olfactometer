@@ -22,6 +22,8 @@ def raw_session_from_dataset(dataset: Dataset) -> RawSession:
         }
     )
     end_session = behavior["Logs"]["EndSession"]
+    if not end_session.has_data:
+        end_session.load()
     return RawSession(
         pid=_event_column(_data(behavior["HarpAnalogInput"]["AnalogData"]), "Channel0"),
         devices={index: _device_data(device) for index, device in _olfactometers(dataset).items()},

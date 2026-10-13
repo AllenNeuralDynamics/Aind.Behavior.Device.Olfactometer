@@ -32,7 +32,6 @@ class CalibrationSessionTests(unittest.TestCase):
         except OSError as e:
             raise unittest.SkipTest(f"Public calibration data unavailable: {e}")
         data = dataset(root)
-        data.load_all(strict=False)
         cls.raw = raw_session_from_dataset(data)
         cls.processed = process(cls.raw)
 

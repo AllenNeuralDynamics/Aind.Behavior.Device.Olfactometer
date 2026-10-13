@@ -91,3 +91,6 @@ ipython_config.py
 
 # Cached public test data
 tests/.cache/
+
+# scripts/s3_test.py output
+s3_test_output/
