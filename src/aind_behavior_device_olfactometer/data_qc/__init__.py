@@ -24,7 +24,7 @@ class DataQcCli(BaseSettings, cli_kebab_case=True):
         from ..data_contract import dataset
         from .data_qc import make_qc_runner
 
-        my_dataset = dataset(Path(self.data_path), self.version)
+        my_dataset = dataset(Path(self.data_path), version=self.version)
         runner = make_qc_runner(my_dataset)
         results = runner.run_all_with_progress()
 

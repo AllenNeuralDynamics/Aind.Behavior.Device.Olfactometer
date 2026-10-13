@@ -88,3 +88,6 @@ ipython_config.py
 
 # mypy
 .mypy_cache/
+
+# Cached public test data
+tests/.cache/
